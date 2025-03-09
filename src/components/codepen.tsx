@@ -78,7 +78,7 @@ const ProjectsCP = () => {
   };
 
   return (
-    <div className=" bg-[#031412] p-8" style={{ zoom: 1 }}>
+    <div className="relative z-10 bg-[#031412] p-8">
               <div className="pl-8 text-white/80 relative z-10 p-4 mb-10">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 mt-10">CodePens</h1>
         </div>

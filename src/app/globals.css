@@ -13,6 +13,13 @@
   -moz-user-select: none;
   -ms-user-select: none; */
 }
+/* globals.css */
+html,
+body {
+  overflow: auto;
+  margin: 0;
+  padding: 0;
+}
 
 * {
   scrollbar-width: none; /* Hides the scrollbar but allows scrolling */

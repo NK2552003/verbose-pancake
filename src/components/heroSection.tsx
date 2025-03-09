@@ -220,26 +220,38 @@ export default function HeroSection() {
                 </a>
             </div>
                 <div className="flex items-center justify-center mt-2 sm:mt-5 gap-2">
-                    <div className="relative group">
-                        <button
-                            className="relative inline-block p-px font-semibold leading-6 text-white bg-white/20 shadow-2xl cursor-pointer rounded-2xl shadow-zinc-900 transition-transform duration-300 ease-in-out hover:scale-105 active:scale-95 text-xs sm:text-base"
-                        >
-                            <span
-                                className="absolute inset-0 rounded-2xl bg-gradient-to-r from-teal-400 via-[#18786E] to-[#29CEB9] p-[2px] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-                            ></span>
+                <div className="relative group">
+                    <button
+                        className="relative inline-block p-px font-semibold leading-6 text-white bg-white/20 shadow-2xl cursor-pointer rounded-2xl shadow-zinc-900 transition-transform duration-300 ease-in-out hover:scale-105 active:scale-95 text-xs sm:text-base"
+                        onClick={() => {
+                            const projectsSection = document.getElementById('projects');
+                            if (projectsSection) {
+                                projectsSection.scrollIntoView({ behavior: 'smooth' });
+                            }
+                        }}
+                    >
+                        <span
+                            className="absolute inset-0 rounded-2xl bg-gradient-to-r from-teal-400 via-[#18786E] to-[#29CEB9] p-[2px] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                        ></span>
 
-                            <span className="relative z-10 block px-3 py-1.5 sm:px-6 sm:py-3 rounded-2xl bg-[#031412] hover:text-[#a0f7eb]">
-                                <div className="relative z-10 flex items-center space-x-1 sm:space-x-2">
-                                    <span className="transition-all duration-500 group-hover:translate-x-1">
-                                        My Work
-                                    </span>
-                                </div>
-                            </span>
-                        </button>
-                    </div>
+                        <span className="relative z-10 block px-3 py-1.5 sm:px-6 sm:py-3 rounded-2xl bg-[#031412] hover:text-[#a0f7eb]">
+                            <div className="relative z-10 flex items-center space-x-1 sm:space-x-2">
+                                <span className="transition-all duration-500 group-hover:translate-x-1">
+                                    My Work
+                                </span>
+                            </div>
+                        </span>
+                    </button>
+                </div>
                     <div className="relative group">
                         <button
                             className="relative inline-block p-px font-semibold leading-6 text-white bg-white/20 shadow-2xl cursor-pointer rounded-2xl shadow-zinc-900 transition-transform duration-300 ease-in-out hover:scale-105 active:scale-95 text-xs sm:text-base"
+                            onClick={() => {
+                                const projectsSection = document.getElementById('contact');
+                                if (projectsSection) {
+                                    projectsSection.scrollIntoView({ behavior: 'smooth' });
+                                }
+                            }}
                         >
                             <span
                                 className="absolute inset-0 rounded-2xl bg-gradient-to-r from-teal-400 via-[#29CEB9] to-[#18786E] p-[2px] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
@@ -292,26 +304,6 @@ export default function HeroSection() {
                 <p className={`${madimiOne.className} text-[10px] sm:text-base text-white/50 italic ${menuOpen ? "scale-90 opacity-0 invisible" : "scale-100 opacity-100 visible"}`}>
                     "The best way to predict the future is to create it."
                 </p>
-            </div>
-
-            {/* Gradient Overlay */}
-            <div className={` w-[100%] h-[100vh] relative transition-all`}>
-                <div className="absolute h-auto inset-0">
-                    <div className="flex flex-col items-center justify-center h-[120px] sm:h-[140px] md:h-[160px] lg:h-[180px] xl:h-[200px] text-center text-white relative z-10 p-4" id="about">
-                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 mt-20">A Glimpse Into My World</h1>
-                        <p className="text-sm sm:text-base md:text-lg text-white/80">
-                            Learn more about who I am, what I do, and what inspires me.
-                        </p>
-                    </div>
-                        <TerminalSec/>
-                        <GitHubStats/>
-                        <GridLayout/>
-                        <Timeline/>
-                        <Projects/>
-                        <ProjectsCP/>
-                        <ContactSection/>
-                        <Footer/>
-                </div>
             </div>
         </div>
     );

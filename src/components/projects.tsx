@@ -172,7 +172,7 @@ const projects = [
     }, [visibleProjects]);
   
     return (
-      <div className="min-h-screen bg-[#031412] p-8">
+      <div className="min-h-screen relative z-10 bg-[#031412] p-8">
         <div className="flex flex-col items-center justify-center h-[120px] sm:h-[140px] md:h-[160px] lg:h-[180px] xl:h-[200px] text-center text-white relative z-10 p-4 mb-30" id='projects'>
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 mt-20">My Projects Showcase</h1>
           <p className="text-sm sm:text-base md:text-lg text-white/80">

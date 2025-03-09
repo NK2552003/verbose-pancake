@@ -21,7 +21,7 @@ const SplashScreen = ({ onLoaded }: { onLoaded: () => void }) => {
 
     return () => clearInterval(interval);
   }, [progress, onLoaded]);
-
+  
   return (
     <div
       className={`fixed inset-0 flex items-center justify-center bg-[#031412] transition-opacity duration-500 ${

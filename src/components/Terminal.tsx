@@ -12,9 +12,9 @@ const TerminalSec = () => {
           <img src="/pro.png" alt="Profile Image of a Boy" class="profile-image">
         </div>
         <div class="social-icons">
-          <a href="#" class="social-icon">git</a>
-          <a href="#" class="social-icon">in</a>
-          <a href="#" class="social-icon">ig</a>
+          <a href="https://github.com/NK2552003" class="social-icon">git</a>
+          <a href="https://www.linkedin.com/in/nk2552003/" class="social-icon">in</a>
+          <a href="https://www.instagram.com/nitish.2432/" class="social-icon">ig</a>
         </div>
       </div>
       <div class="about-me-right">

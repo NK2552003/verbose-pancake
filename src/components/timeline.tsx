@@ -52,7 +52,7 @@ const Timeline = () => {
   };
 
   return (
-    <div className="page bg-gradient-to-t from-[#031412] to-transparent">
+    <div className="relative z-10 page bg-gradient-to-t from-[#031412] to-transparent">
         <div className="flex flex-col items-center justify-center h-[120px] sm:h-[140px] md:h-[160px] lg:h-[180px] xl:h-[200px] text-center text-white relative z-10 p-4 mb-30" id="quali">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 mt-20">My Professional Journey</h1>
             <p className="text-sm sm:text-base md:text-lg text-white/80">
