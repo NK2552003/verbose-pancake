@@ -161,6 +161,18 @@ const TerminalSec = () => {
   };
 
   return (
+    <div>
+                        {/* Gradient Overlay */}
+                        <div className={` w-[100%] relative transition-all`}>
+                        <div className="relative h-auto inset-0">
+                            <div className="flex flex-col items-center justify-center h-[120px] sm:h-[140px] md:h-[160px] lg:h-[180px] xl:h-[200px] text-center text-white relative z-10 p-4" id="about">
+                                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 mt-20">A Glimpse Into My World</h1>
+                                <p className="text-sm sm:text-base md:text-lg text-white/80">
+                                    Learn more about who I am, what I do, and what inspires me.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
     <div className="flex justify-center items-center mt-24 bg-transparent text-gray-100 ml-2 mr-2">
         <div className="w-[96%] h-[635px] bg-black/30 rounded-lg overflow-hidden shadow-lg border-[0.5px] border-white/40 backdrop-blur-lg">
         {/* Top Bar */}
@@ -197,6 +209,7 @@ const TerminalSec = () => {
             {renderContent()}
         </div>
         </div>
+    </div>
     </div>
   );
 };

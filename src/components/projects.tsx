@@ -246,17 +246,17 @@ const projects = [
                 <div className="links mt-4 flex gap-2 justify-center">
                   <a href={project.links.live} target="_blank" rel="noopener noreferrer">
                     <button className="button flex items-center gap-2 px-4 py-2 bg-[#181717] text-white rounded-lg transition-all hover:bg-transparent hover:outline hover:outline-white">
-                      Live
+                    <i className="bx bx-broadcast text-white text-2xl"></i>
                     </button>
                   </a>
                   <a href={project.links.github} target="_blank" rel="noopener noreferrer">
                     <button className="button flex items-center gap-2 px-4 py-2 bg-[#181717] text-white rounded-lg transition-all hover:bg-transparent hover:outline hover:outline-white">
-                      GitHub
+                    <i className="bx bxl-github text-white text-2xl"></i>
                     </button>
                   </a>
                   <a href={project.links.codepen} target="_blank" rel="noopener noreferrer">
                     <button className="button flex items-center gap-2 px-4 py-2 bg-[#181717] text-white rounded-lg transition-all hover:bg-transparent hover:outline hover:outline-white">
-                      CodePen
+                    <i className="bx bxl-codepen text-white text-2xl"></i>
                     </button>
                   </a>
                 </div>

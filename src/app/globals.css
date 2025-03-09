@@ -24,7 +24,7 @@ body {
 * {
   scrollbar-width: none; /* Hides the scrollbar but allows scrolling */
 }
-body{
+body,html{
   background-color: black;
 }
 
@@ -237,191 +237,212 @@ pre {
   color: #9cdcfe;
 }
 
-/* Timeline */
 
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 1s ease-in-out forwards;
+}
+
+
+/* Timeline.css */
 .uia-timeline__container {
   display: var(--uia-timeline-display, grid);
 }
-
 .uia-timeline__groups {
   display: var(--uia-timeline-groups-display, grid);
   gap: var(--uia-timeline-groups-gap, 1rem);
 }
-
-/*
-=====
-RESET
-=====
-*/
-
-:where(.ra-heading) {
-  margin-block: var(--ra-heading-margin-block-start, 0) var(--ra-heading-margin-block-end, 0);
+[data-uia-timeline-skin="5"] {
+  --_uia-timeline-line-color_default: #222;
+  --_uia-timeline-line-thickness: var(--uia-timeline-line-thickness, 3px);
+  --_uia-timeline-line-calculation: calc(
+    var(--_uia-timeline-dot-size) / 2 -
+      calc(var(--_uia-timeline-line-thickness) / 2)
+  );
+  --_uia-timeline-line-position: var(--uia-timeline-line-position, 0px);
+  --_uia-timeline-minimal-gap: var(--uia-timeline-minimal-gap, 0.5rem);
+  --_uia-timeline-space: calc(
+    var(--_uia-timeline-dot-size) + var(--_uia-timeline-dot-size) / 2 +
+      var(--_uia-timeline-minimal-gap)
+  );
+  --_uia-timeline-dot-size: var(--uia-timeline-dot-size, 1rem);
 }
-
-/*
-=====
-HELPERS
-=====
-*/
-
+[data-uia-timeline-skin="5"] .uia-timeline__container {
+  position: relative;
+  padding-inline-start: var(--_uia-timeline-space);
+}
+[data-uia-timeline-skin="5"] .uia-timeline__line {
+  border-inline-start: var(--_uia-timeline-line-thickness) solid
+    var(--uia-timeline-line-color, var(--_uia-timeline-line-color_default));
+  block-size: calc(100% - var(--_uia-timeline-line-position));
+  position: absolute;
+  inset-block-start: var(--_uia-timeline-line-position);
+  inset-inline-start: var(
+    --uia-timeline-line-main-position,
+    var(--_uia-timeline-line-calculation)
+  );
+}
+[data-uia-timeline-skin="5"] .uia-timeline__group {
+  position: relative;
+  isolation: isolate;
+}
+[data-uia-timeline-skin="5"] .uia-timeline__dot {
+  box-sizing: border-box;
+  font-size: var(--_uia-timeline-dot-size);
+  border-radius: 50%;
+  box-shadow: 0 0 0 var(--uia-timeline-dot-border-thickness, 1px)
+    var(
+      --uia-timeline-dot-border-color,
+      var(--_uia-timeline-line-color_default)
+    );
+  border: 0.5em solid
+    var(--uia-timeline-dot-color, var(--_uia-timeline-line-color_default));
+  position: absolute;
+  inset-block-start: var(--uia-timeline-dot-position, -1px);
+  inset-inline-start: var(
+    --uia-timeline-dot-main-position,
+    calc(-1 * var(--_uia-timeline-space))
+  );
+}
+[data-uia-timeline-skin="5"] .uia-timeline__group:last-child::after {
+  content: "";
+  inline-size: calc(
+    var(--_uia-timeline-line-thickness) +
+      var(--uia-timeline-line-mask-thickness, 4px)
+  );
+  block-size: calc(
+    100% - var(--_uia-timeline-line-position) - var(--_uia-timeline-dot-size) /
+      2
+  );
+  background-color: var(--uia-timeline-line-mask-color);
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline-start: var(
+    --_uia-timeline-line-mask-main-position,
+    calc((var(--_uia-timeline-space) - var(--_uia-timeline-dot-size) / 2) * -1)
+  );
+  transform: translate(-50%);
+  z-index: -1;
+}
+[data-uia-timeline-skin="5"] {
+  container-type: inline-size;
+  container-name: timeline-skin-5;
+}
+@container timeline-skin-5 (min-width: 600px) {
+  [data-uia-timeline-skin="5"] .uia-timeline__container {
+    --uia-timeline-line-main-position: calc(
+      50% - (var(--uia-timeline-line-thickness) / 2)
+    );
+    --uia-timeline-dot-main-position: 50%;
+    --_uia-timeline-space: 0;
+  }
+  [data-uia-timeline-skin="5"] .uia-timeline__point {
+    max-inline-size: 45%;
+  }
+  [data-uia-timeline-skin="5"]
+    .uia-timeline__group:nth-child(even)
+    .uia-timeline__point {
+    margin-inline-start: auto;
+  }
+  [data-uia-timeline-skin="5"]
+    .uia-timeline__group:nth-child(odd)
+    .uia-timeline__point {
+    text-align: end;
+  }
+  [data-uia-timeline-skin="5"] .uia-timeline__dot {
+    transform: translateX(-50%);
+  }
+  [data-uia-timeline-skin="5"] .uia-timeline__group:last-child::after {
+    --_uia-timeline-line-mask-main-position: var(
+      --uia-timeline-line-main-position
+    );
+  }
+}
+[data-uia-timeline-adapter-skin-5="uia-card"] {
+  --uia-card-content-gap: var(--uia-timeline-content-gap, 0.5rem);
+}
+:where(.ra-heading) {
+  margin-block: var(--ra-heading-margin-block-start, 0)
+    var(--ra-heading-margin-block-end, 0);
+}
 .ha-screen-reader {
   width: var(--ha-screen-reader-width, 1px);
   height: var(--ha-screen-reader-height, 1px);
   padding: var(--ha-screen-reader-padding, 0);
   border: var(--ha-screen-reader-border, none);
-
   position: var(--ha-screen-reader-position, absolute);
   clip-path: var(--ha-screen-reader-clip-path, rect(1px, 1px, 1px, 1px));
   overflow: var(--ha-screen-reader-overflow, hidden);
 }
-
-/*
-=====
-UIA-CARD
-=====
-*/
-
 .uia-card__container {
-	display: var(--uia-card-display, grid);
-	gap: var(--uia-card-content-gap);
+  display: var(--uia-card-display, grid);
+  gap: var(--uia-card-content-gap);
 }
-
 .uia-card__time-divider::before {
   content: "—";
-  margin-inline: var(--uia-card-time-divider-margin-inline, .15rem);
+  margin-inline: var(--uia-card-time-divider-margin-inline, 0.15rem);
 }
-
-/*
-=====
-TYPOGRAPHY
-=====
-*/
-
-body {
-  font-size: var(--ds-typography-main-font-size, 1rem);
-  color: var(--ds-typography-main-color, #222);
-  line-height: var(--ds-typography-main-line-height, 1.75);
+[data-uia-card-skin="1"] .uia-card__container {
+  padding: var(--uia-card-padding, 1rem 1.75rem);
+  background-color: var(--uia-card-background-color);
+  border-radius: var(--uia-card-border-radius, 2px);
+}
+[data-uia-card-skin="1"] .uia-card__intro {
+  display: grid;
+  gap: var(--uia-card-intro-gap, 1rem);
+}
+[data-uia-card-skin="1"] .uia-card__time {
+  grid-row: 1 / 1;
+  inline-size: fit-content;
+  padding: var(--uia-card-time-padding, 0.25rem 1.25rem 0.25rem);
+  background-color: var(--uia-card-time-background-color, #f0f0f0);
+  font-weight: var(--uia-card-time-font-weight, 700);
+  font-size: var(--uia-card-time-font-size, 0.75rem);
+  text-transform: var(--uia-card-time-text-transform, uppercase);
+  color: var(--uia-card-time-color, currentColor);
+}
+[data-uia-card-skin="1"][data-uia-card-mod="1"] .uia-card__container {
+  border-inline-start: var(--uia-card-border-thickness, 2px)
+    var(--uia-card-border-style, solid)
+    var(--uia-card-border-color, currentColor);
+  box-shadow: var(
+    --uia-card-box-shadow,
+    0 1px 3px 0 rgba(0, 0, 0, 0.12),
+    0 1px 2px 0 rgba(0, 0, 0, 0.24)
+  );
 }
 
 p:not([class]) {
-  margin-block: var(--ds-typography-paragraph-margin-block-start, var(--_ds-typography-main-margin)) 0;
+  margin-block: var(
+      --ds-typography-paragraph-margin-block-start,
+      var(--_ds-typography-main-margin)
+    )
+    0;
 }
-
 :root {
+  --uia-timeline-line-color: teal;
+  --uia-timeline-dot-color: rgb(2, 84, 84);
+  --uia-timeline-arrow-color: teal;
+  --uia-timeline-line-thickness: 3px;
+  --uia-timeline-point-border-color: teal;
   --uia-timeline-group-padding: 1.5rem 1.5rem 1.25rem;
   --ds-typography-main-line-height: 1.5;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
-.timeline-5-2 {
-	--uia-timeline-line-mask-color: #f0f0f0
 }
 
 [data-uia-timeline-skin="3"] {
-	--uia-timeline-year-background-color: #4557bb;
+  --uia-timeline-year-background-color: teal;
 }
 
 .page {
-	box-sizing: border-box;
-  /* inline-size: min(100%, 90ch); */
-  padding: 5rem 2rem 3rem;
-  margin-inline: auto;
-  color: white;
+  box-sizing: border-box;
+  /* inline-size: min(100%, 130ch); */
+  padding: 2rem 1rem 2rem;
 }
-
-/*
-SKIN 1
-*/
-
-[data-uia-timeline-skin="1"] .uia-timeline__step {
-	line-height: 1;
-	font-size: var(--uia-timeline-step-font-size, 2rem);
-	font-weight: var(--uia-timeline-step-font-weight, 700);
-	color: var(--uia-timeline-step-color);
-}
-
-[data-uia-timeline-skin="1"] .uia-timeline__point-intro {
-	display: grid;
-	grid-template-columns: min-content 1fr;
-	align-items: center;
-	gap: var(--uia-timeline-point-intro-gap, .5rem);
-}
-
-[data-uia-timeline-skin="1"] .uia-timeline__point-date {
-	grid-row: 1;
-	grid-column: 2;
-}
-
-[data-uia-timeline-skin="1"] .uia-timeline__point-heading {
-	grid-column: span 2;
-}
-
-[data-uia-timeline-skin="1"] .uia-timeline__point-description {
-	margin-block-start: var(--uia-timeline-group-gap, 1rem);
-	inline-size: min(100%, var(--uia-timeline-content-max-limit));
-}
-
-.uia-timeline__group {
-  position: relative;
-  padding-left: 20px; /* Adjust as needed */
-}
-
-.uia-timeline__group::before {
-  content: '';
-  position: absolute;
-  left: -9px; /* Adjust to align the circle with the timeline line */
-  top: 0;
-  width: 20px; /* Size of the circle */
-  height: 20px; /* Size of the circle */
-  background-color: teal; /* Circle color */
-  border-radius: 50%; /* Makes it circular */
-  border: 1px solid white; /* Optional: Adds a border */
-  z-index: 1; /* Ensures the circle is above the timeline line */
-}
-
-.uia-timeline__groups {
-  position: relative;
-}
-
-.uia-timeline__groups::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 2px; /* Width of the timeline line */
-  height: 100%; /* Full height of the timeline */
-  background-color: #ccc; /* Color of the timeline line */
-  z-index: 0; /* Ensures the line is behind the circles */
-}
-

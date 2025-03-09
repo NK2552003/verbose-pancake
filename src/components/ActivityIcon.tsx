@@ -10,7 +10,6 @@ import {
   Film, 
   BookOpen, 
   Piano, 
-  JapaneseYen 
 } from "lucide-react"
 import { useState, useEffect } from "react"
 
