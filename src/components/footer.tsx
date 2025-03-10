@@ -1,7 +1,11 @@
-import React from 'react';
-import 'boxicons';
+import React, { Suspense, useEffect, useState } from 'react';
 
 const Footer: React.FC = () => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   return (
     <footer className="bg-[#02100e] bg-opacity-50 text-white py-5 px-2.5 relative z-10">
@@ -33,15 +37,19 @@ const Footer: React.FC = () => {
             Email: <a href="mailto:nk2552003@gmail.com" className="text-gray-400 hover:text-white hover:underline">nk2552003@gmail.com</a>
           </p>
           <div className="mt-3.75">
-            <a href="https://www.instagram.com/nitish.2432/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white no-underline mr-3.75 text-3xl">
-              <i className="bx bxl-instagram"></i>
-            </a>
-            <a href="https://www.linkedin.com/in/nk2552003/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white no-underline mr-3.75 text-3xl">
-              <i className="bx bxl-linkedin"></i>
-            </a>
-            <a href="https://codepen.io/rlaqxvbr-the-bashful" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white no-underline mr-3.75 text-3xl">
-              <i className="bx bxl-codepen"></i>
-            </a>
+            {isClient && (
+              <Suspense fallback={<div>Loading...</div>}>
+                <a href="https://www.instagram.com/nitish.2432/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white no-underline mr-3.75 text-3xl">
+                  <i className="bx bxl-instagram"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/nk2552003/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white no-underline mr-3.75 text-3xl">
+                  <i className="bx bxl-linkedin"></i>
+                </a>
+                <a href="https://codepen.io/rlaqxvbr-the-bashful" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white no-underline mr-3.75 text-3xl">
+                  <i className="bx bxl-codepen"></i>
+                </a>
+              </Suspense>
+            )}
           </div>
         </div>
       </div>

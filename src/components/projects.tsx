@@ -1,4 +1,6 @@
-import { useState, useRef, useEffect } from 'react';
+"use client";
+
+import { useState, useEffect } from 'react';
 
 const projects = [
   {

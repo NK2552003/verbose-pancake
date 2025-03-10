@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Madimi_One } from "next/font/google";
-import ScrollReveal from 'scrollreveal';
+
 import 'boxicons/css/boxicons.min.css';
 // Define the font
 const madimiOne = Madimi_One({ weight: "400", subsets: ["latin"] });
@@ -17,29 +17,6 @@ export default function HeroSection() {
     const day = today.getDate().toString().padStart(2, "0");
     const month = today.toLocaleString("en-US", { month: "short" });
 
-     // ScrollReveal initialization
-     useEffect(() => {
-        const sr = ScrollReveal({
-            reset: false,
-            distance: '20px',
-            duration: 1000,
-        });
-
-        // Configure animations for different elements
-        sr.reveal('.sr-portfolio', { origin: 'left', delay: 200 });
-        sr.reveal('.sr-title', { origin: 'bottom', delay: 300 });
-        sr.reveal('.sr-subtitle', { origin: 'bottom', delay: 400 });
-        sr.reveal('.sr-social a', { origin: 'bottom', delay: 500, interval: 100 });
-        sr.reveal('.sr-buttons button', { origin: 'right', delay: 600,interval:100 });
-        sr.reveal('.sr-date', { origin: 'right', delay: 700 });
-        sr.reveal('.sr-location', { origin: 'left', delay: 700 });
-        sr.reveal('.sr-quote', { origin: 'bottom', delay: 800 });
-        
-
-        return () => {
-            sr.destroy();
-        };
-    }, []);
 
     // Handle scroll event
     useEffect(() => {

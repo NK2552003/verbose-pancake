@@ -1,31 +1,11 @@
 
-import { useEffect, useState } from 'react';
-import ScrollReveal from 'scrollreveal';
+"use client";
+
+import { useState } from 'react';
 import LenisWrapper from './LenisWrapper';
 
 const TerminalSec = () => {
   const [activeTab, setActiveTab] = useState<'preview' | 'html' | 'css'>('preview');
-
-   // ScrollReveal initialization
-   useEffect(() => {
-    const sr = ScrollReveal({
-        reset: false,
-        distance: '20px',
-        duration: 1000,
-    });
-
-    // Configure animations for different elements
-    sr.reveal('.sr-about-header', { origin: 'top', delay: 200 });
-    sr.reveal('.sr-about-title', { origin: 'bottom', delay: 300 });
-    sr.reveal('.sr-about-subtitle', { origin: 'bottom', delay: 400 });
-    sr.reveal('.sr-about-container', { origin: 'bottom', delay: 500 });
-    sr.reveal('.sr-about-tabs button', { origin: 'bottom', delay: 600, interval: 100 });
-    sr.reveal('.sr-about-content', { origin: 'bottom', delay: 700 });
-
-    return () => {
-        sr.destroy();
-    };
-}, []);
 
   const htmlContent = `
     <div class="about-me-container">

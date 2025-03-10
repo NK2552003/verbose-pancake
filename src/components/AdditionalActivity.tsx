@@ -2,7 +2,6 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import GamingInterface from "./ActivityIcon";
 import Cards from "./cards";
-import ScrollReveal from "scrollreveal";
 
 interface ImageData {
   url: string;
@@ -24,44 +23,6 @@ const GridLayout = () => {
 
     setImages(mockImages);
   }, []);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      ScrollReveal().reveal(".sr-heading", {
-        duration: 1000,
-        distance: "20px",
-        origin: "top",
-        delay: 200,
-        easing: "ease",
-      });
-
-      ScrollReveal().reveal(".sr-left", {
-        duration: 800,
-        distance: "40px",
-        origin: "left",
-        delay: 300,
-        easing: "ease",
-      });
-
-      ScrollReveal().reveal(".sr-right", {
-        duration: 800,
-        distance: "40px",
-        origin: "right",
-        delay: 300,
-        easing: "ease",
-      });
-
-      ScrollReveal().reveal(".sr-bottom", {
-        duration: 800,
-        distance: "20px",
-        origin: "bottom",
-        delay: 200,
-        interval: 100,
-        easing: "ease",
-      });
-    }
-  }, []);
-
   return (
     <div className="flex flex-col items-center justify-center py-2 gap-6 sm:mx-4">
       {/* Animated Heading */}

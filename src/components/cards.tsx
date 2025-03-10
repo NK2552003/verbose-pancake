@@ -1,5 +1,4 @@
 import React, { useRef, useState, useEffect } from 'react';
-import ScrollReveal from "scrollreveal";
 
 const Cards: React.FC = () => {
   // Path to your local audio file
@@ -106,22 +105,7 @@ const Cards: React.FC = () => {
     };
   }, [audioFile]);
 
-  // ScrollReveal initialization
-  useEffect(() => {
-    const sr = ScrollReveal({
-      reset: false,
-      distance: '20px',
-      duration: 600,
-    });
 
-    sr.reveal('.chart-box-1', { origin: 'bottom', delay: 100 });
-    sr.reveal('.chart-box-2', { origin: 'bottom', delay: 200 });
-    sr.reveal('.chart-box-3', { origin: 'bottom', delay: 300 });
-
-    return () => {
-      sr.destroy();
-    };
-  }, []);
 
   return (
     <div className="flex items-center justify-center py-6" ref={containerRef}>

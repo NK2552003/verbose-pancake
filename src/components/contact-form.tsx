@@ -19,10 +19,12 @@ export default function ContactForm() {
   
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  // Initialize EmailJS with your public key
   useEffect(() => {
-    emailjs.init("jm_Y0wAADmEd2gYlo")
+    if (typeof window !== "undefined") {
+      emailjs.init("jm_Y0wAADmEd2gYlo")
+    }
   }, [])
+  
 
   const sendEmail = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()

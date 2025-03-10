@@ -1,6 +1,6 @@
+"use client";
 import { useEffect, useState } from "react";
 import { Doughnut, Bar, Line } from "react-chartjs-2";
-import ScrollReveal from "scrollreveal";
 import {
   Chart as ChartJS,
   ArcElement,
@@ -286,16 +286,6 @@ const GitHubStats = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    ScrollReveal().reveal(".chart-container", {
-      duration: 1000,
-      origin: "bottom",
-      distance: "50px",
-      easing: "ease-in-out",
-      reset: false,
-      interval: 200,
-    });
-  }, []);
 
   if (loading) {
     return <div>Loading...</div>;

@@ -33,7 +33,7 @@ export default function Home() {
       ) : (
         <main className="transition-opacity duration-1000 ease-in-out">
           <FluidShader />
-          <div >
+          <div className="min-h-screen">
           <HeroSection/>
           <TerminalSec />
           <GitHubStats />

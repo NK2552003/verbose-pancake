@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import ScrollReveal from "scrollreveal";
 
 // Define the type for the timeline data
 interface TimelineItem {
@@ -56,19 +55,7 @@ const timelineData: TimelineItem[] = [
 ];
 
 const Timeline: React.FC = () => {
-  useEffect(() => {
-    ScrollReveal().reveal(".timeline-item", {
-      origin: "bottom",
-      distance: "50px",
-      duration: 1000,
-      delay: 200,
-      easing: "ease-in-out",
-      reset: false, // Items stay visible after reveal
-      opacity: 0,
-      scale: 0.9,
-      viewFactor: 0.2, // At least 20% of the item should be in view before revealing
-    });
-  }, []);
+
 
   return (
     <div className="relative z-10 page bg-gradient-to-t from-[#031412] to-transparent">
