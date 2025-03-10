@@ -7,8 +7,8 @@ const projects = [
     id: "1",
     title: "BlissCamp",
     category: "Web Development",
-    image: "/Project_Assets/Images/1.png",
-    video: "/Project_Assets/Videos/1.mp4",
+    image: "./Project_Assets/Images/1.png",
+    video: "./Project_Assets/Videos/1.mp4",
     description: "A website for Tourists and Travellers",
     links: {
       live: "https://nk2552003.github.io/BlissCampIndia/",
@@ -21,8 +21,8 @@ const projects = [
     id: "6",
     title: "HostelEase",
     category: "App Development",
-    image: "/Project_Assets/Images/6.png",
-    video: "/Project_Assets/Videos/6.mp4",
+    image: "./Project_Assets/Images/6.png",
+    video: "./Project_Assets/Videos/6.mp4",
     description:
       "The management app for hostelers, warden, for seamless interaction.",
     links: {
@@ -36,8 +36,8 @@ const projects = [
     id: "7",
     title: "Portfolio",
     category: "Web Development",
-    image: "/Project_Assets/Images/7.png",
-    video: "/Project_Assets/Videos/7.mp4",
+    image: "./Project_Assets/Images/7.png",
+    video: "./Project_Assets/Videos/7.mp4",
     description: "created the portfolio for my colleague for resume purpose.",
     links: {
       live: "https://rohit-s-portfolio.netlify.app/",
@@ -50,8 +50,8 @@ const projects = [
     id: "9",
     title: "Satranj",
     category: "App Development",
-    image: "/Project_Assets/Images/8.png",
-    video: "/Project_Assets/Videos/8.mp4",
+    image: "./Project_Assets/Images/8.png",
+    video: "./Project_Assets/Videos/8.mp4",
     description: "A Simple and Easy-to-Play Ancient Chess Game in Flutter",
     links: {
       live: "https://github.com/NK2552003/Satranj-Chess-_Game",
@@ -64,8 +64,8 @@ const projects = [
     id: "10",
     title: "Civic Link",
     category: "Web Development",
-    image: "/Project_Assets/Images/10.png",
-    video: "/Project_Assets/Videos/10.mp4",
+    image: "./Project_Assets/Images/10.png",
+    video: "./Project_Assets/Videos/10.mp4",
     description:
       "A collaborative platform dedicated to society or community to report or for services in the society means a community handler.",
     links: {
@@ -79,8 +79,8 @@ const projects = [
     id: "11",
     title: "FreshMart",
     category: "App Development",
-    image: "/Project_Assets/Images/11.png",
-    video: "/Project_Assets/Videos/v_1.mp4",
+    image: "./Project_Assets/Images/11.png",
+    video: "./Project_Assets/Videos/v_1.mp4",
     description: "Your one stop for everything",
     links: {
       live: "https://github.com/NK2552003/FreshMart",
@@ -93,8 +93,8 @@ const projects = [
     id: "12",
     title: "Gemini_Chat",
     category: "App Development",
-    image: "/Project_Assets/Images/13.png",
-    video: "/Project_Assets/Videos/v_1.mp4",
+    image: "./Project_Assets/Images/13.png",
+    video: "./Project_Assets/Videos/v_1.mp4",
     description: "An application to chat with gemini Ai",
     links: {
       live: "https://github.com/NK2552003/Gemini_Chat_AI",
@@ -107,8 +107,8 @@ const projects = [
     id: "13",
     title: "Dhayana ",
     category: "App Development",
-    image: "/Project_Assets/Images/14.png",
-    video: "/Project_Assets/Videos/v_1.mp4",
+    image: "./Project_Assets/Images/14.png",
+    video: "./Project_Assets/Videos/v_1.mp4",
     description: "An Application to note down every task that is pending",
     links: {
       live: "https://github.com/NK2552003/Flutter_ToDo",
