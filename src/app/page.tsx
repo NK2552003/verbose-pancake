@@ -24,7 +24,7 @@ export default function Home() {
 
     const bannerTimer = setTimeout(() => {
       setShowBanner(false);
-    }, 3000);
+    }, 2000);
 
     return () => {
       clearTimeout(loadingTimer);
@@ -35,15 +35,10 @@ export default function Home() {
   return (
     <>
       {showBanner && (
-        <div className="fixed top-0 left-0 w-full bg-red-600 text-white text-center py-1 z-50 flex justify-between px-4 text-[12px]">
-          <span>🚧 This site is under development. Some features may not work as expected. 🚧</span>
-          <button
-            className="text-white font-bold hover:opacity-75"
-            onClick={() => setShowBanner(false)}
-          >
-            ✖
-          </button>
-        </div>
+      <div className="fixed top-3 left-1/2 -translate-x-1/2 bg-red-600 text-white text-center py-2 z-50  rounded-xl flex justify-center px-4 text-[12px]">
+        <span>🚧 This site is under development. Some features may not work as expected. 🚧</span>
+      </div>
+
       )}
 
       {isLoading ? (
