@@ -18,11 +18,18 @@ export default function Home() {
   const [showBanner, setShowBanner] = useState<boolean>(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const loadingTimer = setTimeout(() => {
       setIsLoading(false);
     }, 3000);
 
-    return () => clearTimeout(timer);
+    const bannerTimer = setTimeout(() => {
+      setShowBanner(false);
+    }, 3000);
+
+    return () => {
+      clearTimeout(loadingTimer);
+      clearTimeout(bannerTimer);
+    };
   }, []);
 
   return (
