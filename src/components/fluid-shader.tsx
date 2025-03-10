@@ -104,11 +104,7 @@ export default function FluidShader() {
   }, [])
 
   return (
-    <div className="relative w-screen h-screen overflow-x-hidden">
-      {/* WebGL Canvas */}
       <canvas ref={canvasRef} className="fixed inset-0 w-full h-full block" />
-      <HeroSection/>
-    </div>
   )
 }
 

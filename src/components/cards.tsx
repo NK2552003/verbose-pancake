@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
+import ScrollReveal from "scrollreveal";
 
 const Cards: React.FC = () => {
   // Path to your local audio file
@@ -29,7 +30,9 @@ const Cards: React.FC = () => {
           audioRef.current.src = audioFile;
           audioRef.current.load(); // Load the audio file
         }
-        audioRef.current.play();
+        audioRef.current.play().catch((error) => {
+          console.error("Error playing audio:", error);
+        });
       }
       setIsPlaying(!isPlaying);
     }
@@ -65,6 +68,9 @@ const Cards: React.FC = () => {
     if (audio) {
       audio.addEventListener('timeupdate', updateTime);
       audio.addEventListener('loadedmetadata', updateTime);
+      audio.addEventListener('error', (e) => {
+        console.error("Audio error:", e);
+      });
     }
     return () => {
       if (audio) {
@@ -100,11 +106,28 @@ const Cards: React.FC = () => {
     };
   }, [audioFile]);
 
+  // ScrollReveal initialization
+  useEffect(() => {
+    const sr = ScrollReveal({
+      reset: false,
+      distance: '20px',
+      duration: 600,
+    });
+
+    sr.reveal('.chart-box-1', { origin: 'bottom', delay: 100 });
+    sr.reveal('.chart-box-2', { origin: 'bottom', delay: 200 });
+    sr.reveal('.chart-box-3', { origin: 'bottom', delay: 300 });
+
+    return () => {
+      sr.destroy();
+    };
+  }, []);
+
   return (
     <div className="flex items-center justify-center py-6" ref={containerRef}>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
         {/* Music Card */}
-        <div className="bg-black/50 backdrop-blur-md rounded-lg p-6 shadow-lg border-[0.5px] border-white/50 flex flex-col h-full">
+        <div className="chart-box-1 bg-black/50 backdrop-blur-md rounded-lg p-6 shadow-lg border-[0.5px] border-white/50 flex flex-col h-full">
           <div className="flex-1">
             <div className="flex flex-col items-center space-y-4">
               <img
@@ -187,7 +210,7 @@ const Cards: React.FC = () => {
         </div>
 
         {/* Books Card */}
-        <div className="bg-black/50 backdrop-blur-md rounded-lg p-6 shadow-lg border-[0.5px] border-white/50">
+        <div className="chart-box-2 bg-black/50 backdrop-blur-md rounded-lg p-6 shadow-lg border-[0.5px] border-white/50">
           <h2 className="text-xl font-bold text-white mb-4">Life-Changing Books for me</h2>
           <div className="space-y-4">
             {/* Book 1: Atomic Habits */}
@@ -210,7 +233,7 @@ const Cards: React.FC = () => {
         </div>
 
         {/* Movies Card */}
-        <div className="bg-black/50 backdrop-blur-md rounded-lg p-6 shadow-lg border-[0.5px] border-white/50">
+        <div className="chart-box-3 bg-black/50 backdrop-blur-md rounded-lg p-6 shadow-lg border-[0.5px] border-white/50">
           <h2 className="text-xl font-bold text-white mb-4">Life-Changing Movies for Me</h2>
           <div className="flex space-x-4">
             {/* Movie 1: The Shawshank Redemption */}

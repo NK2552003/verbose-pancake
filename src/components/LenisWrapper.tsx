@@ -9,11 +9,12 @@ type LenisWrapperProps = {
 
 export default function LenisWrapper({ children }: LenisWrapperProps) {
   useEffect(() => {
-    // Initialize Lenis
+    // Initialize Lenis with smoother settings
     const lenis = new Lenis({
-      lerp: 0.1, // Adjust smoothness
+      lerp: 0.05, // Lower value for smoother scrolling
       smoothWheel: true, // Enable smooth scrolling for mouse wheel
       smoothTouch: true, // Enable smooth scrolling for touch devices
+      infinite: false, // Disable infinite scrolling
     });
 
     // Update Lenis on each frame
@@ -42,8 +43,9 @@ export default function LenisWrapper({ children }: LenisWrapperProps) {
           const targetElement = document.querySelector(href);
           if (targetElement) {
             lenis.scrollTo(targetElement, {
-              duration: 1.5, // Adjust the duration of the scroll
+              duration: 2, // Slightly longer duration for smoother transition
               easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Custom easing function
+              lock: false, // Allow user to scroll during the animation
             });
           }
         }

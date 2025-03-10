@@ -1,8 +1,31 @@
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import ScrollReveal from 'scrollreveal';
+import LenisWrapper from './LenisWrapper';
 
 const TerminalSec = () => {
   const [activeTab, setActiveTab] = useState<'preview' | 'html' | 'css'>('preview');
+
+   // ScrollReveal initialization
+   useEffect(() => {
+    const sr = ScrollReveal({
+        reset: false,
+        distance: '20px',
+        duration: 1000,
+    });
+
+    // Configure animations for different elements
+    sr.reveal('.sr-about-header', { origin: 'top', delay: 200 });
+    sr.reveal('.sr-about-title', { origin: 'bottom', delay: 300 });
+    sr.reveal('.sr-about-subtitle', { origin: 'bottom', delay: 400 });
+    sr.reveal('.sr-about-container', { origin: 'bottom', delay: 500 });
+    sr.reveal('.sr-about-tabs button', { origin: 'bottom', delay: 600, interval: 100 });
+    sr.reveal('.sr-about-content', { origin: 'bottom', delay: 700 });
+
+    return () => {
+        sr.destroy();
+    };
+}, []);
 
   const htmlContent = `
     <div class="about-me-container">
@@ -162,56 +185,66 @@ const TerminalSec = () => {
 
   return (
     <div>
-                        {/* Gradient Overlay */}
-                        <div className={` w-[100%] relative transition-all`}>
-                        <div className="relative h-auto inset-0">
-                            <div className="flex flex-col items-center justify-center h-[120px] sm:h-[140px] md:h-[160px] lg:h-[180px] xl:h-[200px] text-center text-white relative z-10 p-4" id="about">
-                                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 mt-20">A Glimpse Into My World</h1>
-                                <p className="text-sm sm:text-base md:text-lg text-white/80">
-                                    Learn more about who I am, what I do, and what inspires me.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-    <div className="flex justify-center items-center mt-24 bg-transparent text-gray-100 ml-2 mr-2">
-        <div className="w-[96%] h-[635px] bg-black/30 rounded-lg overflow-hidden shadow-lg border-[0.5px] border-white/40 backdrop-blur-lg">
-        {/* Top Bar */}
-        <div className="bg-black/80 p-3 flex items-center">
-            <div className="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
-            <div className="w-3 h-3 bg-yellow-500 rounded-full mr-2"></div>
-            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-        </div>
-    
-        {/* Tabs */}
-        <div className="bg-black/30 flex">
-            <button
-            className={`px-4 py-2 text-[12px] sm:text-base ml-3 m-1 rounded-2xl ${activeTab === 'preview' ? 'bg-black/50 border-t-2 border-teal-500 ' : 'bg-gray-700/40'}`}
-            onClick={() => setActiveTab('preview')}
-            >
-            Preview
-            </button>
-            <button
-            className={`px-4 py-2 text-[12px] sm:text-base m-1 rounded-2xl ${activeTab === 'html' ? 'bg-black/50 border-t-2 border-teal-500' : 'bg-gray-700/40'}`}
-            onClick={() => setActiveTab('html')}
-            >
-            index.html
-            </button>
-            <button
-            className={`px-4 py-2 text-[12px] sm:text-base m-1 rounded-2xl ${activeTab === 'css' ? 'bg-black/50 border-t-2 border-teal-500' : 'bg-gray-700/40'}`}
-            onClick={() => setActiveTab('css')}
-            >
-            styles.css
-            </button>
-        </div>
-    
-        {/* Content Area */}
-        <div className="h-[calc(100%-80px)] overflow-y-auto p-5 backdrop-blur-sm bg-black/30 text-[14px] sm:text-base">
-            {renderContent()}
-        </div>
+    {/* Gradient Overlay with ScrollReveal class */}
+    <div className="w-[100%] relative transition-all sr-about-header">
+        <div className="relative h-auto inset-0">
+            <div className="flex flex-col items-center justify-center h-[120px] sm:h-[140px] md:h-[160px] lg:h-[180px] xl:h-[200px] text-center text-white relative z-10 p-4" id="about">
+                <h1 className="sr-about-title text-3xl sm:text-4xl md:text-5xl font-bold mb-2 mt-20">
+                    A Glimpse Into My World
+                </h1>
+                <p className="sr-about-subtitle text-sm sm:text-base md:text-lg text-white/80">
+                    Learn more about who I am, what I do, and what inspires me.
+                </p>
+            </div>
         </div>
     </div>
+
+    {/* Main Content Container with ScrollReveal class */}
+    <div className="sr-about-container flex justify-center items-center mt-24 bg-transparent text-gray-100 ml-2 mr-2">
+        <div className="w-[96%] h-[100%] bg-black/30 rounded-lg overflow-hidden shadow-lg border-[0.5px] border-white/40 backdrop-blur-lg">
+            {/* Top Bar */}
+            <div className="bg-black/80 p-3 flex items-center">
+                <div className="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
+                <div className="w-3 h-3 bg-yellow-500 rounded-full mr-2"></div>
+                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+            </div>
+
+            {/* Tabs with ScrollReveal class */}
+            <div className="bg-black/30 flex">
+                <button
+                    className={`sr-about-tabs px-4 py-2 text-[12px] sm:text-base ml-3 m-1 rounded-2xl ${
+                        activeTab === 'preview' ? 'bg-black/50 border-t-2 border-teal-500' : 'bg-gray-700/40'
+                    }`}
+                    onClick={() => setActiveTab('preview')}
+                >
+                    Preview
+                </button>
+                <button
+                    className={`sr-about-tabs px-4 py-2 text-[12px] sm:text-base m-1 rounded-2xl ${
+                        activeTab === 'html' ? 'bg-black/50 border-t-2 border-teal-500' : 'bg-gray-700/40'
+                    }`}
+                    onClick={() => setActiveTab('html')}
+                >
+                    index.html
+                </button>
+                <button
+                    className={`sr-about-tabs px-4 py-2 text-[12px] sm:text-base m-1 rounded-2xl ${
+                        activeTab === 'css' ? 'bg-black/50 border-t-2 border-teal-500' : 'bg-gray-700/40'
+                    }`}
+                    onClick={() => setActiveTab('css')}
+                >
+                    styles.css
+                </button>
+            </div>
+            <LenisWrapper>
+            <div className="sr-about-content h-[100%] overflow-y-auto p-5 backdrop-blur-sm bg-black/30 text-[14px] sm:text-base">
+                {renderContent()}
+            </div>
+            </LenisWrapper>
+        </div>
     </div>
-  );
+</div>
+);
 };
 
 export default TerminalSec;

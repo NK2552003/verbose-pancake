@@ -189,6 +189,9 @@ pre {
     width: 250px;
     height: 250px;
   }
+  .tree-subject{
+    display: hidden;
+  }
 }
 .terminal-tab {
   right: 20px;

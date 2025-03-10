@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Doughnut, Bar, Line } from "react-chartjs-2";
-
+import ScrollReveal from "scrollreveal";
 import {
   Chart as ChartJS,
   ArcElement,
@@ -47,167 +47,170 @@ interface UserStats {
 interface TopLanguages {
   [key: string]: number;
 }
+
 const topLangsOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        labels: {
-          color: "rgba(255, 255, 255, 0.8)", // White with 80% opacity
-        },
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      labels: {
+        color: "rgba(255, 255, 255, 0.8)",
       },
     },
-  };
-  const userStatsOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      x: {
-        ticks: {
-          color: "rgba(255, 255, 255, 0.8)", // White with 80% opacity
-        },
-        grid: {
-          color: "rgba(255, 255, 255, 0.1)", // Optional: Adjust grid color
-        },
+  },
+};
+
+const userStatsOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  scales: {
+    x: {
+      ticks: {
+        color: "rgba(255, 255, 255, 0.8)",
       },
-      y: {
-        ticks: {
-          color: "rgba(255, 255, 255, 0.8)", // White with 80% opacity
-        },
-        grid: {
-          color: "rgba(255, 255, 255, 0.1)", // Optional: Adjust grid color
-        },
+      grid: {
+        color: "rgba(255, 255, 255, 0.1)",
       },
     },
-    plugins: {
-      legend: {
-        labels: {
-          color: "rgba(255, 255, 255, 0.8)", // White with 80% opacity
-        },
+    y: {
+      ticks: {
+        color: "rgba(255, 255, 255, 0.8)",
+      },
+      grid: {
+        color: "rgba(255, 255, 255, 0.1)",
       },
     },
-  };
-  const repoForksOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      x: {
-        ticks: {
-          color: "rgba(255, 255, 255, 0.8)", // White with 80% opacity
-        },
-        grid: {
-          color: "rgba(255, 255, 255, 0.1)", // Optional: Adjust grid color
-        },
-      },
-      y: {
-        ticks: {
-          color: "rgba(255, 255, 255, 0.8)", // White with 80% opacity
-        },
-        grid: {
-          color: "rgba(255, 255, 255, 0.1)", // Optional: Adjust grid color
-        },
+  },
+  plugins: {
+    legend: {
+      labels: {
+        color: "rgba(255, 255, 255, 0.8)",
       },
     },
-    plugins: {
-      legend: {
-        labels: {
-          color: "rgba(255, 255, 255, 0.8)", // White with 80% opacity
-        },
+  },
+};
+
+const repoForksOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  scales: {
+    x: {
+      ticks: {
+        color: "rgba(255, 255, 255, 0.8)",
+      },
+      grid: {
+        color: "rgba(255, 255, 255, 0.1)",
       },
     },
-  };
-  const starsOverTimeOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      x: {
-        ticks: {
-          color: "rgba(255, 255, 255, 0.8)", // White with 80% opacity
-        },
-        grid: {
-          color: "rgba(255, 255, 255, 0.1)", // Optional: Adjust grid color
-        },
+    y: {
+      ticks: {
+        color: "rgba(255, 255, 255, 0.8)",
       },
-      y: {
-        ticks: {
-          color: "rgba(255, 255, 255, 0.8)", // White with 80% opacity
-        },
-        grid: {
-          color: "rgba(255, 255, 255, 0.1)", // Optional: Adjust grid color
-        },
+      grid: {
+        color: "rgba(255, 255, 255, 0.1)",
       },
     },
-    plugins: {
-      legend: {
-        labels: {
-          color: "rgba(255, 255, 255, 0.8)", // White with 80% opacity
-        },
+  },
+  plugins: {
+    legend: {
+      labels: {
+        color: "rgba(255, 255, 255, 0.8)",
       },
     },
-  };
-  const issuesByRepoOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      x: {
-        ticks: {
-          color: "rgba(255, 255, 255, 0.8)", // White with 80% opacity
-        },
-        grid: {
-          color: "rgba(255, 255, 255, 0.1)", // Optional: Adjust grid color
-        },
+  },
+};
+
+const starsOverTimeOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  scales: {
+    x: {
+      ticks: {
+        color: "rgba(255, 255, 255, 0.8)",
       },
-      y: {
-        ticks: {
-          color: "rgba(255, 255, 255, 0.8)", // White with 80% opacity
-        },
-        grid: {
-          color: "rgba(255, 255, 255, 0.1)", // Optional: Adjust grid color
-        },
+      grid: {
+        color: "rgba(255, 255, 255, 0.1)",
       },
     },
-    plugins: {
-      legend: {
-        labels: {
-          color: "rgba(255, 255, 255, 0.8)", // White with 80% opacity
-        },
+    y: {
+      ticks: {
+        color: "rgba(255, 255, 255, 0.8)",
+      },
+      grid: {
+        color: "rgba(255, 255, 255, 0.1)",
       },
     },
-  };
-  const commitsOverTimeOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      x: {
-        ticks: {
-          color: "rgba(255, 255, 255, 0.8)", // White with 80% opacity
-        },
-        grid: {
-          color: "rgba(255, 255, 255, 0.1)", // Optional: Adjust grid color
-        },
-      },
-      y: {
-        ticks: {
-          color: "rgba(255, 255, 255, 0.8)", // White with 80% opacity
-        },
-        grid: {
-          color: "rgba(255, 255, 255, 0.1)", // Optional: Adjust grid color
-        },
+  },
+  plugins: {
+    legend: {
+      labels: {
+        color: "rgba(255, 255, 255, 0.8)",
       },
     },
-    plugins: {
-      legend: {
-        labels: {
-          color: "rgba(255, 255, 255, 0.8)", // White with 80% opacity
-        },
+  },
+};
+
+const issuesByRepoOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  scales: {
+    x: {
+      ticks: {
+        color: "rgba(255, 255, 255, 0.8)",
+      },
+      grid: {
+        color: "rgba(255, 255, 255, 0.1)",
       },
     },
-  };
+    y: {
+      ticks: {
+        color: "rgba(255, 255, 255, 0.8)",
+      },
+      grid: {
+        color: "rgba(255, 255, 255, 0.1)",
+      },
+    },
+  },
+  plugins: {
+    legend: {
+      labels: {
+        color: "rgba(255, 255, 255, 0.8)",
+      },
+    },
+  },
+};
+
+const commitsOverTimeOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  scales: {
+    x: {
+      ticks: {
+        color: "rgba(255, 255, 255, 0.8)",
+      },
+      grid: {
+        color: "rgba(255, 255, 255, 0.1)",
+      },
+    },
+    y: {
+      ticks: {
+        color: "rgba(255, 255, 255, 0.8)",
+      },
+      grid: {
+        color: "rgba(255, 255, 255, 0.1)",
+      },
+    },
+  },
+  plugins: {
+    legend: {
+      labels: {
+        color: "rgba(255, 255, 255, 0.8)",
+      },
+    },
+  },
+};
 
 const GitHubStats = () => {
-
-
-  
   const [topLanguages, setTopLanguages] = useState<TopLanguages>({});
   const [userStats, setUserStats] = useState<UserStats>({
     stars: 0,
@@ -283,6 +286,17 @@ const GitHubStats = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    ScrollReveal().reveal(".chart-container", {
+      duration: 1000,
+      origin: "bottom",
+      distance: "50px",
+      easing: "ease-in-out",
+      reset: false,
+      interval: 200,
+    });
+  }, []);
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -321,7 +335,7 @@ const GitHubStats = () => {
 
   // Repository Forks Chart Data
   const repoForksData = {
-    labels: repos.slice(0, 10).map((repo) => repo.name), // Top 10 repositories by forks
+    labels: repos.slice(0, 10).map((repo) => repo.name),
     datasets: [
       {
         label: "Forks",
@@ -339,7 +353,7 @@ const GitHubStats = () => {
     datasets: [
       {
         label: "Stars Over Time",
-        data: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120], // Simulated data
+        data: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120],
         borderColor: "rgba(255, 159, 64, 1)",
         borderWidth: 2,
         fill: false,
@@ -349,7 +363,7 @@ const GitHubStats = () => {
 
   // Issues by Repository Chart Data
   const issuesByRepoData = {
-    labels: repos.slice(0, 10).map((repo) => repo.name), // Top 10 repositories by issues
+    labels: repos.slice(0, 10).map((repo) => repo.name),
     datasets: [
       {
         label: "Open Issues",
@@ -367,7 +381,7 @@ const GitHubStats = () => {
     datasets: [
       {
         label: "Commits Over Time",
-        data: [5, 15, 25, 35, 45, 55, 65, 75, 85, 95, 105, 115], // Simulated data
+        data: [5, 15, 25, 35, 45, 55, 65, 75, 85, 95, 105, 115],
         borderColor: "rgba(54, 162, 235, 1)",
         borderWidth: 2,
         fill: false,
@@ -375,57 +389,57 @@ const GitHubStats = () => {
     ],
   };
 
- return (
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4 sm:p-6 md:p-8 lg:p-10">
-    {/* Top Languages Chart */}
-    <div className="bg-black/60 backdrop-blur-md p-4 sm:p-6 rounded-lg shadow-lg border-[0.5px] border-white/40">
-      <h2 className="text-xl sm:text-2xl font-bold mb-4 text-white">Top Languages</h2>
-      <div className="w-full h-64 sm:h-80 md:h-96">
-        <Doughnut data={topLangsData} options={topLangsOptions} />
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4 sm:p-6 md:p-8 lg:p-10">
+      {/* Top Languages Chart */}
+      <div className="chart-container bg-black/60 backdrop-blur-md p-4 sm:p-6 rounded-lg shadow-lg border-[0.5px] border-white/40">
+        <h2 className="text-xl sm:text-2xl font-bold mb-4 text-white">Top Languages</h2>
+        <div className="w-full h-64 sm:h-80 md:h-96">
+          <Doughnut data={topLangsData} options={topLangsOptions} />
+        </div>
       </div>
-    </div>
 
-    {/* User Stats Chart */}
-    <div className="bg-black/60 backdrop-blur-md p-4 sm:p-6 rounded-lg shadow-lg border-[0.5px] border-white/40">
-      <h2 className="text-xl sm:text-2xl font-bold mb-4 text-white">User Stats</h2>
-      <div className="w-full h-64 sm:h-80 md:h-96">
-        <Bar data={userStatsData} options={userStatsOptions} />
+      {/* User Stats Chart */}
+      <div className="chart-container bg-black/60 backdrop-blur-md p-4 sm:p-6 rounded-lg shadow-lg border-[0.5px] border-white/40">
+        <h2 className="text-xl sm:text-2xl font-bold mb-4 text-white">User Stats</h2>
+        <div className="w-full h-64 sm:h-80 md:h-96">
+          <Bar data={userStatsData} options={userStatsOptions} />
+        </div>
       </div>
-    </div>
 
-    {/* Repository Forks Chart */}
-    <div className="bg-black/60 backdrop-blur-md p-4 sm:p-6 rounded-lg shadow-lg hidden sm:block border-[0.5px] border-white/40">
-      <h2 className="text-xl sm:text-2xl font-bold mb-4 text-white">Repository Forks</h2>
-      <div className="w-full h-64 sm:h-80 md:h-96">
-        <Bar data={repoForksData} options={repoForksOptions} />
+      {/* Repository Forks Chart */}
+      <div className="chart-container bg-black/60 backdrop-blur-md p-4 sm:p-6 rounded-lg shadow-lg hidden sm:block border-[0.5px] border-white/40">
+        <h2 className="text-xl sm:text-2xl font-bold mb-4 text-white">Repository Forks</h2>
+        <div className="w-full h-64 sm:h-80 md:h-96">
+          <Bar data={repoForksData} options={repoForksOptions} />
+        </div>
       </div>
-    </div>
 
-    {/* Stars Over Time Chart */}
-    <div className="bg-black/50 backdrop-blur-md p-4 sm:p-6 rounded-lg shadow-lg border-[0.5px] border-white/40">
-      <h2 className="text-xl sm:text-2xl font-bold mb-4 text-white">Stars Over Time</h2>
-      <div className="w-full h-64 sm:h-80 md:h-96">
-        <Line data={starsOverTimeData} options={starsOverTimeOptions} />
+      {/* Stars Over Time Chart */}
+      <div className="chart-container bg-black/50 backdrop-blur-md p-4 sm:p-6 rounded-lg shadow-lg border-[0.5px] border-white/40">
+        <h2 className="text-xl sm:text-2xl font-bold mb-4 text-white">Stars Over Time</h2>
+        <div className="w-full h-64 sm:h-80 md:h-96">
+          <Line data={starsOverTimeData} options={starsOverTimeOptions} />
+        </div>
       </div>
-    </div>
 
-    {/* Issues by Repository Chart */}
-    <div className="bg-black/60 backdrop-blur-md p-4 sm:p-6 rounded-lg shadow-lg border-[0.5px] border-white/40">
-      <h2 className="text-xl sm:text-2xl font-bold mb-4 text-white">Issues by Repository</h2>
-      <div className="w-full h-64 sm:h-80 md:h-96">
-        <Bar data={issuesByRepoData} options={issuesByRepoOptions} />
+      {/* Issues by Repository Chart */}
+      <div className="chart-container bg-black/60 backdrop-blur-md p-4 sm:p-6 rounded-lg shadow-lg border-[0.5px] border-white/40">
+        <h2 className="text-xl sm:text-2xl font-bold mb-4 text-white">Issues by Repository</h2>
+        <div className="w-full h-64 sm:h-80 md:h-96">
+          <Bar data={issuesByRepoData} options={issuesByRepoOptions} />
+        </div>
       </div>
-    </div>
 
-    {/* Commits Over Time Chart */}
-    <div className="bg-black/60 backdrop-blur-md p-4 sm:p-6 rounded-lg shadow-lg border-[0.5px] border-white/40">
-      <h2 className="text-xl sm:text-2xl font-bold mb-4 text-white">Commits Over Time</h2>
-      <div className="w-full h-64 sm:h-80 md:h-96">
-        <Line data={commitsOverTimeData} options={commitsOverTimeOptions} />
+      {/* Commits Over Time Chart */}
+      <div className="chart-container bg-black/60 backdrop-blur-md p-4 sm:p-6 rounded-lg shadow-lg border-[0.5px] border-white/40">
+        <h2 className="text-xl sm:text-2xl font-bold mb-4 text-white">Commits Over Time</h2>
+        <div className="w-full h-64 sm:h-80 md:h-96">
+          <Line data={commitsOverTimeData} options={commitsOverTimeOptions} />
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
 };
 
 export default GitHubStats;

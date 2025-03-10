@@ -1,8 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Madimi_One } from "next/font/google";
-import LocomotiveScroll from "locomotive-scroll";
-import SplashScreen from "./SplashScreen"; // Import your SplashScreen component
+import ScrollReveal from 'scrollreveal';
 import 'boxicons/css/boxicons.min.css';
 // Define the font
 const madimiOne = Madimi_One({ weight: "400", subsets: ["latin"] });
@@ -10,7 +9,7 @@ const madimiOne = Madimi_One({ weight: "400", subsets: ["latin"] });
 export default function HeroSection() {
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
     const [displayName, setDisplayName] = useState<string>("Nitish Kumar");
-    const [isLoading, setIsLoading] = useState<boolean>(true); // State to manage loading
+
     const [isScrolled, setIsScrolled] = useState<boolean>(false); // State to track scroll position
     const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false); // State to manage drawer visibility
 
@@ -18,6 +17,29 @@ export default function HeroSection() {
     const day = today.getDate().toString().padStart(2, "0");
     const month = today.toLocaleString("en-US", { month: "short" });
 
+     // ScrollReveal initialization
+     useEffect(() => {
+        const sr = ScrollReveal({
+            reset: false,
+            distance: '20px',
+            duration: 1000,
+        });
+
+        // Configure animations for different elements
+        sr.reveal('.sr-portfolio', { origin: 'left', delay: 200 });
+        sr.reveal('.sr-title', { origin: 'bottom', delay: 300 });
+        sr.reveal('.sr-subtitle', { origin: 'bottom', delay: 400 });
+        sr.reveal('.sr-social a', { origin: 'bottom', delay: 500, interval: 100 });
+        sr.reveal('.sr-buttons button', { origin: 'right', delay: 600,interval:100 });
+        sr.reveal('.sr-date', { origin: 'right', delay: 700 });
+        sr.reveal('.sr-location', { origin: 'left', delay: 700 });
+        sr.reveal('.sr-quote', { origin: 'bottom', delay: 800 });
+        
+
+        return () => {
+            sr.destroy();
+        };
+    }, []);
 
     // Handle scroll event
     useEffect(() => {
@@ -29,30 +51,6 @@ export default function HeroSection() {
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
-    // Function to handle splash screen loaded event
-    const handleLoaded = () => {
-        setIsLoading(false);
-    };
-
-    // Initialize Locomotive Scroll after splash screen has loaded
-    useEffect(() => {
-        if (!isLoading) {
-            const scrollContainer = document.querySelector("[data-scroll-container]");
-            if (scrollContainer) {
-                const locomotiveScroll = new LocomotiveScroll({
-                    el: scrollContainer,
-                    smooth: true,
-                    smoothMobile: true,
-                    inertia: 0.8,
-                });
-
-                // Cleanup on unmount
-                return () => {
-                    locomotiveScroll.destroy();
-                };
-            }
-        }
-    }, [isLoading]);
 
     // Update display name based on window width
     useEffect(() => {
@@ -103,12 +101,9 @@ export default function HeroSection() {
 
     return (
         <div>
-            {isLoading ? (
-                <SplashScreen onLoaded={handleLoaded} />
-            ) : (
-                <div className="relative w-screen h-screen animate-fade-in" id="home" data-scroll-container>
+                <div className="relative w-screen h-screen animate-fade-in" id="home">
                     {/* Portfolio Text - Top Left */}
-                    <div className="absolute top-10 sm:top-6 left-6 z-30" data-scroll>
+                    <div className="absolute top-10 sm:top-6 left-6 z-30 sr-portfolio">
                         <h2 className={`${madimiOne.className} text-2xl sm:text-3xl text-white font-bold`}>
                             Portfolio
                         </h2>
@@ -117,8 +112,7 @@ export default function HeroSection() {
                     {/* Menu Button */}
                     <button
                         onClick={() => setMenuOpen(!menuOpen)}
-                        className="fixed top-6 right-6 p-3 rounded-lg transition-all duration-300 z-100"
-                        data-scroll
+                        className="absolute top-6 right-6 p-3 rounded-lg transition-all duration-300 z-100"
                     >
                         <svg
                             className={`w-10 h-10 text-white transition-transform duration-300 ${
@@ -151,7 +145,6 @@ export default function HeroSection() {
                         className={`fixed inset-0 bg-black/60 backdrop-blur-lg z-20 flex flex-col items-center justify-center transition-opacity duration-300 ${
                             menuOpen ? "opacity-100 visible" : "opacity-0 invisible"
                         }`}
-                        data-scroll
                     >
                         <ul
                             className={`text-white text-3xl space-y-6 transition-all duration-300 text-center ${
@@ -211,20 +204,15 @@ export default function HeroSection() {
                         className={`relative z-10 flex flex-col items-center justify-center w-full h-full transition-all duration-300 ${
                             menuOpen ? "scale-90 opacity-0 invisible" : "scale-100 opacity-100 visible"
                         }`}
-                        data-scroll
                     >
                         <h1
-                            className={`${madimiOne.className} text-7xl sm:text-8xl md:text-8xl lg:text-9xl font-bold text-transparent drop-shadow-lg`}
+                            className={`${madimiOne.className} sr-title text-7xl sm:text-8xl md:text-8xl lg:text-9xl font-bold text-transparent drop-shadow-lg`}
                             style={{ WebkitTextStroke: "3px white" }}
-                            data-scroll
-                            data-scroll-speed="1"
                         >
                             {displayName}
                         </h1>
                         <p
-                            className={`${madimiOne.className} text-base sm:text-xl text-white/80 max-w-2xl text-center relative`}
-                            data-scroll
-                            data-scroll-speed="0.5"
+                            className={`${madimiOne.className} sr-subtitle text-base sm:text-xl text-white/80 max-w-2xl text-center relative`}
                         >
                             <span className="hidden lg:inline">An Undergraduate Passionate Engineering Student</span>
                             <span className="inline lg:hidden">Passionate Undergraduate Engineer</span>
@@ -233,7 +221,7 @@ export default function HeroSection() {
                         </p>
 
                         {/* Social Icons */}
-                        <div className="flex gap-1 sm:gap-1 mt-3" data-scroll data-scroll-speed="0.3">
+                        <div className="flex gap-1 sm:gap-1 mt-3 sr-social">
                             <a
                                 href="https://www.facebook.com/nk222003/"
                                 target="_blank"
@@ -285,7 +273,7 @@ export default function HeroSection() {
                         </div>
 
                         {/* Buttons */}
-                        <div className="flex items-center justify-center mt-2 sm:mt-5 gap-2" data-scroll data-scroll-speed="0.2">
+                        <div className="flex items-center justify-center mt-2 sm:mt-5 gap-2 sr-buttons">
                             <div className="relative group">
                                 <button
                                     className="relative inline-block p-px font-semibold leading-6 text-white bg-white/20 shadow-2xl cursor-pointer rounded-2xl shadow-zinc-900 transition-transform duration-300 ease-in-out hover:scale-105 active:scale-95 text-xs sm:text-base"
@@ -350,10 +338,8 @@ export default function HeroSection() {
                     {/* Date and Month - Bottom Right */}
                     <div
                         className={`${madimiOne.className} absolute bottom-4 right-4 text-white px-6 py-4 flex items-end ${
-                            menuOpen ? "scale-90 opacity-0 invisible" : "scale-100 opacity-100 visible"
+                            menuOpen ? "scale-90 opacity-0 invisible" : "scale-100 opacity-100 visible sr-date"
                         }`}
-                        data-scroll
-                        data-scroll-speed="0.5"
                     >
                         <span
                             className="text-5xl sm:text-8xl font-bold stroke-2 text-transparent text-center mb-3 sm:mb-0"
@@ -370,11 +356,9 @@ export default function HeroSection() {
 
                     {/* Location Icon and Text - Bottom Left */}
                     <div
-                        className={`${madimiOne.className} absolute bottom-15 left-6 text-white flex items-center gap-2 ${
+                        className={`${madimiOne.className} sr-location absolute bottom-15 left-6 text-white flex items-center gap-2 ${
                             menuOpen ? "scale-90 opacity-0 invisible" : "scale-100 opacity-100 visible"
                         }`}
-                        data-scroll
-                        data-scroll-speed="0.5"
                     >
                         <i className="bx bx-map text-2xl sm:text-3xl"></i>
                         <span className="text-sm sm:text-base">SNP, HR, IN</span>
@@ -387,7 +371,7 @@ export default function HeroSection() {
                         data-scroll-speed="0.3"
                     >
                         <p
-                            className={`${madimiOne.className} text-[10px] sm:text-base text-white/50 italic ${
+                            className={`${madimiOne.className} sr-quote text-[10px] sm:text-base text-white/50 italic ${
                                 menuOpen ? "scale-90 opacity-0 invisible" : "scale-100 opacity-100 visible"
                             }`}
                         >
@@ -395,7 +379,6 @@ export default function HeroSection() {
                         </p>
                     </div>
                 </div>
-            )}
             {/* Floating Button and Drawer */}
             <div className="fixed bottom-5 right-5 z-50">
     {/* Floating Button */}

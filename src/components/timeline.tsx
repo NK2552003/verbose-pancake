@@ -1,5 +1,5 @@
-import React from 'react';
-
+import React, { useEffect } from "react";
+import ScrollReveal from "scrollreveal";
 
 // Define the type for the timeline data
 interface TimelineItem {
@@ -56,50 +56,74 @@ const timelineData: TimelineItem[] = [
 ];
 
 const Timeline: React.FC = () => {
+  useEffect(() => {
+    ScrollReveal().reveal(".timeline-item", {
+      origin: "bottom",
+      distance: "50px",
+      duration: 1000,
+      delay: 200,
+      easing: "ease-in-out",
+      reset: false, // Items stay visible after reveal
+      opacity: 0,
+      scale: 0.9,
+      viewFactor: 0.2, // At least 20% of the item should be in view before revealing
+    });
+  }, []);
+
   return (
-   <div className='relative z-10 page bg-gradient-to-t from-[#031412] to-transparent'>
-    <div className="flex flex-col items-center justify-center h-[120px] sm:h-[140px] md:h-[160px] lg:h-[180px] xl:h-[200px] text-center text-white relative z-10 p-4 mb-30" id="quali">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 mt-20">My Professional Journey</h1>
-            <p className="text-sm sm:text-base md:text-lg text-white/80">
-              Explore my Skills, Achievements, and the Milestones that defines my career
-            </p>
-        </div>
-     <div className="page timeline-5-2" data-uia-timeline-skin="5" data-uia-timeline-adapter-skin-5="uia-card">
-      <div className="uia-timeline sm:px-22">
-        <div className="uia-timeline__container">
-          <div className="uia-timeline__line"></div>
-          <div className="uia-timeline__groups">
-            {timelineData.map((item) => (
-              <section
-                key={item.id}
-                className="uia-timeline__group"
-                aria-labelledby={`timeline-demo-6-heading-${item.id}`}
-              >
-                <div className="uia-timeline__dot"></div>
-                <div className="uia-timeline__point uia-card">
-                  <div className="uia-card__container">
-                    <div className="uia-card__intro">
-                      <h3
-                        id={`timeline-demo-6-heading-${item.id}`}
-                        className="page__job-name uia-heading ra-heading text-2xl text-white"
-                      >
-                        {item.title}
-                      </h3>
-                      <p className="uia-card__time text-white/80">{item.date}</p>
-                    </div>
-                    <div className="uia-card__body text-white/70 mb-8 sm:mb-0">
-                      <p>{item.description}</p>
+    <div className="relative z-10 page bg-gradient-to-t from-[#031412] to-transparent">
+      <div
+        className="flex flex-col items-center justify-center h-[120px] sm:h-[140px] md:h-[160px] lg:h-[180px] xl:h-[200px] text-center text-white relative z-10 p-4 mb-30"
+        id="quali"
+      >
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 mt-20">
+          My Professional Journey
+        </h1>
+        <p className="text-sm sm:text-base md:text-lg text-white/80">
+          Explore my Skills, Achievements, and the Milestones that define my career.
+        </p>
+      </div>
+      <div
+        className="page timeline-5-2"
+        data-uia-timeline-skin="5"
+        data-uia-timeline-adapter-skin-5="uia-card"
+      >
+        <div className="uia-timeline sm:px-22">
+          <div className="uia-timeline__container">
+            <div className="uia-timeline__line"></div>
+            <div className="uia-timeline__groups">
+              {timelineData.map((item, index) => (
+                <section
+                  key={item.id}
+                  className="timeline-item uia-timeline__group"
+                  aria-labelledby={`timeline-demo-6-heading-${item.id}`}
+                  style={{ transitionDelay: `${index * 200}ms` }}
+                >
+                  <div className="uia-timeline__dot"></div>
+                  <div className="uia-timeline__point uia-card">
+                    <div className="uia-card__container">
+                      <div className="uia-card__intro">
+                        <h3
+                          id={`timeline-demo-6-heading-${item.id}`}
+                          className="page__job-name uia-heading ra-heading text-2xl text-white"
+                        >
+                          {item.title}
+                        </h3>
+                        <p className="uia-card__time text-white/80">{item.date}</p>
+                      </div>
+                      <div className="uia-card__body text-white/70 mb-8 sm:mb-0">
+                        <p>{item.description}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </section>
-            ))}
+                </section>
+              ))}
+            </div>
           </div>
         </div>
       </div>
     </div>
-   </div>
-    );
+  );
 };
 
 export default Timeline;
