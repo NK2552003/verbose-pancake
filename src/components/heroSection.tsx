@@ -9,6 +9,7 @@ const madimiOne = Madimi_One({ weight: "400", subsets: ["latin"] });
 export default function HeroSection() {
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
     const [displayName, setDisplayName] = useState<string>("Nitish Kumar");
+    const [showNotification, setShowNotification] = useState(false);
 
     const [isScrolled, setIsScrolled] = useState<boolean>(false); // State to track scroll position
     const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false); // State to manage drawer visibility
@@ -46,18 +47,6 @@ export default function HeroSection() {
         return () => window.removeEventListener("resize", updateName);
     }, []);
 
-    // Handle body overflow when menu is open
-    useEffect(() => {
-        if (menuOpen) {
-            document.body.style.overflow = "hidden";
-        } else {
-            document.body.style.overflow = "auto";
-        }
-
-        return () => {
-            document.body.style.overflow = "auto";
-        };
-    }, [menuOpen]);
 
     // Track scroll position to show/hide floating button
     useEffect(() => {
@@ -75,107 +64,67 @@ export default function HeroSection() {
             window.removeEventListener("scroll", handleScroll);
         };
     }, []);
+    useEffect(() => {
+        if (showNotification) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "auto";
+        }
+    }, [showNotification]);
+
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (showNotification) {
+                setShowNotification(false);
+            }
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, [showNotification]);
 
     return (
         <div>
                 <div className="relative w-screen h-screen animate-fade-in" id="home">
                     {/* Portfolio Text - Top Left */}
-                    <div className="absolute top-10 sm:top-6 left-6 z-30 sr-portfolio">
+                    <div className="absolute top-5 sm:top-6 left-6 z-30 sr-portfolio">
                         <h2 className={`${madimiOne.className} text-2xl sm:text-3xl text-white font-bold`}>
                             Portfolio
                         </h2>
                     </div>
+                    <div className="relative w-full">
+            {/* Resume Button */}
+            <div className="absolute sm:top-5 right-5 z-100 top-5">
+                <button
+                    className="relative inline-block p-px font-semibold leading-6 text-white bg-white/20 shadow-2xl cursor-pointer rounded-2xl shadow-zinc-900 transition-transform duration-300 ease-in-out hover:scale-105 active:scale-95 text-xs sm:text-base"
+                    onClick={() => setShowNotification(true)}
+                >
+                    <span
+                        className="absolute inset-0 rounded-2xl bg-gradient-to-r from-teal-400 via-[#18786E] to-[#29CEB9] p-[2px] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                    ></span>
+                    <span className="relative z-10 block px-3 py-1.5 sm:px-6 sm:py-3 rounded-2xl bg-[#031412] hover:text-[#a0f7eb]">
+                        Resume
+                    </span>
+                </button>
+            </div>
 
-                    {/* Menu Button */}
-                    <button
-                        onClick={() => setMenuOpen(!menuOpen)}
-                        className="absolute top-6 right-6 p-3 rounded-lg transition-all duration-300 z-100"
-                    >
-                        <svg
-                            className={`w-10 h-10 text-white transition-transform duration-300 ${
-                                menuOpen ? "rotate-180 scale-110" : "rotate-220"
-                            }`}
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
+            {/* Notification */}
+            {showNotification && (
+                <div className="fixed inset-0 flex  top-5 items-start justify-center z-1000">
+                    <div className="bg-gray-800 text-white px-6 py-4 rounded-lg shadow-lg">
+                        <p>Working on it, not available right now.</p>
+                        <button
+                            className="mt-3 px-4 py-2 bg-teal-500 rounded-lg hover:bg-teal-600"
+                            onClick={() => setShowNotification(false)}
                         >
-                            {menuOpen ? (
-                                <>
-                                    <line x1="5" y1="5" x2="19" y2="19" />
-                                    <line x1="19" y1="5" x2="5" y2="19" />
-                                </>
-                            ) : (
-                                <>
-                                    <line x1="4" y1="6" x2="10" y2="6" />
-                                    <line x1="2" y1="12" x2="15" y2="12" />
-                                    <line x1="4" y1="18" x2="20" y2="18" />
-                                </>
-                            )}
-                        </svg>
-                    </button>
-
-                    {/* Blur Background & Centered Menu */}
-                    <div
-                        className={`fixed inset-0 bg-black/60 backdrop-blur-lg z-20 flex flex-col items-center justify-center transition-opacity duration-300 ${
-                            menuOpen ? "opacity-100 visible" : "opacity-0 invisible"
-                        }`}
-                    >
-                        <ul
-                            className={`text-white text-3xl space-y-6 transition-all duration-300 text-center ${
-                                menuOpen ? "scale-100" : "scale-95"
-                            }`}
-                        >
-                            <li>
-                                <a
-                                    href="#home"
-                                    onClick={() => setMenuOpen(false)}
-                                    className="hover:text-teal-400 transition-all duration-300 cursor-pointer"
-                                >
-                                    Home
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="#about"
-                                    onClick={() => setMenuOpen(false)}
-                                    className="hover:text-teal-400 transition-all duration-300 cursor-pointer"
-                                >
-                                    About Me
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="#quali"
-                                    onClick={() => setMenuOpen(false)}
-                                    className="hover:text-teal-400 transition-all duration-300 cursor-pointer"
-                                >
-                                    Qualifications
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="#projects"
-                                    onClick={() => setMenuOpen(false)}
-                                    className="hover:text-teal-400 transition-all duration-300 cursor-pointer"
-                                >
-                                    Projects
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="#contact"
-                                    onClick={() => setMenuOpen(false)}
-                                    className="hover:text-teal-400 transition-all duration-300 cursor-pointer"
-                                >
-                                    Contact Me
-                                </a>
-                            </li>
-                        </ul>
+                            Close
+                        </button>
                     </div>
-
+                </div>
+            )}
+        </div>
                     {/* Main Content with Blur Effect */}
                     <div
                         className={`relative z-10 flex flex-col items-center justify-center w-full h-full transition-all duration-300 ${
