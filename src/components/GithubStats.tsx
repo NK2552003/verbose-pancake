@@ -226,25 +226,19 @@ const GitHubStats = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const username = process.env.NEXT_PUBLIC_GITHUB_USERNAME;
-        const token = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
-
-        if (!username || !token) {
-          throw new Error("GitHub username or token is missing in the environment variables.");
-        }
 
         const headers = {
-          Authorization: `token ${token}`,
+          Authorization: `token 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`,
           Accept: "application/vnd.github.v3+json",
         };
 
         // Fetch user profile
-        const userResponse = await fetch(`https://api.github.com/users/${username}`, { headers });
+        const userResponse = await fetch(`https://api.github.com/users/nk2552003`, { headers });
         if (!userResponse.ok) throw new Error("Failed to fetch user data");
         const userData: GitHubUser = await userResponse.json();
 
         // Fetch repositories
-        const reposResponse = await fetch(`https://api.github.com/users/${username}/repos?per_page=100`, { headers });
+        const reposResponse = await fetch(`https://api.github.com/users/nk2552003/repos?per_page=100`, { headers });
         if (!reposResponse.ok) throw new Error("Failed to fetch repositories");
         const repos: GitHubRepo[] = await reposResponse.json();
 
