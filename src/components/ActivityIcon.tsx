@@ -44,7 +44,7 @@ export default function GamingInterface() {
   ]
 
   return (
-    <div className="flex flex-wrap items-center justify-center px-4 sm:px-6 overflow-hidden">
+    <div className="flex flex-wrap items-center justify-center px-4 sm:px-6 pb-4 overflow-hidden">
       <div className="relative w-full h-auto"> {/* Responsive container */}
         {/* Single row layout */}
         <div className="flex flex-wrap gap-2 sm:gap-4 h-full w-full justify-center">
