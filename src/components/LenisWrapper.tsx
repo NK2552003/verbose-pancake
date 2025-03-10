@@ -34,24 +34,6 @@ export default function LenisWrapper({ children }: LenisWrapperProps) {
         (target.tagName === 'BUTTON' && target.getAttribute('data-href')?.startsWith('#'))
       ) {
         event.preventDefault();
-
-        // Get the href from the <a> tag or the data-href attribute from the button
-        let href = target.getAttribute('href') || target.getAttribute('data-href');
-
-        if (href && href.startsWith('#')) {
-          href = decodeURIComponent(href); // Decode URL-encoded characters
-          const targetElement = document.querySelector(href);
-
-          if (targetElement) {
-            lenis.scrollTo(targetElement, {
-              duration: 2, // Slightly longer duration for smoother transition
-              easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Custom easing function
-              lock: false, // Allow user to scroll during the animation
-            });
-          } else {
-            console.warn(`Element not found for selector: ${href}`);
-          }
-        }
       }
     };
 
