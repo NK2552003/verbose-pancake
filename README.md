@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Personal Portfolio - nitish.fun
 
-## Getting Started
+![Website Preview](https://www.nitish.fun/preview-image.png) <!-- Replace with an actual preview image URL if available -->
 
-First, run the development server:
+This is my personal portfolio website built using **Next.js**, **TypeScript (TSX)**, and **Tailwind CSS**. It showcases my skills, projects, and experiences in an interactive and visually appealing manner.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🚀 Tech Stack
+
+- **Framework:** [Next.js](https://nextjs.org/)
+- **Language:** TypeScript (TSX)
+- **Styling:** Tailwind CSS
+- **Animations:** GSAP, Framer Motion
+- **Deployment:** Vercel
+
+## 📸 Features
+
+- ⚡ **Fast & SEO-Friendly** - Optimized using Next.js
+- 🎨 **Beautiful UI** - Styled with Tailwind CSS & animations
+- 🌎 **Responsive Design** - Works on all screen sizes
+- 🚀 **Smooth Transitions** - GSAP & Framer Motion for animations
+- 📜 **Blog Section** - Integrated blog feature
+
+## 📂 Folder Structure
+
+```
+/ ├── public/          # Static assets
+  ├── src/            # Source code
+      ├── components/ # Reusable UI components
+      ├── pages/      # Next.js pages
+      ├── styles/     # Global styles (Tailwind)
+  ├── .gitignore
+  ├── package.json
+  ├── README.md
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Installation & Setup
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Clone the repository:**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+   ```bash
+   git clone https://github.com/your-username/nitish.fun.git
+   cd nitish.fun
+   ```
 
-## Learn More
+2. **Install dependencies:**
 
-To learn more about Next.js, take a look at the following resources:
+   ```bash
+   npm install  # or yarn install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Run the development server:**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   ```bash
+   npm run dev  # or yarn dev
+   ```
 
-## Deploy on Vercel
+4. **Open in browser:**
+   
+   Visit `http://localhost:3000` to see the project running.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🚀 Deployment
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The website is deployed using **Vercel**.
+
+To deploy your own version, run:
+
+```bash
+vercel
+```
+
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to fork the repository and submit a pull request.
+
+## 📜 License
+
+This project is **MIT licensed**.
+
+---
+
+### 🌐 Live Preview: [nitish.fun](https://www.nitish.fun/)
