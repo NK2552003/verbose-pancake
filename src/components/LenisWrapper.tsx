@@ -13,7 +13,6 @@ export default function LenisWrapper({ children }: LenisWrapperProps) {
     const lenis = new Lenis({
       lerp: 0.05, // Lower value for smoother scrolling
       smoothWheel: true, // Enable smooth scrolling for mouse wheel
-      smoothTouch: true, // Enable smooth scrolling for touch devices
       infinite: false, // Disable infinite scrolling
     });
 
@@ -37,16 +36,20 @@ export default function LenisWrapper({ children }: LenisWrapperProps) {
         event.preventDefault();
 
         // Get the href from the <a> tag or the data-href attribute from the button
-        const href = target.getAttribute('href') || target.getAttribute('data-href');
+        let href = target.getAttribute('href') || target.getAttribute('data-href');
 
-        if (href) {
+        if (href && href.startsWith('#')) {
+          href = decodeURIComponent(href); // Decode URL-encoded characters
           const targetElement = document.querySelector(href);
+
           if (targetElement) {
             lenis.scrollTo(targetElement, {
               duration: 2, // Slightly longer duration for smoother transition
               easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Custom easing function
               lock: false, // Allow user to scroll during the animation
             });
+          } else {
+            console.warn(`Element not found for selector: ${href}`);
           }
         }
       }
