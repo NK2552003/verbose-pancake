@@ -139,38 +139,35 @@ const projects = [
     };
     
     
-    // Lazy load videos using Intersection Observer
     useEffect(() => {
-      const lazyVideos = document.querySelectorAll('.lazy-video');
-      console.log('Lazy videos found:', lazyVideos); // Debugging
-    
-      const observer = new IntersectionObserver(
-        (entries) => {
+      setTimeout(() => {
+        const lazyVideos = document.querySelectorAll('.lazy-video');
+        console.log('Lazy videos found:', lazyVideos);
+        
+        const observer = new IntersectionObserver((entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               const video = entry.target;
-              if (video && video.dataset && video.dataset.src) {
+              if (video instanceof HTMLVideoElement && video.dataset.src) {
                 video.src = video.dataset.src;
                 video.load();
                 observer.unobserve(video);
               } else {
-                console.error('Video element or dataset.src is missing:', video);
+                console.error('Invalid video element or missing data-src:', video);
               }
             }
           });
-        },
-        {
-          rootMargin: '0px',
-        }
-      );
+        });
     
-      lazyVideos.forEach((video) => observer.observe(video));
+        lazyVideos.forEach((video) => observer.observe(video));
     
-      return () => {
-        lazyVideos.forEach((video) => observer.unobserve(video));
-      };
+        return () => {
+          lazyVideos.forEach((video) => observer.unobserve(video));
+        };
+      }, 500); // Small delay
+    
     }, [visibleProjects]);
-  
+    
     return (
       <div className="min-h-screen relative z-10 bg-[#031412] p-8">
         <div className="flex flex-col items-center justify-center h-[120px] sm:h-[140px] md:h-[160px] lg:h-[180px] xl:h-[200px] text-center text-white relative z-10 p-4 mb-30" id='projects'>
