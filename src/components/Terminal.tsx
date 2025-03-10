@@ -12,7 +12,7 @@ const TerminalSec = () => {
       <div class="about-me-left">
         <div class="backDivBlank"></div>
         <div class="profile-image-wrapper">
-          <img src="/pro.png" alt="Profile Image of a Boy" class="profile-image">
+          <img src="./pro.png" alt="Profile Image of a Boy" class="profile-image">
         </div>
         <div class="social-icons">
           <a href="https://github.com/NK2552003" class="social-icon">git</a>
