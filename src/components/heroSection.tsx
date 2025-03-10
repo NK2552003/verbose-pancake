@@ -113,14 +113,8 @@ export default function HeroSection() {
             {/* Notification */}
             {showNotification && (
                 <div className="fixed inset-0 flex  top-5 items-start justify-center z-1000">
-                    <div className="bg-gray-800 text-white px-6 py-4 rounded-lg shadow-lg">
+                    <div className="bg-[#03141287] backdrop-blur-2xl text-white px-6 py-4 rounded-3xl text-sm shadow-lg border-[0.5px] border-white/50">
                         <p>Working on it, not available right now.</p>
-                        <button
-                            className="mt-3 px-4 py-2 bg-teal-500 rounded-lg hover:bg-teal-600"
-                            onClick={() => setShowNotification(false)}
-                        >
-                            Close
-                        </button>
                     </div>
                 </div>
             )}
