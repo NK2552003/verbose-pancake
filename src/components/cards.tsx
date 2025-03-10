@@ -2,9 +2,9 @@ import React, { useRef, useState, useEffect } from 'react';
 
 const Cards: React.FC = () => {
   // Path to your local audio file
-  const audioFile: string = '/Audio/Aj.m4a';
+  const audioFile: string = './Audio/Aj.m4a';
   // Path to your album art image
-  const albumArt: string = '/Audio/poster.png';
+  const albumArt: string = './Audio/poster.png';
   // Title of the audio track
   const audioTitle: string = 'Aj Kal Ve';
 
