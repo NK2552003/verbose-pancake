@@ -36,7 +36,7 @@ const GridLayout = () => {
       </div>
 
       {/* Non-animated Gaming Interface */}
-      <div className="flex-grow rounded-md w-full mt-12">
+      <div className="flex-grow rounded-md w-full mt-12 h-auto mb-4">
         <GamingInterface />
       </div>
 
