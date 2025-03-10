@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     title: "Nitish's Portfolio",
     description:
       "Explore Nitish's Portfolio, a creative space where you can discover his projects, blogs, tech insights, and more. Dive into his world of innovation and development.",
-    images: "/logo.png",
+    images: "./logo.png",
     url: "https://www.nitish.fun",
     type: "website",
     locale: "en_US",
@@ -37,18 +37,18 @@ export const metadata: Metadata = {
     title: "Nitish's Portfolio",
     description:
       "Explore Nitish's Portfolio, a creative space where you can discover his projects, blogs, tech insights, and more. Dive into his world of innovation and development.",
-    images: "/logo.png",
+    images: "./logo.png",
     site: "https://www.nitish.fun",
   },
   other: {
     "linkedin:title": "Nitish's Portfolio",
     "linkedin:description":
       "Explore Nitish's Portfolio, a creative space where you can discover his projects, blogs, tech insights, and more. Dive into his world of innovation and development.",
-    "linkedin:image": "/logo.png",
+    "linkedin:image": "./logo.png",
     "pinterest:title": "Nitish's Portfolio",
     "pinterest:description":
       "Explore Nitish's Portfolio, a creative space where you can discover his projects, blogs, tech insights, and more. Dive into his world of innovation and development.",
-    "pinterest:image": "/logo.png",
+    "pinterest:image": "./logo.png",
   },
 };
 
