@@ -18,15 +18,51 @@ const Footer: React.FC = () => {
           </p>
         </div>
 
+
         {/* Quick Links Section */}
         <div className="flex-1 min-w-[250px] my-2.5 mx-5 py-2.5 px-5">
           <h2 className="text-lg mb-2.5 border-b-2 border-white pb-1.25">Quick Links</h2>
           <ul className="text-sm leading-6 text-gray-400">
-            <li><a href="#home" title="about" className="hover:text-white hover:underline">Home</a></li>
-            <li><a href="#about" title="skills" className="hover:text-white hover:underline">About</a></li>
-            <li><a href="#quali" title="jobs" className="hover:text-white hover:underline">Qualifications</a></li>
-            <li><a href="#projects" title="contact" className="hover:text-white hover:underline">Projects</a></li>
-            <li><a href="#contact" title="contact" className="hover:text-white hover:underline">Contact</a></li>
+            <li>
+              <button 
+                onClick={() => window.location.href = "#home"} 
+                className="w-full text-left hover:text-white hover:underline bg-transparent border-none p-0 cursor-pointer"
+              >
+                Home
+              </button>
+            </li>
+            <li>
+              <button 
+                onClick={() => window.location.href = "#about"} 
+                className="w-full text-left hover:text-white hover:underline bg-transparent border-none p-0 cursor-pointer"
+              >
+                About
+              </button>
+            </li>
+            <li>
+              <button 
+                onClick={() => window.location.href = "#quali"} 
+                className="w-full text-left hover:text-white hover:underline bg-transparent border-none p-0 cursor-pointer"
+              >
+                Qualifications
+              </button>
+            </li>
+            <li>
+              <button 
+                onClick={() => window.location.href = "#projects"} 
+                className="w-full text-left hover:text-white hover:underline bg-transparent border-none p-0 cursor-pointer"
+              >
+                Projects
+              </button>
+            </li>
+            <li>
+              <button 
+                onClick={() => window.location.href = "#contact"} 
+                className="w-full text-left hover:text-white hover:underline bg-transparent border-none p-0 cursor-pointer"
+              >
+                Contact
+              </button>
+            </li>
           </ul>
         </div>
 
