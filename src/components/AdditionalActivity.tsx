@@ -14,11 +14,11 @@ const GridLayout = () => {
 
   useEffect(() => {
     const mockImages: ImageData[] = [
-      { url: "/1.jpg", alt: "", label: "Photography" },
-      { url: "/2.jpeg", alt: "", label: "Spotted Flower" },
-      { url: "/3.jpeg", alt: "", label: "Cactus Flower" },
-      { url: "/4.jpeg", alt: "", label: "Flower" },
-      { url: "/5.jpeg", alt: "", label: "Yellow Flower" },
+      { url: "./1.jpg", alt: "", label: "Photography" },
+      { url: "./2.jpeg", alt: "", label: "Spotted Flower" },
+      { url: "./3.jpeg", alt: "", label: "Cactus Flower" },
+      { url: "./4.jpeg", alt: "", label: "Flower" },
+      { url: "./5.jpeg", alt: "", label: "Yellow Flower" },
     ];
 
     setImages(mockImages);
