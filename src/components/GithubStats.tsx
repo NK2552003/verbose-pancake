@@ -1,429 +1,348 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Doughnut, Bar, Line } from "react-chartjs-2";
+import { Line, Doughnut } from "react-chartjs-2";
 import {
   Chart as ChartJS,
-  ArcElement,
-  Tooltip,
-  Legend,
   CategoryScale,
   LinearScale,
-  BarElement,
   PointElement,
   LineElement,
+  Tooltip,
+  Legend,
+  ArcElement,
 } from "chart.js";
 
 ChartJS.register(
-  ArcElement,
-  Tooltip,
-  Legend,
   CategoryScale,
   LinearScale,
-  BarElement,
   PointElement,
-  LineElement
+  LineElement,
+  Tooltip,
+  Legend,
+  ArcElement
 );
-
-interface GitHubUser {
-  public_repos: number;
-}
 
 interface GitHubRepo {
   stargazers_count: number;
-  language: string | null;
   forks_count: number;
   open_issues_count: number;
   name: string;
+  created_at: string;
+  languages_url: string;
+  languages?: Record<string, number>;
 }
 
-interface UserStats {
-  stars: number;
-  issues: number;
-  contributions: number;
-  forks: number;
-  commits: number;
+interface GitHubUser {
+  public_repos: number;
+  followers: number;
 }
 
-interface TopLanguages {
-  [key: string]: number;
+interface GitHubEvent {
+  type: string;
+  created_at: string;
 }
-
-const topLangsOptions = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      labels: {
-        color: "rgba(255, 255, 255, 0.8)",
-      },
-    },
-  },
-};
-
-const userStatsOptions = {
-  responsive: true,
-  maintainAspectRatio: false,
-  scales: {
-    x: {
-      ticks: {
-        color: "rgba(255, 255, 255, 0.8)",
-      },
-      grid: {
-        color: "rgba(255, 255, 255, 0.1)",
-      },
-    },
-    y: {
-      ticks: {
-        color: "rgba(255, 255, 255, 0.8)",
-      },
-      grid: {
-        color: "rgba(255, 255, 255, 0.1)",
-      },
-    },
-  },
-  plugins: {
-    legend: {
-      labels: {
-        color: "rgba(255, 255, 255, 0.8)",
-      },
-    },
-  },
-};
-
-const repoForksOptions = {
-  responsive: true,
-  maintainAspectRatio: false,
-  scales: {
-    x: {
-      ticks: {
-        color: "rgba(255, 255, 255, 0.8)",
-      },
-      grid: {
-        color: "rgba(255, 255, 255, 0.1)",
-      },
-    },
-    y: {
-      ticks: {
-        color: "rgba(255, 255, 255, 0.8)",
-      },
-      grid: {
-        color: "rgba(255, 255, 255, 0.1)",
-      },
-    },
-  },
-  plugins: {
-    legend: {
-      labels: {
-        color: "rgba(255, 255, 255, 0.8)",
-      },
-    },
-  },
-};
-
-const starsOverTimeOptions = {
-  responsive: true,
-  maintainAspectRatio: false,
-  scales: {
-    x: {
-      ticks: {
-        color: "rgba(255, 255, 255, 0.8)",
-      },
-      grid: {
-        color: "rgba(255, 255, 255, 0.1)",
-      },
-    },
-    y: {
-      ticks: {
-        color: "rgba(255, 255, 255, 0.8)",
-      },
-      grid: {
-        color: "rgba(255, 255, 255, 0.1)",
-      },
-    },
-  },
-  plugins: {
-    legend: {
-      labels: {
-        color: "rgba(255, 255, 255, 0.8)",
-      },
-    },
-  },
-};
-
-const issuesByRepoOptions = {
-  responsive: true,
-  maintainAspectRatio: false,
-  scales: {
-    x: {
-      ticks: {
-        color: "rgba(255, 255, 255, 0.8)",
-      },
-      grid: {
-        color: "rgba(255, 255, 255, 0.1)",
-      },
-    },
-    y: {
-      ticks: {
-        color: "rgba(255, 255, 255, 0.8)",
-      },
-      grid: {
-        color: "rgba(255, 255, 255, 0.1)",
-      },
-    },
-  },
-  plugins: {
-    legend: {
-      labels: {
-        color: "rgba(255, 255, 255, 0.8)",
-      },
-    },
-  },
-};
-
-const commitsOverTimeOptions = {
-  responsive: true,
-  maintainAspectRatio: false,
-  scales: {
-    x: {
-      ticks: {
-        color: "rgba(255, 255, 255, 0.8)",
-      },
-      grid: {
-        color: "rgba(255, 255, 255, 0.1)",
-      },
-    },
-    y: {
-      ticks: {
-        color: "rgba(255, 255, 255, 0.8)",
-      },
-      grid: {
-        color: "rgba(255, 255, 255, 0.1)",
-      },
-    },
-  },
-  plugins: {
-    legend: {
-      labels: {
-        color: "rgba(255, 255, 255, 0.8)",
-      },
-    },
-  },
-};
 
 const GitHubStats = () => {
-  const [topLanguages, setTopLanguages] = useState<TopLanguages>({});
-  const [userStats, setUserStats] = useState<UserStats>({
-    stars: 0,
-    issues: 0,
-    contributions: 0,
-    forks: 0,
-    commits: 0,
-  });
+  const [userData, setUserData] = useState<GitHubUser | null>(null);
   const [repos, setRepos] = useState<GitHubRepo[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [events, setEvents] = useState<GitHubEvent[]>([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchGitHubData = async () => {
       try {
-
         const headers = {
           Authorization: `token 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`,
           Accept: "application/vnd.github.v3+json",
         };
 
-        // Fetch user profile
-        const userResponse = await fetch(`https://api.github.com/users/nk2552003`, { headers });
-        if (!userResponse.ok) throw new Error("Failed to fetch user data");
+        // Fetch user data
+        const [userResponse, reposResponse] = await Promise.all([
+          fetch("https://api.github.com/users/nk2552003", { headers }),
+          fetch("https://api.github.com/users/nk2552003/repos?per_page=100", { headers }),
+        ]);
+
+        // Fetch events with pagination
+        let eventsData: GitHubEvent[] = [];
+        let page = 1;
+        let hasMore = true;
+        while (hasMore) {
+          const eventsResponse = await fetch(
+            `https://api.github.com/users/nk2552003/events?per_page=100&page=${page}`,
+            { headers }
+          );
+          const newEvents: GitHubEvent[] = await eventsResponse.json();
+          eventsData = [...eventsData, ...newEvents];
+          
+          const linkHeader = eventsResponse.headers.get('Link');
+          hasMore = linkHeader?.includes('rel="next"') ?? false;
+          page++;
+        }
+
         const userData: GitHubUser = await userResponse.json();
+        const reposData: GitHubRepo[] = await reposResponse.json();
 
-        // Fetch repositories
-        const reposResponse = await fetch(`https://api.github.com/users/nk2552003/repos?per_page=100`, { headers });
-        if (!reposResponse.ok) throw new Error("Failed to fetch repositories");
-        const repos: GitHubRepo[] = await reposResponse.json();
+        // Fetch languages for each repository
+        const reposWithLanguages = await Promise.all(
+          reposData.map(async (repo) => {
+            const langResponse = await fetch(repo.languages_url, { headers });
+            const languages = await langResponse.json();
+            return { ...repo, languages };
+          })
+        );
 
-        // Calculate total stars, forks, and issues
-        const stars = repos.reduce((acc, repo) => acc + repo.stargazers_count, 0);
-        const forks = repos.reduce((acc, repo) => acc + repo.forks_count, 0);
-        const issues = repos.reduce((acc, repo) => acc + repo.open_issues_count, 0);
-
-        // Calculate top languages
-        const langMap: TopLanguages = {};
-        repos.forEach((repo) => {
-          if (repo.language) {
-            langMap[repo.language] = (langMap[repo.language] || 0) + 1;
-          }
-        });
-
-        // Set user stats
-        setUserStats({
-          stars,
-          issues,
-          contributions: userData.public_repos * 10, // Approximate contributions
-          forks,
-          commits: userData.public_repos * 20, // Approximate commits
-        });
-
-        // Set top languages
-        setTopLanguages(langMap);
-
-        // Set repositories
-        setRepos(repos);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setError(error instanceof Error ? error.message : "An unknown error occurred");
+        setUserData(userData);
+        setRepos(reposWithLanguages);
+        setEvents(eventsData);
+      } catch (err) {
+        setError("Failed to fetch GitHub data");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchData();
+    fetchGitHubData();
   }, []);
 
+  // Process data for charts
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  // Stars, Forks, Issues Chart
+  const processMainChartData = () => {
+    const monthlyData = Array(12).fill(0).map(() => ({
+      stars: 0,
+      forks: 0,
+      issues: 0,
+    }));
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+    repos.forEach((repo) => {
+      const month = new Date(repo.created_at).getMonth();
+      monthlyData[month].stars += repo.stargazers_count;
+      monthlyData[month].forks += repo.forks_count;
+      monthlyData[month].issues += repo.open_issues_count;
+    });
 
-  // Top Languages Chart Data
-  const topLangsData = {
-    labels: Object.keys(topLanguages),
-    datasets: [
-      {
-        label: "Top Languages",
-        data: Object.values(topLanguages),
-        backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(54, 162, 235, 0.2)", "rgba(255, 206, 86, 0.2)"],
-        borderColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)", "rgba(255, 206, 86, 1)"],
-        borderWidth: 1,
-      },
-    ],
+    return monthlyData;
   };
 
-  // User Stats Chart Data
-  const userStatsData = {
-    labels: ["Stars", "Issues", "Contributions", "Forks", "Commits"],
-    datasets: [
-      {
-        label: "User Stats",
-        data: [userStats.stars, userStats.issues, userStats.contributions, userStats.forks, userStats.commits],
-        backgroundColor: "rgba(75, 192, 192, 0.2)",
-        borderColor: "rgba(75, 192, 192, 1)",
-        borderWidth: 1,
-      },
-    ],
+  // Contributions Chart
+  const processContributionsData = () => {
+    const currentDate = new Date();
+    const currentYear = currentDate.getUTCFullYear();
+    const currentMonth = currentDate.getUTCMonth();
+    
+    // Get number of days in current month
+    const lastDay = new Date(Date.UTC(currentYear, currentMonth + 1, 0));
+    const daysInMonth = lastDay.getUTCDate();
+    
+    // Initialize array for daily contributions
+    const contributions = Array(daysInMonth).fill(0);
+  
+    events.forEach((event) => {
+      if (event.type === "PushEvent") {
+        const eventDate = new Date(event.created_at);
+        const eventYear = eventDate.getUTCFullYear();
+        const eventMonth = eventDate.getUTCMonth();
+        const eventDay = eventDate.getUTCDate();
+  
+        if (eventYear === currentYear && eventMonth === currentMonth) {
+          contributions[eventDay - 1] += 1; // Adjust for zero-based index
+        }
+      }
+    });
+  
+    return contributions;
+  };
+  // Languages Data
+  const processLanguageData = () => {
+    const languageMap = repos.reduce((acc, repo) => {
+      if (repo.languages) {
+        Object.entries(repo.languages).forEach(([lang, bytes]) => {
+          acc.set(lang, (acc.get(lang) || 0) + bytes);
+        });
+      }
+      return acc;
+    }, new Map<string, number>());
+
+    return Array.from(languageMap.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 15);
   };
 
-  // Repository Forks Chart Data
-  const repoForksData = {
-    labels: repos.slice(0, 10).map((repo) => repo.name),
+  const calculateTotalContributions = () => {
+    return events.filter(event => event.type === "PushEvent").length;
+  };
+
+  // Chart data and options
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: { mode: "index" as const, intersect: false },
+    scales: {
+      x: {
+        grid: { color: "rgba(255, 255, 255, 0.1)" },
+        ticks: { color: "rgba(255, 255, 255, 0.8)" },
+      },
+      y: {
+        grid: { color: "rgba(255, 255, 255, 0.1)" },
+        ticks: { color: "rgba(255, 255, 255, 0.8)" },
+      },
+    },
+    plugins: {
+      legend: {
+        position: "top" as const,
+        labels: { color: "rgba(255, 255, 255, 0.8)" },
+      },
+      tooltip: {
+        backgroundColor: "rgba(0, 0, 0, 0.7)",
+        titleColor: "rgba(255, 255, 255, 0.8)",
+        bodyColor: "rgba(255, 255, 255, 0.8)",
+      },
+    },
+  };
+
+  const donutOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: "top" as const,
+        labels: { color: "rgba(255, 255, 255, 0.8)" },
+      },
+      tooltip: {
+        backgroundColor: "rgba(0, 0, 0, 0.7)",
+        titleColor: "rgba(255, 255, 255, 0.8)",
+        bodyColor: "rgba(255, 255, 255, 0.8)",
+      },
+    },
+  };
+
+  const mainChartData = {
+    labels: months,
     datasets: [
+      {
+        label: "Stars",
+        data: processMainChartData().map((d) => d.stars),
+        borderColor: "rgba(255, 159, 64, 1)",
+        tension: 0.4,
+      },
       {
         label: "Forks",
-        data: repos.slice(0, 10).map((repo) => repo.forks_count),
-        backgroundColor: "rgba(153, 102, 255, 0.2)",
+        data: processMainChartData().map((d) => d.forks),
         borderColor: "rgba(153, 102, 255, 1)",
-        borderWidth: 1,
+        tension: 0.4,
       },
-    ],
-  };
-
-  // Stars Over Time Chart Data (Simulated)
-  const starsOverTimeData = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-    datasets: [
       {
-        label: "Stars Over Time",
-        data: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120],
-        borderColor: "rgba(255, 159, 64, 1)",
-        borderWidth: 2,
-        fill: false,
-      },
-    ],
-  };
-
-  // Issues by Repository Chart Data
-  const issuesByRepoData = {
-    labels: repos.slice(0, 10).map((repo) => repo.name),
-    datasets: [
-      {
-        label: "Open Issues",
-        data: repos.slice(0, 10).map((repo) => repo.open_issues_count),
-        backgroundColor: "rgba(255, 99, 132, 0.2)",
+        label: "Issues",
+        data: processMainChartData().map((d) => d.issues),
         borderColor: "rgba(255, 99, 132, 1)",
+        tension: 0.4,
+      },
+    ],
+  };
+
+  const contributionsChartData = {
+    labels: Array.from({ length: processContributionsData().length }, (_, i) => (i + 1).toString()),
+    datasets: [
+      {
+        label: `Daily Contributions (Push Events) - ${new Date().toLocaleString('default', { month: 'long', year: 'numeric' })}`,
+        data: processContributionsData(),
+        borderColor: "rgba(75, 192, 192, 1)",
+        tension: 0.4,
+        fill: false,
+      },
+    ],
+  };
+
+  const languageData = processLanguageData();
+  const donutChartData = {
+    labels: languageData.map(([lang]) => lang),
+    datasets: [
+      {
+        label: "Language Usage (bytes)",
+        data: languageData.map(([, bytes]) => bytes),
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.8)",
+          "rgba(54, 162, 235, 0.8)",
+          "rgba(255, 206, 86, 0.8)",
+          "rgba(75, 192, 192, 0.8)",
+          "rgba(153, 102, 255, 0.8)",
+        ],
+        borderColor: [
+          "rgba(255, 99, 132, 1)",
+          "rgba(54, 162, 235, 1)",
+          "rgba(255, 206, 86, 1)",
+          "rgba(75, 192, 192, 1)",
+          "rgba(153, 102, 255, 1)",
+        ],
         borderWidth: 1,
       },
     ],
   };
 
-  // Commits Over Time Chart Data (Simulated)
-  const commitsOverTimeData = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-    datasets: [
-      {
-        label: "Commits Over Time",
-        data: [5, 15, 25, 35, 45, 55, 65, 75, 85, 95, 105, 115],
-        borderColor: "rgba(54, 162, 235, 1)",
-        borderWidth: 2,
-        fill: false,
-      },
-    ],
-  };
+  if (loading) return <div className="text-white text-center">Loading GitHub data...</div>;
+  if (error) return <div className="text-red-500 text-center">Error: {error}</div>;
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4 sm:p-6 md:p-8 lg:p-10">
-      {/* Top Languages Chart */}
-      <div className="chart-container bg-black/60 backdrop-blur-md p-4 sm:p-6 rounded-lg shadow-lg border-[0.5px] border-white/40">
-        <h2 className="text-xl sm:text-2xl font-bold mb-4 text-white">Top Languages</h2>
-        <div className="w-full h-64 sm:h-80 md:h-96">
-          <Doughnut data={topLangsData} options={topLangsOptions} />
+    <div className="flex  flex-col items-center justify-center p-4 lg:px-9 gap-6">
+     <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
+        {/* Line Chart Card */}
+        <div className="bg-black/60 backdrop-blur-md rounded-xl shadow-xl p-6 border border-white/20">
+          <h2 className="text-white text-lg font-semibold mb-4">Contributions Over Time</h2>
+          <div className="h-96">
+            <Line data={contributionsChartData} options={chartOptions} />
+          </div>
+        </div>
+
+        {/* Doughnut Chart Card */}
+        <div className="bg-black/60 backdrop-blur-md rounded-xl shadow-xl p-6 border border-white/20">
+          <h2 className="text-white text-lg font-semibold mb-4">Most Used Languages</h2>
+          <div className="h-96">
+            <Doughnut data={donutChartData} options={donutOptions} />
+          </div>
         </div>
       </div>
 
-      {/* User Stats Chart */}
-      <div className="chart-container bg-black/60 backdrop-blur-md p-4 sm:p-6 rounded-lg shadow-lg border-[0.5px] border-white/40">
-        <h2 className="text-xl sm:text-2xl font-bold mb-4 text-white">User Stats</h2>
-        <div className="w-full h-64 sm:h-80 md:h-96">
-          <Bar data={userStatsData} options={userStatsOptions} />
+      <div className="w-full bg-black/60 backdrop-blur-md rounded-xl shadow-xl p-6 border border-white/20">
+        {/* Main Chart */}
+        <div className="h-96">
+          <Line data={mainChartData} options={chartOptions} />
         </div>
-      </div>
-
-      {/* Repository Forks Chart */}
-      <div className="chart-container bg-black/60 backdrop-blur-md p-4 sm:p-6 rounded-lg shadow-lg hidden sm:block border-[0.5px] border-white/40">
-        <h2 className="text-xl sm:text-2xl font-bold mb-4 text-white">Repository Forks</h2>
-        <div className="w-full h-64 sm:h-80 md:h-96">
-          <Bar data={repoForksData} options={repoForksOptions} />
-        </div>
-      </div>
-
-      {/* Stars Over Time Chart */}
-      <div className="chart-container bg-black/50 backdrop-blur-md p-4 sm:p-6 rounded-lg shadow-lg border-[0.5px] border-white/40">
-        <h2 className="text-xl sm:text-2xl font-bold mb-4 text-white">Stars Over Time</h2>
-        <div className="w-full h-64 sm:h-80 md:h-96">
-          <Line data={starsOverTimeData} options={starsOverTimeOptions} />
-        </div>
-      </div>
-
-      {/* Issues by Repository Chart */}
-      <div className="chart-container bg-black/60 backdrop-blur-md p-4 sm:p-6 rounded-lg shadow-lg border-[0.5px] border-white/40">
-        <h2 className="text-xl sm:text-2xl font-bold mb-4 text-white">Issues by Repository</h2>
-        <div className="w-full h-64 sm:h-80 md:h-96">
-          <Bar data={issuesByRepoData} options={issuesByRepoOptions} />
-        </div>
-      </div>
-
-      {/* Commits Over Time Chart */}
-      <div className="chart-container bg-black/60 backdrop-blur-md p-4 sm:p-6 rounded-lg shadow-lg border-[0.5px] border-white/40">
-        <h2 className="text-xl sm:text-2xl font-bold mb-4 text-white">Commits Over Time</h2>
-        <div className="w-full h-64 sm:h-80 md:h-96">
-          <Line data={commitsOverTimeData} options={commitsOverTimeOptions} />
+        {/* Stats Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 mt-6">
+          <StatCard
+            label="Total Repositories"
+            value={userData?.public_repos || 0}
+          />
+          <StatCard
+            label="Total Stars"
+            value={repos.reduce((acc, repo) => acc + repo.stargazers_count, 0)}
+          />
+          <StatCard
+            label="Total Forks"
+            value={repos.reduce((acc, repo) => acc + repo.forks_count, 0)}
+          />
+          <StatCard
+            label="Open Issues"
+            value={repos.reduce((acc, repo) => acc + repo.open_issues_count, 0)}
+          />
+          <StatCard
+            label="Total Contributions"
+            value={calculateTotalContributions()}
+          />
         </div>
       </div>
     </div>
   );
 };
+
+const StatCard = ({ label, value }: { label: string; value: number }) => (
+  <div className="bg-black/30 p-4 rounded-lg border border-white/10">
+    <div className="text-gray-300 text-sm">{label}</div>
+    <div className="text-2xl font-bold text-white mt-2">{value}</div>
+  </div>
+);
 
 export default GitHubStats;
