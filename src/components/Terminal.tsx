@@ -2,7 +2,7 @@
 "use client";
 
 import { useState } from 'react';
-import LenisWrapper from './LenisWrapper';
+
 
 const TerminalSec = () => {
   const [activeTab, setActiveTab] = useState<'preview' | 'html' | 'css'>('preview');
@@ -216,11 +216,9 @@ const TerminalSec = () => {
                     styles.css
                 </button>
             </div>
-            <LenisWrapper>
             <div className="sr-about-content h-[100%] overflow-y-auto p-5 backdrop-blur-sm bg-black/30 text-[14px] sm:text-base">
                 {renderContent()}
             </div>
-            </LenisWrapper>
         </div>
     </div>
 </div>

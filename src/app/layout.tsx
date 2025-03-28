@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import LenisWrapper from '@/components/LenisWrapper';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -63,7 +62,7 @@ export default function RootLayout({
         <link rel="icon" href="./logo.png" type="image/png" />
       </head>
       <body className={inter.className}>
-        <LenisWrapper>{children}</LenisWrapper>
+      {children}
       </body>
     </html>
   );

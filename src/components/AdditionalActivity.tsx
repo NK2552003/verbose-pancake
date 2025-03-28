@@ -1,28 +1,7 @@
-import Image from "next/image";
-import { useEffect, useState } from "react";
 import GamingInterface from "./ActivityIcon";
-
-
-interface ImageData {
-  url: string;
-  alt: string;
-  label: string;
-}
+import PhotoGallery from "./photogallery";
 
 const GridLayout = () => {
-  const [images, setImages] = useState<ImageData[]>([]);
-
-  useEffect(() => {
-    const mockImages: ImageData[] = [
-      { url: "/1.jpg", alt: "", label: "Photography" },
-      { url: "/2.jpeg", alt: "", label: "Spotted Flower" },
-      { url: "/3.jpeg", alt: "", label: "Cactus Flower" },
-      { url: "/4.jpeg", alt: "", label: "Flower" },
-      { url: "/5.jpeg", alt: "", label: "Yellow Flower" },
-    ];
-
-    setImages(mockImages);
-  }, []);
   return (
     <div className="flex flex-col items-center justify-center py-2 gap-6 sm:mx-4">
       {/* Animated Heading */}
@@ -38,6 +17,7 @@ const GridLayout = () => {
       {/* Non-animated Gaming Interface */}
       <div className="flex-grow rounded-md w-full mt-12 h-auto mb-4">
         <GamingInterface />
+        <PhotoGallery/>
       </div>
     </div>
   );
