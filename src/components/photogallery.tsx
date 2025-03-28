@@ -3,24 +3,24 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 
 const photos1 = [
-  { id: 1, src: '/1.jpg', alt: 'Flower Photography', title: 'Lonely Sunshine' },
-  { id: 2, src: '/2.jpeg', alt: 'Flower Photography', title: 'Urban Spotted Rose' },
-  { id: 3, src: '/3.jpeg', alt: 'Flower Photography', title: 'Crown Queen' },
-  { id: 4, src: '/4.jpeg', alt: 'Flower Photography', title: 'Pink Peatels' },
+  { id: 1, src: './1.jpg', alt: 'Flower Photography', title: 'Lonely Sunshine' },
+  { id: 2, src: './2.jpeg', alt: 'Flower Photography', title: 'Urban Spotted Rose' },
+  { id: 3, src: './3.jpeg', alt: 'Flower Photography', title: 'Crown Queen' },
+  { id: 4, src: './4.jpeg', alt: 'Flower Photography', title: 'Pink Peatels' },
 ];
 
 const photos2 = [
-  { id: 5, src: '/5.jpeg', alt: 'Flower Photography', title: 'Golden Dusk' },
-  { id: 6, src: '/6.jpg', alt: 'Flower Photography', title: 'Red Beauty' },
-  { id: 7, src: '/7.jpg', alt: 'Flower Photography', title: 'Dandelion' },
-  { id: 8, src: '/8.jpg', alt: 'Flower Photography', title: 'Purple Queen' },
+  { id: 5, src: './5.jpeg', alt: 'Flower Photography', title: 'Golden Dusk' },
+  { id: 6, src: './6.jpg', alt: 'Flower Photography', title: 'Red Beauty' },
+  { id: 7, src: './7.jpg', alt: 'Flower Photography', title: 'Dandelion' },
+  { id: 8, src: './8.jpg', alt: 'Flower Photography', title: 'Purple Queen' },
 ];
 
 const photos3 = [
-  { id: 9, src: '/9.jpg', alt: 'Flower Photography', title: 'Red Sunflower Type' },
-  { id: 10, src: '/10.jpg', alt: 'Mountain Photography', title: 'Mountains' },
-  { id: 11, src: '/11.jpg', alt: 'Flower Photography', title: 'Yellow Bloosom' },
-  { id: 12, src: '/12.png', alt: 'Mountain Photography', title: 'Mountain in Uk' },
+  { id: 9, src: './9.jpg', alt: 'Flower Photography', title: 'Red Sunflower Type' },
+  { id: 10, src: './10.jpg', alt: 'Mountain Photography', title: 'Mountains' },
+  { id: 11, src: './11.jpg', alt: 'Flower Photography', title: 'Yellow Bloosom' },
+  { id: 12, src: './12.png', alt: 'Mountain Photography', title: 'Mountain in Uk' },
 ];
 
 const PhotoGallery: React.FC = () => {
