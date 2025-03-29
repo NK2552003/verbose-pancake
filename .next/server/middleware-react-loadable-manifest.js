@@ -1,1 +1,1 @@
-self.__REACT_LOADABLE_MANIFEST="{}"
+self.__REACT_LOADABLE_MANIFEST="{\"app/page.tsx -> detect-gpu\":{\"id\":\"app/page.tsx -> detect-gpu\",\"files\":[\"static/chunks/_app-pages-browser_node_modules_detect-gpu_dist_detect-gpu_esm_js.js\"]}}"
