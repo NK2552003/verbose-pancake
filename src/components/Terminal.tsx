@@ -216,9 +216,14 @@ const TerminalSec = () => {
                     styles.css
                 </button>
             </div>
-            <div className="sr-about-content h-[100%] overflow-y-auto p-5 backdrop-blur-sm bg-black/30 text-[14px] sm:text-base">
-                {renderContent()}
+            <div
+              className={`sr-about-content h-[100%] overflow-y-auto p-5 backdrop-blur-sm bg-black/30 text-[14px] sm:text-base ${
+                activeTab === 'html' || activeTab === 'css' ? 'max-h-100' : ''
+              }`}
+            >
+              {renderContent()}
             </div>
+
         </div>
     </div>
 </div>
