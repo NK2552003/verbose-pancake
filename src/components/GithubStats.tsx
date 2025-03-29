@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { Line, Doughnut } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -285,64 +286,82 @@ const GitHubStats = () => {
   if (loading) return <div className="text-white text-center">Loading GitHub data...</div>;
   if (error) return <div className="text-red-500 text-center">Error: {error}</div>;
 
-  return (
-    <div className="flex  flex-col items-center justify-center p-4 lg:px-9 gap-6">
-     <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
-        {/* Line Chart Card */}
-        <div className="bg-black/60 backdrop-blur-md rounded-xl shadow-xl p-6 border border-white/20">
-          <h2 className="text-white text-lg font-semibold mb-4">Contributions Over Time</h2>
-          <div className="h-96">
-            <Line data={contributionsChartData} options={chartOptions} />
-          </div>
-        </div>
+  const fadeIn = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+  };
+  
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
+  };
+  
+  const scaleOnHover = {
+    whileHover: { scale: 1.05, transition: { duration: 0.3 } },
+  };
 
-        {/* Doughnut Chart Card */}
-        <div className="bg-black/60 backdrop-blur-md rounded-xl shadow-xl p-6 border border-white/20">
-          <h2 className="text-white text-lg font-semibold mb-4">Most Used Languages</h2>
-          <div className="h-96">
-            <Doughnut data={donutChartData} options={donutOptions} />
-          </div>
-        </div>
-      </div>
-
-      <div className="w-full bg-black/60 backdrop-blur-md rounded-xl shadow-xl p-6 border border-white/20">
-        {/* Main Chart */}
-        <div className="h-96">
-          <Line data={mainChartData} options={chartOptions} />
-        </div>
-        {/* Stats Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 mt-6">
-          <StatCard
-            label="Total Repositories"
-            value={userData?.public_repos || 0}
-          />
-          <StatCard
-            label="Total Stars"
-            value={repos.reduce((acc, repo) => acc + repo.stargazers_count, 0)}
-          />
-          <StatCard
-            label="Total Forks"
-            value={repos.reduce((acc, repo) => acc + repo.forks_count, 0)}
-          />
-          <StatCard
-            label="Open Issues"
-            value={repos.reduce((acc, repo) => acc + repo.open_issues_count, 0)}
-          />
-          <StatCard
-            label="Total Contributions"
-            value={calculateTotalContributions()}
-          />
-        </div>
-      </div>
-    </div>
-  );
-};
 
 const StatCard = ({ label, value }: { label: string; value: number }) => (
-  <div className="bg-black/30 p-4 rounded-lg border border-white/10">
+  <motion.div
+    className="bg-black/30 p-4 rounded-lg border border-white/10"
+    variants={fadeIn}
+    whileHover={scaleOnHover.whileHover}
+  >
     <div className="text-gray-300 text-sm">{label}</div>
     <div className="text-2xl font-bold text-white mt-2">{value}</div>
-  </div>
+  </motion.div>
 );
 
+
+return (
+  <motion.div 
+    className="flex flex-col items-center justify-center p-4 lg:px-9 gap-6"
+    initial="hidden" 
+    animate="visible" 
+    variants={staggerContainer}
+  >
+    <motion.div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
+      {/* Line Chart Card */}
+      <motion.div
+        className="bg-black/60 backdrop-blur-md rounded-xl shadow-xl p-6 border border-white/20"
+        variants={fadeIn}
+      >
+        <h2 className="text-white text-lg font-semibold mb-4">Contributions Over Time</h2>
+        <div className="h-96">
+          <Line data={contributionsChartData} options={chartOptions} />
+        </div>
+      </motion.div>
+
+      {/* Doughnut Chart Card */}
+      <motion.div
+        className="bg-black/60 backdrop-blur-md rounded-xl shadow-xl p-6 border border-white/20"
+        variants={fadeIn}
+      >
+        <h2 className="text-white text-lg font-semibold mb-4">Most Used Languages</h2>
+        <div className="h-96">
+          <Doughnut data={donutChartData} options={donutOptions} />
+        </div>
+      </motion.div>
+    </motion.div>
+
+    <motion.div
+      className="w-full bg-black/60 backdrop-blur-md rounded-xl shadow-xl p-6 border border-white/20"
+      variants={fadeIn}
+    >
+      {/* Main Chart */}
+      <div className="h-96">
+        <Line data={mainChartData} options={chartOptions} />
+      </div>
+      {/* Stats Grid */}
+      <motion.div className="grid grid-cols-2 sm:grid-cols-5 gap-2 mt-6" variants={staggerContainer}>
+        <StatCard label="Total Repositories" value={userData?.public_repos || 0} />
+        <StatCard label="Total Stars" value={repos.reduce((acc, repo) => acc + repo.stargazers_count, 0)} />
+        <StatCard label="Total Forks" value={repos.reduce((acc, repo) => acc + repo.forks_count, 0)} />
+        <StatCard label="Open Issues" value={repos.reduce((acc, repo) => acc + repo.open_issues_count, 0)} />
+        <StatCard label="Total Contributions" value={calculateTotalContributions()} />
+      </motion.div>
+    </motion.div>
+  </motion.div>
+);
+}
 export default GitHubStats;

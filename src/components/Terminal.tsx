@@ -2,7 +2,7 @@
 "use client";
 
 import { useState } from 'react';
-
+import { motion, AnimatePresence } from 'framer-motion';
 
 const TerminalSec = () => {
   const [activeTab, setActiveTab] = useState<'preview' | 'html' | 'css'>('preview');
@@ -147,10 +147,38 @@ const TerminalSec = () => {
       <span class="property">box-shadow</span><span class="punctuation">:</span> <span class="value">0 2px 4px rgba(0, 0, 0, 0.05)</span><span class="punctuation">;</span>
     <span class="punctuation">}</span>
   `;
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        when: "beforeChildren"
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { type: "spring", stiffness: 100, damping: 15 }
+    }
+  };
+
+  const tabVariants = {
+    hidden: { scale: 0.9, opacity: 0 },
+    visible: { scale: 1, opacity: 1 }
+  };
+
+  const contentVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -20 }
+  };
 
   const renderContent = () => {
-
-    
     switch (activeTab) {
       case 'preview':
         return <div dangerouslySetInnerHTML={{ __html: htmlContent }} />;
@@ -164,70 +192,107 @@ const TerminalSec = () => {
   };
 
   return (
-    <div>
-    {/* Gradient Overlay with ScrollReveal class */}
-    <div className="w-[100%] relative transition-all sr-about-header">
-        <div className="relative h-auto inset-0">
-            <div className="flex flex-col items-center justify-center h-[120px] sm:h-[140px] md:h-[160px] lg:h-[180px] xl:h-[200px] text-center text-white relative z-10 p-4" id="about">
-                <h1 className="sr-about-title text-3xl sm:text-4xl md:text-5xl font-bold mb-2 mt-20">
-                    A Glimpse Into My World
-                </h1>
-                <p className="sr-about-subtitle text-sm sm:text-base md:text-lg text-white/80">
-                    Learn more about who I am, what I do, and what inspires me.
-                </p>
-            </div>
-        </div>
-    </div>
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={containerVariants}
+    >
+      {/* Header Section */}
+      <motion.div 
+        className="w-[100%] relative transition-all"
+        variants={containerVariants}
+      >
+        <motion.div 
+          className="relative h-auto inset-0"
+          variants={itemVariants}
+        >
+          <div className="flex flex-col items-center justify-center h-[120px] sm:h-[140px] md:h-[160px] lg:h-[180px] xl:h-[200px] text-center text-white relative z-10 p-4" id="about">
+            <motion.h1 
+              className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 mt-20"
+              variants={itemVariants}
+              initial={{ x: -50 }}
+              animate={{ x: 0 }}
+              transition={{ type: "spring", stiffness: 100 }}
+            >
+              A Glimpse Into My World
+            </motion.h1>
+            <motion.p 
+              className="text-sm sm:text-base md:text-lg text-white/80"
+              variants={itemVariants}
+              initial={{ x: 50 }}
+              animate={{ x: 0 }}
+              transition={{ type: "spring", stiffness: 100, delay: 0.1 }}
+            >
+              Learn more about who I am, what I do, and what inspires me.
+            </motion.p>
+          </div>
+        </motion.div>
+      </motion.div>
 
-    {/* Main Content Container with ScrollReveal class */}
-    <div className="sr-about-container flex justify-center items-center mt-24 bg-transparent text-gray-100 ml-2 mr-2">
-        <div className="w-[96%] h-[100%] bg-black/30 rounded-lg overflow-hidden shadow-lg border-[0.5px] border-white/40 backdrop-blur-lg">
-            {/* Top Bar */}
-            <div className="bg-black/80 p-3 flex items-center">
-                <div className="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
-                <div className="w-3 h-3 bg-yellow-500 rounded-full mr-2"></div>
-                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-            </div>
+      {/* Main Content Container */}
+      <motion.div 
+        className="flex justify-center items-center mt-24 bg-transparent text-gray-100 ml-2 mr-2"
+        variants={containerVariants}
+      >
+        <motion.div 
+          className="w-[96%] h-[100%] bg-black/30 rounded-lg overflow-hidden shadow-lg border-[0.5px] border-white/40 backdrop-blur-lg"
+          variants={itemVariants}
+        >
+          {/* Top Bar */}
+          <motion.div 
+            className="bg-black/80 p-3 flex items-center"
+            variants={tabVariants}
+          >
+            <div className="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
+            <div className="w-3 h-3 bg-yellow-500 rounded-full mr-2"></div>
+            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+          </motion.div>
 
-            {/* Tabs with ScrollReveal class */}
-            <div className="bg-black/30 flex">
-                <button
-                    className={`sr-about-tabs px-4 py-2 text-[12px] sm:text-base ml-3 m-1 rounded-2xl ${
-                        activeTab === 'preview' ? 'bg-black/50 border-t-2 border-teal-500' : 'bg-gray-700/40'
-                    }`}
-                    onClick={() => setActiveTab('preview')}
-                >
-                    Preview
-                </button>
-                <button
-                    className={`sr-about-tabs px-4 py-2 text-[12px] sm:text-base m-1 rounded-2xl ${
-                        activeTab === 'html' ? 'bg-black/50 border-t-2 border-teal-500' : 'bg-gray-700/40'
-                    }`}
-                    onClick={() => setActiveTab('html')}
-                >
-                    index.html
-                </button>
-                <button
-                    className={`sr-about-tabs px-4 py-2 text-[12px] sm:text-base m-1 rounded-2xl ${
-                        activeTab === 'css' ? 'bg-black/50 border-t-2 border-teal-500' : 'bg-gray-700/40'
-                    }`}
-                    onClick={() => setActiveTab('css')}
-                >
-                    styles.css
-                </button>
-            </div>
-            <div
+          {/* Tabs */}
+          <motion.div 
+            className="bg-black/30 flex"
+            variants={containerVariants}
+          >
+            {['preview', 'html', 'css'].map((tab) => (
+              <motion.button
+                key={tab}
+                className={`px-4 py-2 text-[12px] sm:text-base ml-3 m-1 rounded-2xl ${
+                  activeTab === tab 
+                    ? 'bg-black/50 border-t-2 border-teal-500' 
+                    : 'bg-gray-700/40'
+                }`}
+                onClick={() => setActiveTab(tab as typeof activeTab)}
+                variants={tabVariants}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {tab === 'preview' ? 'Preview' : 
+                 tab === 'html' ? 'index.html' : 'styles.css'}
+              </motion.button>
+            ))}
+          </motion.div>
+
+          {/* Content Area */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab}
               className={`sr-about-content h-[100%] overflow-y-auto p-5 backdrop-blur-sm bg-black/30 text-[14px] sm:text-base ${
                 activeTab === 'html' || activeTab === 'css' ? 'max-h-100' : ''
               }`}
+              variants={contentVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              transition={{ duration: 0.2 }}
             >
               {renderContent()}
-            </div>
-
-        </div>
-    </div>
-</div>
-);
+            </motion.div>
+          </AnimatePresence>
+        </motion.div>
+      </motion.div>
+    </motion.div>
+  );
 };
 
 export default TerminalSec;

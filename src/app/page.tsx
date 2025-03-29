@@ -13,6 +13,7 @@ import TerminalSec from "@/components/Terminal";
 import Timeline from "@/components/timeline";
 import HeroSection from "@/components/heroSection";
 import { Waves, Ban } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -68,14 +69,24 @@ export default function Home() {
         <SplashScreen onLoaded={() => setIsLoading(false)} />
       ) : (
         <main className="transition-opacity duration-1000 ease-in-out">
-          <button
-            onClick={toggleFluid}
-            className={`absolute top-5 right-5 z-[60] text-white px-2 py-2 rounded-xl text-sm backdrop-blur-lg shadow-lg transition-all flex items-center justify-center border border-white/30
-              ${isFluidActive ? "bg-[#000505] hover:bg-teal-800" : "bg-[#000505] hover:bg-teal-800"}
-              active:scale-90`}
-          >
-            {isFluidActive ? <Waves size={20} className="animate-pulse" /> : <Ban size={20} />}
-          </button>
+        <motion.button
+          onClick={toggleFluid}
+          className={`absolute top-5 right-5 z-[60] text-white px-2 py-2 rounded-xl text-sm backdrop-blur-lg shadow-lg flex items-center justify-center border border-white/30
+            ${isFluidActive ? "bg-[#000505] hover:bg-teal-800" : "bg-[#000505] hover:bg-teal-800"}`}
+          // Animation properties
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.9 }}
+          transition={{ type: "spring", stiffness: 400, damping: 17 }}
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          key={isFluidActive ? 'active' : 'inactive'}
+        >
+            {isFluidActive ? (
+              <Waves size={20} className="animate-pulse" />
+            ) : (
+              <Ban size={20} />
+            )}
+        </motion.button>
           <div className="fixed inset-0 z-0">
             {isFluidActive ? (
               <FluidShader />
