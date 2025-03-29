@@ -25,10 +25,10 @@ const PhotoGallery: React.FC = () => {
   
   // Photo data
   const photos1 = useMemo(() => [
-    { id: 1, src: './1.jpg', alt: 'Flower Photography', title: 'Lonely Sunshine' },
-    { id: 2, src: './2.jpeg', alt: 'Flower Photography', title: 'Urban Spotted Rose' },
-    { id: 3, src: './3.jpeg', alt: 'Flower Photography', title: 'Crown Queen' },
-    { id: 4, src: './4.jpeg', alt: 'Flower Photography', title: 'Pink Petals' },
+    { id: 1, src: '/1.jpg', alt: 'Flower Photography', title: 'Lonely Sunshine' },
+    { id: 2, src: '/2.jpeg', alt: 'Flower Photography', title: 'Urban Spotted Rose' },
+    { id: 3, src: '/3.jpeg', alt: 'Flower Photography', title: 'Crown Queen' },
+    { id: 4, src: '/4.jpeg', alt: 'Flower Photography', title: 'Pink Petals' },
   ], []);
 
   const photos2 = useMemo(() => [

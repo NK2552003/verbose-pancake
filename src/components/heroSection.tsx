@@ -94,31 +94,7 @@ export default function HeroSection() {
                             Portfolio
                         </h2>
                     </div>
-                    <div className="relative w-full">
-            {/* Resume Button */}
-            <div className="absolute sm:top-5 right-5 z-100 top-5">
-                <button
-                    className="relative inline-block p-px font-semibold leading-6 text-white bg-white/20 shadow-2xl cursor-pointer rounded-2xl shadow-zinc-900 transition-transform duration-300 ease-in-out hover:scale-105 active:scale-95 text-xs sm:text-base"
-                    onClick={() => setShowNotification(true)}
-                >
-                    <span
-                        className="absolute inset-0 rounded-2xl bg-gradient-to-r from-teal-400 via-[#18786E] to-[#29CEB9] p-[2px] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-                    ></span>
-                    <span className="relative z-10 block px-3 py-1.5 sm:px-6 sm:py-3 rounded-2xl bg-[#031412] hover:text-[#a0f7eb]">
-                        Resume
-                    </span>
-                </button>
-            </div>
-
-            {/* Notification */}
-            {showNotification && (
-                <div className="fixed inset-0 flex  top-5 items-start justify-center z-1000">
-                    <div className="bg-[#03141287] backdrop-blur-2xl text-white px-6 py-4 rounded-3xl text-sm shadow-lg border-[0.5px] border-white/50">
-                        <p>Working on it, not available right now.</p>
-                    </div>
-                </div>
-            )}
-        </div>
+            
                     {/* Main Content with Blur Effect */}
                     <div
                         className={`relative z-10 flex flex-col items-center justify-center w-full h-full transition-all duration-300 ${

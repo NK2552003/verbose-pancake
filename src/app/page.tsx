@@ -12,11 +12,14 @@ import Projects from "@/components/projects";
 import TerminalSec from "@/components/Terminal";
 import Timeline from "@/components/timeline";
 import HeroSection from "@/components/heroSection";
+import { Waves, Ban } from "lucide-react";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [showBanner, setShowBanner] = useState<boolean>(true);
   const [isHighTier, setIsHighTier] = useState<boolean>(true);
+  const [isFluidActive, setIsFluidActive] = useState<boolean>(true);
+  const [hasUserToggled, setHasUserToggled] = useState<boolean>(false);
 
   useEffect(() => {
     const checkDeviceCapability = async () => {
@@ -42,6 +45,17 @@ export default function Home() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!hasUserToggled) {
+      setIsFluidActive(isHighTier);
+    }
+  }, [isHighTier, hasUserToggled]);
+
+  const toggleFluid = () => {
+    setIsFluidActive(prev => !prev);
+    setHasUserToggled(true);
+  };
+
   return (
     <>
       {showBanner && (
@@ -54,8 +68,16 @@ export default function Home() {
         <SplashScreen onLoaded={() => setIsLoading(false)} />
       ) : (
         <main className="transition-opacity duration-1000 ease-in-out">
+          <button
+            onClick={toggleFluid}
+            className={`absolute top-5 right-5 z-[60] text-white px-2 py-2 rounded-xl text-sm backdrop-blur-lg shadow-lg transition-all flex items-center justify-center border border-white/30
+              ${isFluidActive ? "bg-[#000505] hover:bg-teal-800" : "bg-[#000505] hover:bg-teal-800"}
+              active:scale-90`}
+          >
+            {isFluidActive ? <Waves size={20} className="animate-pulse" /> : <Ban size={20} />}
+          </button>
           <div className="fixed inset-0 z-0">
-            {isHighTier ? (
+            {isFluidActive ? (
               <FluidShader />
             ) : (
               <div className="h-full w-full bg-gradient-to-br from-[#000505] via-[#020D0C] to-[#000505] relative">
