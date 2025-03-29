@@ -15,16 +15,14 @@ import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 
 export default function GamingInterface() {
-  const [activeSquare] = useState(4) // Center square is active by default
+  const [activeSquare] = useState(4)
   const [isMobile, setIsMobile] = useState(false)
-
 
   const squareVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { 
       opacity: 1, 
       y: 0,
-      transition: { duration: 0.6, ease: "easeOut" }
     }
   }
 
@@ -37,7 +35,6 @@ export default function GamingInterface() {
 
   const squares = Array(9).fill(null)
 
-  // Array of icons corresponding to each square
   const icons = [
     <Music key={0} className="text-white/90 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12" />,
     <Paintbrush key={1} className="text-white/90 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12" />,
@@ -79,8 +76,13 @@ export default function GamingInterface() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: "-50px" }}
+                transition={{
+                  delay: index * 0.1,
+                  duration: 0.6,
+                  ease: "easeOut"
+                }}
                 whileHover={{ 
-                  scale: 1.0,
+                  scale: 1.05,
                   transition: { type: "spring", stiffness: 300 }
                 }}
               >
