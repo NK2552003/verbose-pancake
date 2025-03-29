@@ -191,6 +191,21 @@ const TerminalSec = () => {
     }
   };
 
+  const headerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2
+      }
+    }
+  };
+
+  const childVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
+  };
+
   return (
     <motion.div
       initial="hidden"
@@ -199,37 +214,27 @@ const TerminalSec = () => {
       variants={containerVariants}
     >
       {/* Header Section */}
-      <motion.div 
-        className="w-[100%] relative transition-all"
-        variants={containerVariants}
+      <motion.div
+        className="flex flex-col items-center justify-center h-[120px] sm:h-[140px] md:h-[160px] lg:h-[180px] xl:h-[200px] text-center text-white relative z-10 p-4 mb-30"
+        id="about"
+        variants={headerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
       >
-        <motion.div 
-          className="relative h-auto inset-0"
-          variants={itemVariants}
+        <motion.h1 
+          className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 mt-20"
+          variants={childVariants}
         >
-          <div className="flex flex-col items-center justify-center h-[120px] sm:h-[140px] md:h-[160px] lg:h-[180px] xl:h-[200px] text-center text-white relative z-10 p-4" id="about">
-            <motion.h1 
-              className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 mt-20"
-              variants={itemVariants}
-              initial={{ x: -50 }}
-              animate={{ x: 0 }}
-              transition={{ type: "spring", stiffness: 100 }}
-            >
-              A Glimpse Into My World
-            </motion.h1>
-            <motion.p 
-              className="text-sm sm:text-base md:text-lg text-white/80"
-              variants={itemVariants}
-              initial={{ x: 50 }}
-              animate={{ x: 0 }}
-              transition={{ type: "spring", stiffness: 100, delay: 0.1 }}
-            >
-              Learn more about who I am, what I do, and what inspires me.
-            </motion.p>
-          </div>
-        </motion.div>
+          A Glimpse Into My World
+        </motion.h1>
+        <motion.p 
+          className="text-sm sm:text-base md:text-lg text-white/80"
+          variants={childVariants}
+        >
+          Learn more about who I am, what I do, and what inspires me.
+        </motion.p>
       </motion.div>
-
       {/* Main Content Container */}
       <motion.div 
         className="flex justify-center items-center mt-24 bg-transparent text-gray-100 ml-2 mr-2"

@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import React, { useEffect } from "react";
 
 // Define the type for the timeline data
@@ -54,37 +55,66 @@ const timelineData: TimelineItem[] = [
   },
 ];
 
-const Timeline: React.FC = () => {
 
+const Timeline: React.FC = () => {
+  const itemVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0 }
+  };
+
+  const headerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2
+      }
+    }
+  };
+
+  const childVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
+  };
 
   return (
     <div className="relative z-10 page bg-gradient-to-t from-[#031412] to-transparent">
-      <div
+      <motion.div
         className="flex flex-col items-center justify-center h-[120px] sm:h-[140px] md:h-[160px] lg:h-[180px] xl:h-[200px] text-center text-white relative z-10 p-4 mb-30"
         id="quali"
+        variants={headerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
       >
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 mt-20">
+        <motion.h1 
+          className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 mt-20"
+          variants={childVariants}
+        >
           My Professional Journey
-        </h1>
-        <p className="text-sm sm:text-base md:text-lg text-white/80">
+        </motion.h1>
+        <motion.p 
+          className="text-sm sm:text-base md:text-lg text-white/80"
+          variants={childVariants}
+        >
           Explore my Skills, Achievements, and the Milestones that define my career.
-        </p>
-      </div>
-      <div
-        className="page timeline-5-2"
-        data-uia-timeline-skin="5"
-        data-uia-timeline-adapter-skin-5="uia-card"
-      >
+        </motion.p>
+      </motion.div>
+      <div className="page timeline-5-2" data-uia-timeline-skin="5" data-uia-timeline-adapter-skin-5="uia-card">
         <div className="uia-timeline sm:px-22">
           <div className="uia-timeline__container">
             <div className="uia-timeline__line"></div>
             <div className="uia-timeline__groups">
               {timelineData.map((item, index) => (
-                <section
+                <motion.section
                   key={item.id}
                   className="timeline-item uia-timeline__group"
                   aria-labelledby={`timeline-demo-6-heading-${item.id}`}
-                  style={{ transitionDelay: `${index * 200}ms` }}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: "-100px" }}
+                  variants={itemVariants}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
                   <div className="uia-timeline__dot"></div>
                   <div className="uia-timeline__point uia-card">
@@ -98,12 +128,17 @@ const Timeline: React.FC = () => {
                         </h3>
                         <p className="uia-card__time text-white/80">{item.date}</p>
                       </div>
-                      <div className="uia-card__body text-white/70 mb-8 sm:mb-0">
+                      <motion.div
+                        className="uia-card__body text-white/70 mb-8 sm:mb-0"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.3 }}
+                      >
                         <p>{item.description}</p>
-                      </div>
+                      </motion.div>
                     </div>
                   </div>
-                </section>
+                </motion.section>
               ))}
             </div>
           </div>

@@ -50,7 +50,6 @@ const GitHubStats = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  
   useEffect(() => {
     const fetchGitHubData = async () => {
       try {
@@ -59,13 +58,11 @@ const GitHubStats = () => {
           Accept: "application/vnd.github.v3+json",
         };
 
-        // Fetch user data
         const [userResponse, reposResponse] = await Promise.all([
           fetch("https://api.github.com/users/nk2552003", { headers }),
           fetch("https://api.github.com/users/nk2552003/repos?per_page=100", { headers }),
         ]);
 
-        // Fetch events with pagination
         let eventsData: GitHubEvent[] = [];
         let page = 1;
         let hasMore = true;
@@ -85,7 +82,6 @@ const GitHubStats = () => {
         const userData: GitHubUser = await userResponse.json();
         const reposData: GitHubRepo[] = await reposResponse.json();
 
-        // Fetch languages for each repository
         const reposWithLanguages = await Promise.all(
           reposData.map(async (repo) => {
             const langResponse = await fetch(repo.languages_url, { headers });
@@ -107,10 +103,8 @@ const GitHubStats = () => {
     fetchGitHubData();
   }, []);
 
-  // Process data for charts
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-  // Stars, Forks, Issues Chart
   const processMainChartData = () => {
     const monthlyData = Array(12).fill(0).map(() => ({
       stars: 0,
@@ -128,17 +122,12 @@ const GitHubStats = () => {
     return monthlyData;
   };
 
-  // Contributions Chart
   const processContributionsData = () => {
     const currentDate = new Date();
     const currentYear = currentDate.getUTCFullYear();
     const currentMonth = currentDate.getUTCMonth();
-    
-    // Get number of days in current month
     const lastDay = new Date(Date.UTC(currentYear, currentMonth + 1, 0));
     const daysInMonth = lastDay.getUTCDate();
-    
-    // Initialize array for daily contributions
     const contributions = Array(daysInMonth).fill(0);
   
     events.forEach((event) => {
@@ -149,14 +138,14 @@ const GitHubStats = () => {
         const eventDay = eventDate.getUTCDate();
   
         if (eventYear === currentYear && eventMonth === currentMonth) {
-          contributions[eventDay - 1] += 1; // Adjust for zero-based index
+          contributions[eventDay - 1] += 1;
         }
       }
     });
   
     return contributions;
   };
-  // Languages Data
+
   const processLanguageData = () => {
     const languageMap = repos.reduce((acc, repo) => {
       if (repo.languages) {
@@ -176,7 +165,6 @@ const GitHubStats = () => {
     return events.filter(event => event.type === "PushEvent").length;
   };
 
-  // Chart data and options
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -293,75 +281,83 @@ const GitHubStats = () => {
   
   const staggerContainer = {
     hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
+    visible: { 
+      opacity: 1, 
+      transition: { 
+        staggerChildren: 0.2,
+        when: "beforeChildren",
+      } 
+    },
   };
   
   const scaleOnHover = {
     whileHover: { scale: 1.05, transition: { duration: 0.3 } },
   };
 
-
-const StatCard = ({ label, value }: { label: string; value: number }) => (
-  <motion.div
-    className="bg-black/30 p-4 rounded-lg border border-white/10"
-    variants={fadeIn}
-    whileHover={scaleOnHover.whileHover}
-  >
-    <div className="text-gray-300 text-sm">{label}</div>
-    <div className="text-2xl font-bold text-white mt-2">{value}</div>
-  </motion.div>
-);
-
-
-return (
-  <motion.div 
-    className="flex flex-col items-center justify-center p-4 lg:px-9 gap-6"
-    initial="hidden" 
-    animate="visible" 
-    variants={staggerContainer}
-  >
-    <motion.div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
-      {/* Line Chart Card */}
-      <motion.div
-        className="bg-black/60 backdrop-blur-md rounded-xl shadow-xl p-6 border border-white/20"
-        variants={fadeIn}
-      >
-        <h2 className="text-white text-lg font-semibold mb-4">Contributions Over Time</h2>
-        <div className="h-96">
-          <Line data={contributionsChartData} options={chartOptions} />
-        </div>
-      </motion.div>
-
-      {/* Doughnut Chart Card */}
-      <motion.div
-        className="bg-black/60 backdrop-blur-md rounded-xl shadow-xl p-6 border border-white/20"
-        variants={fadeIn}
-      >
-        <h2 className="text-white text-lg font-semibold mb-4">Most Used Languages</h2>
-        <div className="h-96">
-          <Doughnut data={donutChartData} options={donutOptions} />
-        </div>
-      </motion.div>
-    </motion.div>
-
+  const StatCard = ({ label, value }: { label: string; value: number }) => (
     <motion.div
-      className="w-full bg-black/60 backdrop-blur-md rounded-xl shadow-xl p-6 border border-white/20"
+      className="bg-black/30 p-4 rounded-lg border border-white/10"
       variants={fadeIn}
+      whileHover={scaleOnHover.whileHover}
     >
-      {/* Main Chart */}
-      <div className="h-96">
-        <Line data={mainChartData} options={chartOptions} />
-      </div>
-      {/* Stats Grid */}
-      <motion.div className="grid grid-cols-2 sm:grid-cols-5 gap-2 mt-6" variants={staggerContainer}>
-        <StatCard label="Total Repositories" value={userData?.public_repos || 0} />
-        <StatCard label="Total Stars" value={repos.reduce((acc, repo) => acc + repo.stargazers_count, 0)} />
-        <StatCard label="Total Forks" value={repos.reduce((acc, repo) => acc + repo.forks_count, 0)} />
-        <StatCard label="Open Issues" value={repos.reduce((acc, repo) => acc + repo.open_issues_count, 0)} />
-        <StatCard label="Total Contributions" value={calculateTotalContributions()} />
+      <div className="text-gray-300 text-sm">{label}</div>
+      <div className="text-2xl font-bold text-white mt-2">{value}</div>
+    </motion.div>
+  );
+
+  return (
+    <motion.div 
+      className="flex flex-col items-center justify-center p-4 lg:px-9 gap-6"
+      initial="hidden" 
+      whileInView="visible"
+      viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+      variants={staggerContainer}
+    >
+      <motion.div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
+        <motion.div
+          className="bg-black/60 backdrop-blur-md rounded-xl shadow-xl p-6 border border-white/20"
+          variants={fadeIn}
+        >
+          <h2 className="text-white text-lg font-semibold mb-4">Contributions Over Time</h2>
+          <div className="h-96">
+            <Line data={contributionsChartData} options={chartOptions} />
+          </div>
+        </motion.div>
+
+        <motion.div
+          className="bg-black/60 backdrop-blur-md rounded-xl shadow-xl p-6 border border-white/20"
+          variants={fadeIn}
+        >
+          <h2 className="text-white text-lg font-semibold mb-4">Most Used Languages</h2>
+          <div className="h-96">
+            <Doughnut data={donutChartData} options={donutOptions} />
+          </div>
+        </motion.div>
+      </motion.div>
+
+      <motion.div
+        className="w-full bg-black/60 backdrop-blur-md rounded-xl shadow-xl p-6 border border-white/20"
+        variants={fadeIn}
+      >
+        <div className="h-96">
+          <Line data={mainChartData} options={chartOptions} />
+        </div>
+        <motion.div 
+          className="grid grid-cols-2 sm:grid-cols-5 gap-2 mt-6" 
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          <StatCard label="Total Repositories" value={userData?.public_repos || 0} />
+          <StatCard label="Total Stars" value={repos.reduce((acc, repo) => acc + repo.stargazers_count, 0)} />
+          <StatCard label="Total Forks" value={repos.reduce((acc, repo) => acc + repo.forks_count, 0)} />
+          <StatCard label="Open Issues" value={repos.reduce((acc, repo) => acc + repo.open_issues_count, 0)} />
+          <StatCard label="Total Contributions" value={calculateTotalContributions()} />
+        </motion.div>
       </motion.div>
     </motion.div>
-  </motion.div>
-);
-}
+  );
+};
+
 export default GitHubStats;

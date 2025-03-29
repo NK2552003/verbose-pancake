@@ -12,18 +12,25 @@ import {
   Piano, 
 } from "lucide-react"
 import { useState, useEffect } from "react"
+import { motion } from "framer-motion"
 
 export default function GamingInterface() {
   const [activeSquare] = useState(4) // Center square is active by default
   const [isMobile, setIsMobile] = useState(false)
 
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768) // Adjust the breakpoint as needed
+  const squareVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.6, ease: "easeOut" }
     }
+  }
 
-    handleResize() // Initial check
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768)
+    handleResize()
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
@@ -45,16 +52,15 @@ export default function GamingInterface() {
 
   return (
     <div className="flex flex-wrap items-center justify-center px-4 sm:px-6 pb-4 overflow-hidden">
-      <div className="relative w-full h-auto"> {/* Responsive container */}
-        {/* Single row layout */}
+      <div className="relative w-full h-auto">
         <div className="flex flex-wrap gap-2 sm:gap-4 h-full w-full justify-center">
           {squares.map((_, index) => {
-            if (isMobile && index === 8) return null // Skip the 9th square on mobile
+            if (isMobile && index === 8) return null
 
             const isCorner = index === 0 || index === 2 || index === 6 || index === 8
 
             return (
-              <div
+              <motion.div
                 key={index}
                 className={`
                   relative rounded-lg transform transition-all duration-300 ease-out
@@ -69,35 +75,31 @@ export default function GamingInterface() {
                         : "bg-teal-950/20 border-teal-500/20 hover:bg-teal-900/30 hover:border-teal-500/40"
                   }
                 `}
-                style={{
-                  transition: "transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease",
+                variants={squareVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-50px" }}
+                whileHover={{ 
+                  scale: 1.0,
+                  transition: { type: "spring", stiffness: 300 }
                 }}
-                onMouseEnter={() => {
-                  const el = document.getElementById(`square-${index}`)
-                  if (el) {
-                    el.style.transform = "translateZ(20px)"
-                  }
-                }}
-                onMouseLeave={() => {
-                  const el = document.getElementById(`square-${index}`)
-                  if (el) {
-                    el.style.transform = "translateZ(0px)"
-                  }
-                }}
-                id={`square-${index}`}
               >
-                {/* Render the icon for each square */}
                 <div className="absolute inset-0 flex items-center justify-center">
-                  {index !== activeSquare && icons[index]} {/* Only show the original icon if the square is not active */}
+                  {index !== activeSquare && icons[index]}
                 </div>
 
                 {index === activeSquare && (
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Gamepad2 className="text-white/90 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 transition-transform duration-300 group-hover:scale-110" />
-                  </div>
+                  <motion.div 
+                    className="absolute inset-0 flex items-center justify-center"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: "spring", stiffness: 260, damping: 20 }}
+                  >
+                    <Gamepad2 className="text-white/90 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12" />
+                  </motion.div>
                 )}
                 <div className="absolute inset-0 bg-teal-500/0 hover:bg-teal-500/10 transition-colors duration-300 rounded-lg"></div>
-              </div>
+              </motion.div>
             )
           })}
         </div>

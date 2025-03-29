@@ -247,45 +247,40 @@ export default function HeroSection() {
       </div>
 
       {/* Floating Navigation */}
-      <motion.div className="fixed bottom-5 right-5 z-50">
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          onClick={() => setIsDrawerOpen(!isDrawerOpen)}
-          className={`bg-[#03141278] backdrop-blur-md rounded-xl shadow-lg transition-all duration-300 border-[0.5px] border-white/50 ${
-            isScrolled ? "opacity-100 visible" : "opacity-0 invisible"
-          }`}
-          style={{ width: "40px", height: "40px" }}
-        >
-          <i className={`bx ${isDrawerOpen ? "bx-menu-alt-right" : "bx-menu"} text-white text-2xl`}></i>
-        </motion.button>
+      <div className="fixed bottom-5 right-5 z-50">
+  <button
+    onClick={() => setIsDrawerOpen(!isDrawerOpen)}
+    className={`flex items-center justify-center bg-[#03141278] backdrop-blur-md rounded-xl shadow-lg transition-all duration-300 border-[0.5px] border-white/50 ${
+      isScrolled ? "opacity-100 visible" : "opacity-0 invisible"
+    }`}
+    style={{ width: "40px", height: "40px" }}
+  >
+    <i className={`bx ${isDrawerOpen ? "bx-menu-alt-right" : "bx-menu"} text-white text-2xl`}></i>
+  </button>
 
-        <motion.div
-          initial={false}
-          animate={{ y: isDrawerOpen ? 0 : 20, opacity: isDrawerOpen ? 1 : 0 }}
-          className="absolute bottom-14 right-0 flex flex-col space-y-4"
-        >
-          {[
-            { icon: "bx-home", href: "#home" },
-            { icon: "bx-user", href: "#about" },
-            { icon: "bx-book", href: "#quali" },
-            { icon: "bx-briefcase", href: "#projects" },
-            { icon: "bx-envelope", href: "#contact" },
-          ].map((item, index) => (
-            <motion.a
-              key={index}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              href={item.href}
-              onClick={() => setIsDrawerOpen(false)}
-              className="bg-[#03141278] backdrop-blur-md rounded-xl shadow-lg hover:bg-white/30 transition-all duration-300 border-[0.5px] border-white/50"
-              style={{ width: "40px", height: "40px" }}
-            >
-              <i className={`${item.icon} text-white text-2xl sm:text-xl`}></i>
-            </motion.a>
-          ))}
-        </motion.div>
-      </motion.div>
+  <div
+    className={`absolute bottom-14 right-0 flex flex-col space-y-4 transition-all duration-300 ${isDrawerOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}
+  >
+    {[
+      { icon: "bx-home", href: "#home" },
+      { icon: "bx-user", href: "#about" },
+      { icon: "bx-book", href: "#quali" },
+      { icon: "bx-briefcase", href: "#projects" },
+      { icon: "bx-envelope", href: "#contact" },
+    ].map((item, index) => (
+      <a
+        key={index}
+        href={item.href}
+        onClick={() => setIsDrawerOpen(false)}
+        className="flex bg-[#03141278] backdrop-blur-md rounded-xl justify-center items-center shadow-lg hover:bg-white/30 transition-all duration-300 border-[0.5px] border-white/50"
+        style={{ width: "40px", height: "40px" }}
+      >
+        <i className={` bx ${item.icon} text-white text-2xl sm:text-xl`}></i>
+      </a>
+    ))}
+  </div>
+</div>
+
     </div>
   );
 }
