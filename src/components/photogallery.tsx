@@ -1,111 +1,183 @@
-import React, { useRef, useEffect, useState, useMemo, useCallback } from 'react';
-import { motion, useScroll, useTransform, useWillChange } from 'framer-motion';
-import Image from 'next/image';
+import { useEffect, useRef } from 'react';
 
-const PhotoGallery: React.FC = () => {
-  const galleryRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: galleryRef,
-    offset: ['start end', 'end start'],
-  });
+// Define type for LocomotiveScroll
+declare const LocomotiveScroll: any;
 
-  const [isMobile, setIsMobile] = useState(false);
-  const willChange = useWillChange();
+interface ImageItem {
+  src: string;
+  speed: number;
+  size: 'normal' | 'big' | 'small';
+  orientation: 'vertical' | 'horizontal';
+  zIndex: number; // Added z-index property
+}
 
+const ScrollAnimation = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<any>(null);
+  const images = useRef<NodeListOf<Element> | null>(null);
+
+  // Generate random z-index values between 1 and 30
+  const generateRandomZIndex = () => Math.floor(Math.random() * 30) + 1;
+
+  const imageItems: ImageItem[] = [
+    { src: '/20.jpg', speed: 2, size: 'normal', orientation: 'vertical', zIndex: generateRandomZIndex() },
+    { src: '/1.jpg', speed: 1, size: 'big', orientation: 'vertical', zIndex: generateRandomZIndex() },
+    { src: '/3.jpeg', speed: 4, size: 'small', orientation: 'horizontal', zIndex: generateRandomZIndex() },
+    { src: '/4.jpeg', speed: 3, size: 'normal', orientation: 'vertical', zIndex: generateRandomZIndex() },
+    { src: '/5.jpeg', speed: 2, size: 'normal', orientation: 'horizontal', zIndex: generateRandomZIndex() },
+    { src: '/6.jpg', speed: 1, size: 'big', orientation: 'horizontal', zIndex: generateRandomZIndex() },
+    { src: '/7.jpg', speed: 2, size: 'small', orientation: 'vertical', zIndex: generateRandomZIndex() },
+    { src: '/8.jpg', speed: 4, size: 'normal', orientation: 'horizontal', zIndex: generateRandomZIndex() },
+    { src: '/9.jpg', speed: 3, size: 'small', orientation: 'horizontal', zIndex: generateRandomZIndex() },
+    { src: '/10.jpg', speed: 2, size: 'big', orientation: 'vertical', zIndex: generateRandomZIndex() },
+    { src: '/11.jpg', speed: 1, size: 'normal', orientation: 'horizontal', zIndex: generateRandomZIndex() },
+    { src: '/12.png', speed: 3, size: 'normal', orientation: 'horizontal', zIndex: generateRandomZIndex() },
+    { src: '/13.jpg', speed: 2, size: 'small', orientation: 'horizontal', zIndex: generateRandomZIndex() },
+    { src: '/14.jpg', speed: 1, size: 'big', orientation: 'vertical', zIndex: generateRandomZIndex() },
+    { src: '/15.jpg', speed: 2, size: 'normal', orientation: 'horizontal', zIndex: generateRandomZIndex() },
+    { src: '/16.jpg', speed: 4, size: 'small', orientation: 'horizontal', zIndex: generateRandomZIndex() },
+    { src: '/17.jpg', speed: 2, size: 'big', orientation: 'vertical', zIndex: generateRandomZIndex() },
+    { src: '/18.jpg', speed: 3, size: 'normal', orientation: 'horizontal', zIndex: generateRandomZIndex() },
+    { src: '/19.jpg', speed: 1, size: 'small', orientation: 'horizontal', zIndex: generateRandomZIndex() },
+    { src: '/20.jpg', speed: 2, size: 'normal', orientation: 'vertical', zIndex: generateRandomZIndex() },
+    { src: '/21.jpg', speed: 3, size: 'normal', orientation: 'horizontal', zIndex: generateRandomZIndex() },
+    { src: '/22.jpg', speed: 2, size: 'big', orientation: 'horizontal', zIndex: generateRandomZIndex() },
+    { src: '/23.jpg', speed: 4, size: 'small', orientation: 'vertical', zIndex: generateRandomZIndex() },
+    { src: '/24.jpg', speed: 3, size: 'normal', orientation: 'vertical', zIndex: generateRandomZIndex() },
+    { src: '/26.jpg', speed: 1, size: 'big', orientation: 'vertical', zIndex: generateRandomZIndex() },
+  ];
+  
+  
   useEffect(() => {
-    const checkScreenSize = () => setIsMobile(window.innerWidth < 768);
-    checkScreenSize();
-    window.addEventListener('resize', checkScreenSize);
-    return () => window.removeEventListener('resize', checkScreenSize);
+    const initScroll = async () => {
+      const LocomotiveScroll = (await import('locomotive-scroll')).default;
+
+      scrollRef.current = new LocomotiveScroll({
+        el: containerRef.current!,
+        smooth: true,
+        direction: 'horizontal',
+        lerp: 0.05,
+      });
+
+      images.current = containerRef.current?.querySelectorAll('.image') ?? null;
+      showImages();
+    };
+
+    initScroll();
+
+    return () => {
+      scrollRef.current?.destroy();
+    };
   }, []);
 
-  // Animation values
-  const translateX = useTransform(scrollYProgress, [0, 1], isMobile ? ['10%', '-10%'] : ['20%', '-50%']);
-  const translateXOpposite = useTransform(scrollYProgress, [0, 1], isMobile ? ['-10%', '10%'] : ['-20%', '20%']);
-  
-  // Photo data
-  const photos1 = useMemo(() => [
-    { id: 1, src: './1.jpg', alt: 'Flower Photography', title: 'Lonely Sunshine' },
-    { id: 2, src: './2.jpeg', alt: 'Flower Photography', title: 'Urban Spotted Rose' },
-    { id: 3, src: './3.jpeg', alt: 'Flower Photography', title: 'Crown Queen' },
-    { id: 4, src: './4.jpeg', alt: 'Flower Photography', title: 'Pink Petals' },
-  ], []);
+  useEffect(() => {
+    const container = containerRef.current;
+    let horizontalScrollCount = 0; // Counter to track horizontal scrolls
+    const maxHorizontalScrolls = 3; // Number of horizontal scrolls before switching to vertical
 
-  const photos2 = useMemo(() => [
-    { id: 5, src: './5.jpeg', alt: 'Flower Photography', title: 'Golden Dusk' },
-    { id: 6, src: './6.jpg', alt: 'Flower Photography', title: 'Red Beauty' },
-    { id: 7, src: './7.jpg', alt: 'Flower Photography', title: 'Dandelion' },
-    { id: 8, src: './8.jpg', alt: 'Flower Photography', title: 'Purple Queen' },
-  ], []);
+    const handleWheel = (event: WheelEvent) => {
+      if (container) {
+        const maxScrollLeft = container.scrollWidth - container.clientWidth;
 
-  const photos3 = useMemo(() => [
-    { id: 9, src: './9.jpg', alt: 'Flower Photography', title: 'Red Sunflower Type' },
-    { id: 10, src: './10.jpg', alt: 'Mountain Photography', title: 'Mountains' },
-    { id: 11, src: './11.jpg', alt: 'Flower Photography', title: 'Yellow Blossom' },
-    { id: 12, src: './12.png', alt: 'Mountain Photography', title: 'Mountain in UK' },
-  ], []);
-
-  const renderPhoto = useCallback((photo: typeof photos1[number], index: number) => (
-    <motion.div
-      key={photo.id}
-      initial={{ opacity: 0, scale: 0.95 }}
-      whileInView={{
-        opacity: 1,
-        scale: 1,
-        transition: { 
-          duration: 0.4, 
-          ease: "easeOut",
-          delay: index * 0.03 
+        if (horizontalScrollCount >= maxHorizontalScrolls) {
+          // Allow vertical scrolling after the threshold
+          return;
         }
-      }}
-      viewport={{ once: true, margin: "0px 0px -100px 0px" }}
-      whileHover={{ scale: isMobile ? 1 : 1.03 }}
-      className="flex-shrink-0 w-[240px] md:w-[320px] lg:w-[360px] relative group"
-      style={{ willChange }}
-    >
-      <div className="relative pb-[56.25%]">
-        <div className="absolute inset-0 rounded-xl overflow-hidden shadow-lg bg-gray-100">
-          <Image 
-            src={photo.src}
-            alt={photo.alt}
-            fill
-            sizes="(max-width: 640px) 80vw, (max-width: 1024px) 50vw, 360px"
-            className="object-cover"
-            priority={index < 2}
-            loading={index < 2 ? undefined : 'lazy'}
-            quality={isMobile ? 75 : 85}
-          />
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3 md:p-4">
-            <h3 className="text-base md:text-lg font-semibold text-white">{photo.title}</h3>
-            <p className="text-gray-200 text-xs md:text-sm mt-1">{photo.alt}</p>
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  ), [isMobile, willChange]);
 
-  const renderRow = useCallback((
-    photos: typeof photos1,
-    motionStyle: typeof translateX
-  ) => (
-    <motion.div 
-      style={{ x: motionStyle }} 
-      className="flex gap-3 md:gap-6 mb-4 md:mb-6"
-      initial={false}
-    >
-      {photos.map((photo, index) => renderPhoto(photo, index))}
-    </motion.div>
-  ), [renderPhoto]);
+        if (
+          (container.scrollLeft === 0 && event.deltaY < 0) || // At the start, scrolling up
+          (container.scrollLeft === maxScrollLeft && event.deltaY > 0) // At the end, scrolling down
+        ) {
+          // Increment the counter when reaching the start or end
+          horizontalScrollCount++;
+          return;
+        }
+
+        event.preventDefault(); // Prevent default vertical scrolling
+        container.scrollLeft += event.deltaY; // Scroll horizontally based on vertical scroll delta
+      }
+    };
+
+    if (container) {
+      container.addEventListener('wheel', handleWheel, { passive: true }); // Changed to non-passive
+    }
+
+    return () => {
+      if (container) {
+        container.removeEventListener('wheel', handleWheel);
+      }
+    };
+  }, []);
+
+  const showImages = () => {
+    images.current?.forEach((image) => {
+      image.classList.remove('-clicked');
+      image.classList.add('-active');
+      (image as HTMLElement).style.opacity = '1'; // Ensure visibility
+      (image as HTMLElement).style.pointerEvents = 'auto'; // Enable interaction
+    });
+  };
+
+  const hideImages = () => {
+    images.current?.forEach((image) => {
+      image.classList.remove('-active');
+      (image as HTMLElement).style.opacity = '0'; // Hide the image
+      (image as HTMLElement).style.pointerEvents = 'none'; // Disable interaction
+    });
+    setTimeout(showImages, 2000);
+  };
+
+
 
   return (
-    <section ref={galleryRef} className="relative w-full bg-transparent py-8 md:py-12 overflow-x-hidden">
-      <div className="container mx-auto px-3 md:px-4">
-        {renderRow(photos1, translateX)}
-        {renderRow(photos2, translateXOpposite)}
-        {renderRow(photos3, translateX)}
+    <div className="overflow-hidden">
+      {/* Scroll container */}
+      <div
+        ref={containerRef}
+        data-scroll-container
+        className="scroll-animations-example"
+      >
+        <div
+          data-scroll-section
+          className="py-[10vh] pl-[10vmax] flex items-center relative"
+          style={{
+            minWidth: `${25 * 100}vh`, // Dynamically set the width for 25 images
+          }}
+        >
+          {imageItems.map((item, index) => (
+            <div
+              key={index}
+              data-scroll
+              data-scroll-speed={item.speed}
+              className={`inline-flex justify-center items-center mx-[-30vh] ml-12 ${
+                item.size === 'big'
+                  ? item.orientation === 'horizontal'
+                    ? 'h-[60vh] w-[80vh]'
+                    : 'h-[80vh] w-[60vh]'
+                  : item.size === 'small'
+                  ? item.orientation === 'horizontal'
+                    ? 'h-[30vh] w-[40vh]'
+                    : 'h-[40vh] w-[30vh]'
+                  : item.orientation === 'horizontal'
+                  ? 'h-[45vh] w-[60vh]'
+                  : 'h-[60vh] w-[45vh]'
+              }`}
+              style={{ zIndex: item.zIndex, position: 'relative' }}
+            >
+              <img
+                src={item.src}
+                className="image w-full h-full object-cover transition-all duration-2000 ease-out filter grayscale hover:grayscale-0 opacity-100"
+                style={{ 
+                  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+                  borderRadius: '4px'
+                }}
+              />
+            </div>
+          ))}
+        </div>
       </div>
-    </section>
+    </div>
   );
 };
 
-export default PhotoGallery;
+export default ScrollAnimation;

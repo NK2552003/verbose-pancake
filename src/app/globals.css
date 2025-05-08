@@ -449,3 +449,49 @@ p:not([class]) {
   /* inline-size: min(100%, 130ch); */
   padding: 2rem 1rem 2rem;
 }
+.scroll-animations-example > .scrollsection > .item:nth-of-type(4n) > .image {
+  transform: translateX(-30vh) translateY(-30vh) scale(0.8);
+  transition-delay: 0;
+}
+
+.scroll-animations-example > .scrollsection > .item:nth-of-type(4n - 1) > .image {
+  transform: translateX(30vh) translateY(30vh) scale(0.8);
+  transition-delay: 0.05s;
+}
+
+.scroll-animations-example > .scrollsection > .item:nth-of-type(4n - 2) > .image {
+  transform: translateX(-30vh) translateY(30vh) scale(0.8);
+  transition-delay: 0.1s;
+}
+
+.scroll-animations-example > .scrollsection > .item:nth-of-type(4n - 3) > .image {
+  transform: translateX(-30vh) translateY(-30vh) scale(0.8);
+  transition-delay: 0.15s;
+}
+
+.scroll-animations-example > .scrollsection > .item > .image.-active {
+  transform: translateX(0) translateY(0) scale(1);
+  opacity: 0.8;
+  pointer-events: auto;
+}
+
+.scroll-animations-example > .scrollsection > .item > .image.-clicked {
+  transform: translateX(0) translateY(0) scale(5);
+  opacity: 0;
+}
+
+.scroll-animations-example > .scrollsection > .item > .image.-active:hover {
+  filter: grayscale(0);
+  opacity: 1;
+  cursor: pointer;
+}
+.image.-active {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transition: opacity 0.3s ease-out;
+}
+.scroll-animations-example {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  scroll-behavior: smooth; /* Optional for smooth scrolling */
+}
