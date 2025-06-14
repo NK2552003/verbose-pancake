@@ -38,7 +38,7 @@ export default function ContactForm() {
     const message = formData.get("message") as string
 
     try {
-      const response = await emailjs.send("service_z32dfnp", "template_5w14gcl", {
+      const response = await emailjs.send("service_uqdb0rx", "template_5w14gcl", {
         name,
         email,
         message,
