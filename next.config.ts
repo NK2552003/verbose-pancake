@@ -1,5 +1,4 @@
 import type { NextConfig } from "next";
-import { Headers } from "next/dist/server/config";
 
 const ContentSecurityPolicy = `
   default-src 'self';
@@ -14,7 +13,7 @@ const ContentSecurityPolicy = `
   frame-ancestors 'none';
 `;
 
-const securityHeaders: Headers = [
+const securityHeaders = [
   {
     key: "Content-Security-Policy",
     value: ContentSecurityPolicy.replace(/\n/g, "").trim(),
