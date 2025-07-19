@@ -42,7 +42,6 @@ interface GitHubEvent {
   type: string;
   created_at: string;
 }
-const GITHUB_TOKEN = process.env.NEXT_PUBLIC_API_GITHUB;
 const GitHubStats = () => {
   const [userData, setUserData] = useState<GitHubUser | null>(null);
   const [repos, setRepos] = useState<GitHubRepo[]>([]);
@@ -53,7 +52,7 @@ const GitHubStats = () => {
     const fetchGitHubData = async () => {
       try {
         const headers = {
-          Authorization: `token ${GITHUB_TOKEN}`,
+          Authorization: `token ${process.env.NEXT_PUBLIC_API_GITHUB}`,
           Accept: "application/vnd.github.v3+json",
         };
 
