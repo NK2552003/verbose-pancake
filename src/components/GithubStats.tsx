@@ -52,7 +52,7 @@ const GitHubStats = () => {
     const fetchGitHubData = async () => {
       try {
         const headers = {
-          Authorization: `token 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`,
+          Authorization: `token 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`,
           Accept: "application/vnd.github.v3+json",
         };
 
