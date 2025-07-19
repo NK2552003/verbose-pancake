@@ -17,3 +17,18 @@ _site/
 # Details at https://github.com/github/pages-gem/issues/768
 Gemfile.lock
 node_modules
+# Next.js
+.next/
+out/
+
+# Local env files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Vercel
+.vercel/
+
+# Mac system files
+.DS_Store

@@ -42,19 +42,18 @@ interface GitHubEvent {
   type: string;
   created_at: string;
 }
-
+const GITHUB_TOKEN = process.env.NEXT_PUBLIC_API_GITHUB;
 const GitHubStats = () => {
   const [userData, setUserData] = useState<GitHubUser | null>(null);
   const [repos, setRepos] = useState<GitHubRepo[]>([]);
   const [events, setEvents] = useState<GitHubEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
   useEffect(() => {
     const fetchGitHubData = async () => {
       try {
         const headers = {
-          Authorization: `token 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`,
+          Authorization: `token ${GITHUB_TOKEN}`,
           Accept: "application/vnd.github.v3+json",
         };
 
