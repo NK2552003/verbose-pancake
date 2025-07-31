@@ -308,7 +308,7 @@ const isMobile = window.innerWidth < 768;
         viewBox="0 10 211.73 180"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="w-80 h-80 md:w-200 md:h-110 relative z-10"
+        className="w-70 h-70 md:w-200 md:h-110 relative z-10"
         style={{
   filter: isDark
     ? isMobile
@@ -371,19 +371,37 @@ const isMobile = window.innerWidth < 768;
               stopColor={isDark ? "rgba(0,0,0,0.8)" : "rgba(0,0,0,0.6)"}
             />
           </linearGradient>
-          <radialGradient id="bg-gradient" cx="50%" cy="50%" r="80%">
-            <stop
-              offset="0%"
-              stopColor={isDark ? "rgb(20, 184, 166)" : "rgb(16, 185, 129)"}
-              stopOpacity={isMobile? "1":"0.5"}
-            />
-            <stop offset="50%" stopColor={bgColor} stopOpacity="0.5" />
-            <stop
-              offset="100%"
-              stopColor={isDark ? "rgb(6, 182, 212)" : "rgb(5, 150, 105)"}
-              stopOpacity={isMobile? "1":"0.5"}
-            />
-          </radialGradient>
+        <radialGradient id="bg-gradient" cx="50%" cy="50%" r="80%">
+  {isMobile ? (
+    <>
+      <stop
+        offset="0%"
+        stopColor={isDark ? "rgb(20, 184, 166)" : "rgb(16, 185, 129)"}
+        stopOpacity="1"
+      />
+      <stop
+        offset="100%"
+        stopColor={isDark ? "rgb(20, 184, 166)" : "rgb(16, 185, 129)"}
+        stopOpacity="1"
+      />
+    </>
+  ) : (
+    <>
+      <stop
+        offset="0%"
+        stopColor={isDark ? "rgb(20, 184, 166)" : "rgb(16, 185, 129)"}
+        stopOpacity="0.5"
+      />
+      <stop offset="50%" stopColor={bgColor} stopOpacity="0.5" />
+      <stop
+        offset="100%"
+        stopColor={isDark ? "rgb(6, 182, 212)" : "rgb(5, 150, 105)"}
+        stopOpacity="0.5"
+      />
+    </>
+  )}
+</radialGradient>
+
         </defs>
 
         <path
