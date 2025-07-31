@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Madimi_One } from "next/font/google";
 import 'boxicons/css/boxicons.min.css';
+import AnimatedAvatar from "./animated_avatar";
 
 const madimiOne = Madimi_One({ weight: "400", subsets: ["latin"] });
 
@@ -101,7 +102,7 @@ export default function HeroSection() {
           className="absolute top-5 sm:top-6 left-6 z-30"
         >
           <h2 className={`${madimiOne.className} text-2xl sm:text-3xl text-white font-bold`}>
-            Portfolio
+            {displayName}
           </h2>
         </motion.div>
 
@@ -112,17 +113,17 @@ export default function HeroSection() {
           initial="hidden"
           animate="visible"
         >
-          <motion.h1
+          {/* <motion.h1
             variants={scaleUp}
-            className={`${madimiOne.className} text-7xl sm:text-8xl md:text-8xl lg:text-9xl font-bold text-transparent drop-shadow-lg`}
+            className={`${madimiOne.className} text-7xl sm:text-8xl md:text-8xl lg:text-9xl font-bold text-transparent drop-shadow-lg relative`}
             style={{ WebkitTextStroke: "3px white" }}
           >
             {displayName}
-          </motion.h1>
-
+          </motion.h1> */}
+                   <AnimatedAvatar isDark={true}/>
           <motion.div
             variants={itemVariants}
-            className={`${madimiOne.className} text-base sm:text-xl text-white/80 max-w-2xl text-center relative`}
+            className={`${madimiOne.className} text-base sm:text-xl text-white/80 max-w-2xl text-center relative -top-8`}
           >
             <span className="hidden lg:inline">An Undergraduate Passionate Engineering Student</span>
             <span className="inline lg:hidden">Passionate Undergraduate Engineer</span>
@@ -132,7 +133,7 @@ export default function HeroSection() {
 
           {/* Social Icons */}
           <motion.div
-            className="flex gap-1 sm:gap-1 mt-3"
+            className="flex gap-1 sm:gap-1 mt-3 relative -top-8"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
@@ -160,7 +161,7 @@ export default function HeroSection() {
 
           {/* Buttons */}
           <motion.div
-            className="flex items-center justify-center mt-2 sm:mt-5 gap-2"
+            className="flex items-center justify-center mt-2 sm:mt-5 gap-2 relative -top-8"
             variants={containerVariants}
             initial="hidden"
             animate="visible"

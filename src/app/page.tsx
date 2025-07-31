@@ -14,6 +14,7 @@ import Timeline from "@/components/timeline";
 import HeroSection from "@/components/heroSection";
 import { Waves, Ban } from "lucide-react";
 import { motion } from "framer-motion";
+import AnimatedAvatar from "@/components/animated_avatar";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
