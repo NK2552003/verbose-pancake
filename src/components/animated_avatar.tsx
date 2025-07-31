@@ -29,7 +29,7 @@ export default function AnimatedAvatar({ isDark }: AnimatedAvatarProps) {
   const backgroundRef = useRef<SVGPathElement>(null);
   const mouthRef = useRef<SVGPathElement>(null);
   const handRef = useRef<SVGGElement>(null);
-
+const isMobile = window.innerWidth < 768;
   // Hello greeting effect
   useEffect(() => {
     const hasGreetedBefore = localStorage.getItem("avatar-has-greeted");
@@ -310,10 +310,12 @@ export default function AnimatedAvatar({ isDark }: AnimatedAvatarProps) {
         strokeLinejoin="round"
         className="w-80 h-80 md:w-200 md:h-110 relative z-10"
         style={{
-          filter: isDark
-            ? "drop-shadow(0 25px 50px rgba(20, 184, 166, 0.4)) drop-shadow(0 0 30px rgba(20, 184, 166, 0.2))"
-            : "drop-shadow(0 25px 50px rgba(0, 0, 0, 0.15)) drop-shadow(0 0 20px rgba(20, 184, 166, 0.1))",
-        }}
+  filter: isDark
+    ? isMobile
+      ? "drop-shadow(0 10px 20px rgba(20,184,166,0.2))"
+      : "drop-shadow(0 25px 50px rgba(20,184,166,0.4))"
+    : "drop-shadow(0 10px 20px rgba(0,0,0,0.15))",
+}}
       >
         <defs>
           <clipPath id="background-clip">
@@ -650,6 +652,10 @@ export default function AnimatedAvatar({ isDark }: AnimatedAvatarProps) {
         .avatar-container {
           cursor: none;
         }
+          .eye, .mouth, .hair, .face, .ear {
+  will-change: transform;
+}
+
       `}</style>
     </div>
   );
