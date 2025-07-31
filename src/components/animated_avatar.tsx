@@ -375,13 +375,13 @@ const isMobile = window.innerWidth < 768;
             <stop
               offset="0%"
               stopColor={isDark ? "rgb(20, 184, 166)" : "rgb(16, 185, 129)"}
-              stopOpacity="0.5"
+              stopOpacity={isMobile? "1":"0.5"}
             />
             <stop offset="50%" stopColor={bgColor} stopOpacity="0.5" />
             <stop
               offset="100%"
               stopColor={isDark ? "rgb(6, 182, 212)" : "rgb(5, 150, 105)"}
-              stopOpacity="0.5"
+              stopOpacity={isMobile? "1":"0.5"}
             />
           </radialGradient>
         </defs>
