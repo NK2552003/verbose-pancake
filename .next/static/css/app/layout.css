@@ -2296,6 +2296,7 @@ p:not([class]) {
     animation: pulseGrid 3s ease-in-out infinite;
     mask-image: radial-gradient(circle at center, white, transparent 80%);
     opacity: 0.5;
+    pointer-events: none;
   }
   @keyframes pulseGrid {
     0%, 100% {
@@ -2303,6 +2304,22 @@ p:not([class]) {
     }
     50% {
       opacity: 0.9;
+    }
+  }
+  @media (max-width: 640px) {
+    .grid-bg::before {
+      background-size: 40px 40px;
+      opacity: 0.3;
+      animation: pulseGridMobile 4s ease-in-out infinite;
+      mask-image: radial-gradient(circle at center, white, transparent 90%);
+    }
+    @keyframes pulseGridMobile {
+      0%, 100% {
+        opacity: 0.3;
+      }
+      50% {
+        opacity: 0.6;
+      }
     }
   }
 }
@@ -2575,4 +2592,5 @@ p:not([class]) {
     opacity: 0.5;
   }
 }
+
 
