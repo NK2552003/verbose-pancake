@@ -53,7 +53,8 @@ export default function HeroSection() {
   const today = new Date();
   const day = today.getDate().toString().padStart(2, "0");
   const month = today.toLocaleString("en-US", { month: "short" });
-
+  const textLg = "- An Undergraduate Passionate Engineering Student -";
+  const textSm = "- Passionate Undergraduate Engineer -";
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 0);
@@ -120,17 +121,37 @@ export default function HeroSection() {
           >
             {displayName}
           </motion.h1> */}
-                   <AnimatedAvatar isDark={true}/>
-          <motion.div
-            variants={itemVariants}
-            className={`${madimiOne.className} text-base sm:text-xl text-white/80 max-w-2xl text-center relative -top-8`}
-          >
-            <span className="hidden lg:inline">An Undergraduate Passionate Engineering Student</span>
-            <span className="inline lg:hidden">Passionate Undergraduate Engineer</span>
-            <span className="absolute left-[-20%] top-1/2 h-[2px] md:w-[18%] bg-white/30 transform -translate-y-1/2 rounded-full"></span>
-            <span className="absolute right-[-20%] top-1/2 h-[2px] md:w-[18%] bg-white/30 transform -translate-y-1/2 rounded-full"></span>
-          </motion.div>
+                   <div className="border border-white">
+                    <AnimatedAvatar isDark={true}/>
+                   </div>
+    <div className="flex justify-center items-center mt-12 border border-white overflow-hidden w-full">
+      <svg
+        viewBox="0 0 500 200"
+        preserveAspectRatio="xMidYMid meet"
+        className="w-full max-w-[500px] h-[200px]"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        {/* U path */}
+        <path
+          id="uPath"
+          d="M10,20 Q250,180 490,20"
+          fill="none"
+        />
 
+        {/* Fixed-size text on curve */}
+        <motion.text
+          className="fill-white text-[16px]"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
+        >
+          <textPath href="#uPath" startOffset="50%" textAnchor="middle">
+            <tspan className="hidden lg:inline">{textLg}</tspan>
+            <tspan className="inline lg:hidden">{textSm}</tspan>
+          </textPath>
+        </motion.text>
+      </svg>
+    </div>
           {/* Social Icons */}
           <motion.div
             className="flex gap-1 sm:gap-1 mt-3 relative -top-8"
