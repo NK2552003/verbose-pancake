@@ -506,7 +506,7 @@ p:not([class]) {
     background-size: 60px 60px;
     animation: pulseGrid 3s ease-in-out infinite;
     mask-image: radial-gradient(circle at center, white, transparent 80%);
-    opacity: 0.3;
+    opacity: 0.5;
   }
 
   @keyframes pulseGrid {
