@@ -1,6 +1,5 @@
 "use client";
 
-import FluidShader from "../components/fluid-shader";
 import { useState, useEffect } from "react";
 import SplashScreen from "../components/SplashScreen";
 import GridLayout from "@/components/AdditionalActivity";
@@ -12,8 +11,6 @@ import Projects from "@/components/projects";
 import TerminalSec from "@/components/Terminal";
 import Timeline from "@/components/timeline";
 import HeroSection from "@/components/heroSection";
-import { Waves, Ban } from "lucide-react";
-import { motion } from "framer-motion";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
