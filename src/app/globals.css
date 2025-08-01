@@ -495,3 +495,26 @@ p:not([class]) {
   overflow-y: hidden;
   scroll-behavior: smooth; /* Optional for smooth scrolling */
 }
+@layer utilities {
+  .grid-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(to right, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: pulseGrid 3s ease-in-out infinite;
+    mask-image: radial-gradient(circle at center, white, transparent 80%);
+    opacity: 0.3;
+  }
+
+  @keyframes pulseGrid {
+    0%, 100% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 0.9;
+    }
+  }
+}

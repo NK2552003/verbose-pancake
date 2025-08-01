@@ -86,8 +86,10 @@ export default function Home() {
             {isFluidActive ? (
               <FluidShader />
             ) : (
-              <div className="bg-[#031412] h-full w-full">
-              </div>
+        <div className="relative h-full w-full bg-[#031412] overflow-hidden">
+  <div className="absolute inset-0 z-0 grid-bg pointer-events-none"></div>
+</div>
+
             )}
           </div>
 
