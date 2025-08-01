@@ -129,7 +129,7 @@ export default function AnimatedAvatar({ isDark }: AnimatedAvatarProps) {
       // Ear movement
       if (earRightRef.current) {
         gsap.to(earRightRef.current, {
-          x: normalizedX * 6,
+          x: normalizedX * 2,
           y: normalizedY * 6,
           rotation: -normalizedX * 1.5,
           duration: 0.8,
@@ -140,7 +140,7 @@ export default function AnimatedAvatar({ isDark }: AnimatedAvatarProps) {
 
       if (earLeftRef.current) {
         gsap.to(earLeftRef.current, {
-          x: normalizedX * 6,
+          x: normalizedX * 2,
           y: normalizedY * 6,
           rotation: -normalizedX * 1.5,
           duration: 0.8,
