@@ -29,7 +29,7 @@ export default function AnimatedAvatar({ isDark }: AnimatedAvatarProps) {
   const backgroundRef = useRef<SVGPathElement>(null);
   const mouthRef = useRef<SVGPathElement>(null);
   const handRef = useRef<SVGGElement>(null);
-const isMobile = window.innerWidth < 768;
+  const isMobile = window.innerWidth < 768;
   // Hello greeting effect
   useEffect(() => {
     const hasGreetedBefore = localStorage.getItem("avatar-has-greeted");
@@ -310,12 +310,12 @@ const isMobile = window.innerWidth < 768;
         strokeLinejoin="round"
         className="w-70 h-70 md:w-200 md:h-110 relative z-10"
         style={{
-  filter: isDark
-    ? isMobile
-      ? "drop-shadow(0 10px 20px rgba(20,184,166,0.2))"
-      : "drop-shadow(0 25px 50px rgba(20,184,166,0.4))"
-    : "drop-shadow(0 10px 20px rgba(0,0,0,0.15))",
-}}
+          filter: isDark
+            ? isMobile
+              ? "drop-shadow(0 10px 20px rgba(20,184,166,0.2))"
+              : "drop-shadow(0 25px 50px rgba(20,184,166,0.4))"
+            : "drop-shadow(0 10px 20px rgba(0,0,0,0.15))",
+        }}
       >
         <defs>
           <clipPath id="background-clip">
@@ -371,37 +371,36 @@ const isMobile = window.innerWidth < 768;
               stopColor={isDark ? "rgba(0,0,0,0.8)" : "rgba(0,0,0,0.6)"}
             />
           </linearGradient>
-        <radialGradient id="bg-gradient" cx="50%" cy="50%" r="80%">
-  {isMobile ? (
-    <>
-      <stop
-        offset="0%"
-        stopColor={isDark ? "rgb(20, 184, 166)" : "rgb(16, 185, 129)"}
-        stopOpacity="1"
-      />
-      <stop
-        offset="100%"
-        stopColor={isDark ? "rgb(20, 184, 166)" : "rgb(16, 185, 129)"}
-        stopOpacity="1"
-      />
-    </>
-  ) : (
-    <>
-      <stop
-        offset="0%"
-        stopColor={isDark ? "rgb(20, 184, 166)" : "rgb(16, 185, 129)"}
-        stopOpacity="0.5"
-      />
-      <stop offset="50%" stopColor={bgColor} stopOpacity="0.5" />
-      <stop
-        offset="100%"
-        stopColor={isDark ? "rgb(6, 182, 212)" : "rgb(5, 150, 105)"}
-        stopOpacity="0.5"
-      />
-    </>
-  )}
-</radialGradient>
-
+          <radialGradient id="bg-gradient" cx="50%" cy="50%" r="80%">
+            {isMobile ? (
+              <>
+                <stop
+                  offset="0%"
+                  stopColor={isDark ? "rgb(20, 184, 166)" : "rgb(16, 185, 129)"}
+                  stopOpacity="1"
+                />
+                <stop
+                  offset="100%"
+                  stopColor={isDark ? "rgb(20, 184, 166)" : "rgb(16, 185, 129)"}
+                  stopOpacity="1"
+                />
+              </>
+            ) : (
+              <>
+                <stop
+                  offset="0%"
+                  stopColor={isDark ? "rgb(20, 184, 166)" : "rgb(16, 185, 129)"}
+                  stopOpacity="0.5"
+                />
+                <stop offset="50%" stopColor={bgColor} stopOpacity="0.5" />
+                <stop
+                  offset="100%"
+                  stopColor={isDark ? "rgb(6, 182, 212)" : "rgb(5, 150, 105)"}
+                  stopOpacity="0.5"
+                />
+              </>
+            )}
+          </radialGradient>
         </defs>
 
         <path
@@ -653,11 +652,8 @@ const isMobile = window.innerWidth < 768;
                   <path
                     ref={hairFrontRef}
                     className="hair-front hair"
-                    d="M130,45c-10-5-8.5-8-12-9s-10-12-19.5-5.5-8.5,8-20,9-6,20-4.5,25c0.5,1,4-1.5,8-3,2.5-0.5,5-1.5,6-2.5,1,2,1,4,1.5,8.5,3-2,9-2.5,17.6-2.5s1.5,1,2,5.5c2-0.5,6-1.5,1-2s5,0,2.5,0.5,3.5,1,5,1.5c0-3,0-7,0.5-8.5,0.5-1.5,1.5,1.5,2.5,5,2.5,1.5,5,2.5,7,2.5,0-2.5,1-5,0.5-7,0,0,2.5,3.5,2,6.5,2,3,5,7,7,5s5-15,2-22c-3-7-12-12-15-13s-8-3-10-4Z"
+                    d="M130,47c-10-5-8.5-8-12-9s-10-12-19.5-5.5-8.5,8-20,9-6,20-4.5,25c0.5,1,4-1.5,8-3,2.5-0.5,5-1.5,6-2.5,1,2,1,4,1.5,8.5,3-2,9-2.5,17.6-2.5s1.5,1,2,5.5c2-0.5,6-1.5,1-2s5,0,2.5,0.5,3.5,1,5,1.5c0-3,0-7,0.5-8.5,0.5-1.5,1.5,1.5,2.5,5,2.5,1.5,5,2.5,7,2.5,0-2.5,1-5,0.5-7,0,0,2.5,3.5,2,6.5,2,3,5,8,8,5s5-15,2-22c-3-7-10-10-19-18s-8-3-20-4Z"
                     fill="url(#hair-gradient)"
-                    style={{
-                      filter: "drop-shadow(0 3px 6px rgba(0,0,0,0.2))",
-                    }}
                   />
                 </g>
               </g>
@@ -670,10 +666,13 @@ const isMobile = window.innerWidth < 768;
         .avatar-container {
           cursor: none;
         }
-          .eye, .mouth, .hair, .face, .ear {
-  will-change: transform;
-}
-
+        .eye,
+        .mouth,
+        .hair,
+        .face,
+        .ear {
+          will-change: transform;
+        }
       `}</style>
     </div>
   );
