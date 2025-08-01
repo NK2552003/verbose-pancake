@@ -8,14 +8,19 @@ import ContactSection from "@/components/contact-section";
 import Footer from "@/components/footer";
 import GitHubStats from "@/components/GithubStats";
 import Projects from "@/components/projects";
-import TerminalSec from "@/components/Terminal";
 import Timeline from "@/components/timeline";
 import HeroSection from "@/components/heroSection";
+import AboutSection from "@/components/AboutSection";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [showBanner, setShowBanner] = useState<boolean>(true);
-
+  const fetchGitHubUser = async () => {
+  const res = await fetch("/api/github/nk2552003");
+  const data = await res.json();
+  console.log(data); // avatar_url, public_repos, followers, etc.
+};
+console.log(fetchGitHubUser);
   return (
     <>
       {showBanner && (
@@ -37,7 +42,7 @@ export default function Home() {
 
           <div className="min-h-screen relative z-10">
             <HeroSection />
-            <TerminalSec />
+            <AboutSection/>
             <GitHubStats />
             <GridLayout />
             <Timeline />

@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Madimi_One } from "next/font/google";
 import "boxicons/css/boxicons.min.css";
 import AnimatedAvatar from "./animated_avatar";
@@ -74,7 +74,8 @@ const socialIcons = [
     style: { top: "56%", left: "70%" },
   },
 ];
-// Animation variants
+
+// Enhanced Animation variants
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -118,6 +119,72 @@ const slideIn = (direction: number) => ({
   },
 });
 
+// New animation variants
+const bounceIn = {
+  hidden: { scale: 0, opacity: 0 },
+  visible: {
+    scale: 1,
+    opacity: 1,
+    transition: {
+      type: "spring",
+      stiffness: 260,
+      damping: 20,
+      delay: 0.5,
+    },
+  },
+};
+
+const rotateIn = {
+  hidden: { rotate: -180, opacity: 0 },
+  visible: {
+    rotate: 0,
+    opacity: 1,
+    transition: { type: "spring", stiffness: 100, damping: 15 },
+  },
+};
+
+const slideUp = {
+  hidden: { y: 50, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: { type: "spring", stiffness: 100, damping: 20 },
+  },
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.3,
+    },
+  },
+};
+
+const floatingVariants = {
+  animate: {
+    y: [-5, 5, -5],
+    transition: {
+      duration: 2,
+      repeat: Infinity,
+      ease: "easeInOut",
+    },
+  },
+};
+
+const pulseVariants = {
+  animate: {
+    scale: [1, 1.05, 1],
+    transition: {
+      duration: 2,
+      repeat: Infinity,
+      ease: "easeInOut",
+    },
+  },
+};
+
 export default function HeroSection() {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const [displayName, setDisplayName] = useState<string>("Nitish Kumar");
@@ -130,6 +197,7 @@ export default function HeroSection() {
   const month = today.toLocaleString("en-US", { month: "short" });
   const textLg = "- An Undergraduate Passionate Engineering Student -";
   const textSm = "- Passionate Undergraduate Engineer -";
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 0);
@@ -168,7 +236,11 @@ export default function HeroSection() {
   }, [showNotification]);
 
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+    >
       <div className="relative w-screen h-screen animate-fade-in" id="home">
         {/* Portfolio Text - Top Left */}
         <motion.div
@@ -177,11 +249,13 @@ export default function HeroSection() {
           variants={slideIn(-1)}
           className="absolute top-5 sm:top-6 left-6 z-30"
         >
-          <h2
+          <motion.h2
             className={`${madimiOne.className} text-2xl sm:text-3xl text-white font-bold`}
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 400, damping: 10 }}
           >
             {displayName}
-          </h2>
+          </motion.h2>
         </motion.div>
 
         {/* Main Content */}
@@ -191,78 +265,103 @@ export default function HeroSection() {
           initial="hidden"
           animate="visible"
         >
-          {/* <motion.h1
-            variants={scaleUp}
-            className={`${madimiOne.className} text-7xl sm:text-8xl md:text-8xl lg:text-9xl font-bold text-transparent drop-shadow-lg relative`}
-            style={{ WebkitTextStroke: "3px white" }}
+          <motion.div 
+            className="flex flex-col items-center relative"
+            variants={staggerContainer}
+            initial="hidden"
+            animate="visible"
           >
-            {displayName}
-          </motion.h1> */}
-<div className="flex flex-col items-center relative">
-            <div className=" flex justify-center items-center">
-            <div className="">
-              <AnimatedAvatar isDark={true} />
-            </div>
-            {/* Social Icons */}
-            <motion.div
-              className="absolute w-[100%] md:w-[600px] h-[200px] md:h-[300px]  z-50"
-              initial="hidden"
-              animate="visible"
+            <motion.div 
+              className="flex justify-center items-center"
+              variants={bounceIn}
             >
-              {socialIcons.map((icon, idx) => (
-                <motion.div
-                  key={idx}
-                  className="absolute"
-                  style={icon.style}
-                  animate={{
-                    y: iconFloatVariants[idx].y,
-                    rotate: iconFloatVariants[idx].rotate,
-                  }}
-                  transition={{
-                    duration: 3 + Math.random() * 2, // unique duration per icon
-                    repeat: Infinity,
-                    repeatType: "mirror",
-                    ease: "easeInOut",
-                  }}
-                >
-                  <a
-                    href={icon.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`text-white text-4xl sm:text-6xl ${icon.hoverColor} transition-all duration-300 ease-in-out `}
-                  >
-                    <i className={`bx ${icon.icon}`}></i>
-                  </a>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-          <div className="flex justify-center items-center overflow-hidden w-auto absolute -bottom-18">
-            <svg
-              viewBox="0 0 500 200"
-              preserveAspectRatio="xMidYMid meet"
-              className="w-full max-w-[500px] h-[200px]"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              {/* U path */}
-              <path id="uPath" d="M10,20 Q250,180 470,20" fill="none" />
-
-              {/* Fixed-size text on curve */}
-              <motion.text
-                className="fill-white text-[16px]"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1.2, ease: "easeOut" }}
+                <AnimatedAvatar isDark={true} />
+              
+              {/* Social Icons */}
+              <motion.div
+                className="absolute w-[100%] md:w-[600px] h-[200px] md:h-[300px] z-50"
+                initial="hidden"
+                animate="visible"
+                variants={staggerContainer}
               >
-                <textPath href="#uPath" startOffset="50%" textAnchor="middle">
-                  <tspan className="hidden lg:inline">{textLg}</tspan>
-                  <tspan className="inline lg:hidden">{textSm}</tspan>
-                </textPath>
-              </motion.text>
-            </svg>
-          </div>
+                {socialIcons.map((icon, idx) => (
+                  <motion.div
+                    key={idx}
+                    className="absolute"
+                    style={icon.style}
+                    variants={{
+                      hidden: { scale: 0, opacity: 0 },
+                      visible: {
+                        scale: 1,
+                        opacity: 1,
+                        transition: {
+                          delay: idx * 0.1,
+                          type: "spring",
+                          stiffness: 200,
+                          damping: 15,
+                        },
+                      },
+                    }}
+                    animate={{
+                      y: iconFloatVariants[idx].y,
+                      rotate: iconFloatVariants[idx].rotate,
+                    }}
+                    transition={{
+                      duration: 3 + Math.random() * 2,
+                      repeat: Infinity,
+                      repeatType: "mirror",
+                      ease: "easeInOut",
+                    }}
+                    whileHover={{
+                      scale: 1.2,
+                      rotate: 15,
+                      transition: { duration: 0.2 },
+                    }}
+                    whileTap={{ scale: 0.9 }}
+                  >
+                    <motion.a
+                      href={icon.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`text-white text-4xl sm:text-6xl ${icon.hoverColor} transition-all duration-300 ease-in-out block`}
+                      whileHover={{ y: -5 }}
+                    >
+                      <i className={`bx ${icon.icon}`}></i>
+                    </motion.a>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </motion.div>
+            
+            <motion.div 
+              className="flex justify-center items-center overflow-hidden w-auto absolute -bottom-18"
+              variants={slideUp}
+            >
+              <svg
+                viewBox="0 0 500 200"
+                preserveAspectRatio="xMidYMid meet"
+                className="w-full max-w-[500px] h-[200px]"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                {/* U path */}
+                <path id="uPath" d="M10,20 Q250,180 470,20" fill="none" />
 
-</div>
+                {/* Fixed-size text on curve */}
+                <motion.text
+                  className="fill-white text-[16px]"
+                  initial={{ opacity: 0, pathLength: 0 }}
+                  animate={{ opacity: 1, pathLength: 1 }}
+                  transition={{ duration: 1.5, ease: "easeOut", delay: 1 }}
+                >
+                  <textPath href="#uPath" startOffset="50%" textAnchor="middle">
+                    <tspan className="hidden lg:inline">{textLg}</tspan>
+                    <tspan className="inline lg:hidden">{textSm}</tspan>
+                  </textPath>
+                </motion.text>
+              </svg>
+            </motion.div>
+          </motion.div>
+
           {/* Buttons */}
           <motion.div
             className="flex items-center justify-center mt-2 sm:mt-5 gap-2 relative -top-8"
@@ -275,37 +374,45 @@ export default function HeroSection() {
                 key={index}
                 variants={itemVariants}
                 className="relative group"
+                whileHover={{ y: -3 }}
+                whileTap={{ scale: 0.95 }}
               >
-                <button
-                  className="relative inline-block p-px font-semibold leading-6 text-white bg-white/20 shadow-2xl cursor-pointer rounded-2xl shadow-zinc-900 transition-transform duration-300 ease-in-out hover:scale-105 active:scale-95 text-xs sm:text-base"
+                <motion.button
+                  className="relative inline-block p-px font-semibold leading-6 text-white bg-white/20 shadow-2xl cursor-pointer rounded-2xl shadow-zinc-900 transition-transform duration-300 ease-in-out text-xs sm:text-base"
                   onClick={() =>
                     document
                       .getElementById(index ? "contact" : "projects")
                       ?.scrollIntoView({ behavior: "smooth" })
                   }
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   <span className="absolute inset-0 rounded-2xl bg-gradient-to-r from-teal-400 via-[#18786E] to-[#29CEB9] p-[2px] opacity-0 transition-opacity duration-500 group-hover:opacity-100"></span>
                   <span className="relative z-10 block px-3 py-1.5 sm:px-6 sm:py-3 rounded-2xl bg-[#031412] hover:text-[#a0f7eb]">
                     <div className="relative z-10 flex items-center space-x-1 sm:space-x-2">
-                      <span className="transition-all duration-500 group-hover:translate-x-1">
+                      <motion.span 
+                        className="transition-all duration-500"
+                        whileHover={{ x: 2 }}
+                      >
                         {text}
-                      </span>
+                      </motion.span>
                       {index === 1 && (
-                        <svg
-                          className="w-4 h-4 sm:w-6 sm:h-6 transition-transform duration-500 group-hover:translate-x-1"
+                        <motion.svg
+                          className="w-4 h-4 sm:w-6 sm:h-6 transition-transform duration-500"
                           viewBox="0 0 20 20"
                           fill="currentColor"
+                          whileHover={{ x: 3, scale: 1.1 }}
                         >
                           <path
                             clipRule="evenodd"
                             d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z"
                             fillRule="evenodd"
                           />
-                        </svg>
+                        </motion.svg>
                       )}
                     </div>
                   </span>
-                </button>
+                </motion.button>
               </motion.div>
             ))}
           </motion.div>
@@ -318,19 +425,41 @@ export default function HeroSection() {
           variants={slideIn(1)}
           className={`${madimiOne.className} absolute bottom-4 right-4 text-white px-6 py-4 flex items-end`}
         >
-          <span
+          <motion.span
             className="text-5xl sm:text-8xl font-bold stroke-2 text-transparent text-center mb-3 sm:mb-0"
             style={{ WebkitTextStroke: "1px white" }}
+            variants={rotateIn}
+            whileHover={{ scale: 1.1, rotate: 5 }}
           >
             {day}
-          </span>
-          <div className="bottom-4 right-4 text-white py-3.5 flex flex-col items-end">
-            <span className="text-md sm:text-2xl font-semibold mt-1 mr-1 sm:mr-3">
+          </motion.span>
+          <motion.div 
+            className="bottom-4 right-4 text-white py-3.5 flex flex-col items-end"
+            animate="animate"
+          >
+            <motion.span 
+              className="text-md sm:text-2xl font-semibold mt-1 mr-1 sm:mr-3"
+              whileHover={{ scale: 1.05 }}
+            >
               {month}
-            </span>
-            <span className="text-[8px] sm:text-sm font-medium">Available</span>
-            <span className="text-[8px] sm:text-sm font-medium">for Work</span>
-          </div>
+            </motion.span>
+            <motion.span 
+              className="text-[8px] sm:text-sm font-medium"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 1.5, duration: 0.5 }}
+            >
+              Available
+            </motion.span>
+            <motion.span 
+              className="text-[8px] sm:text-sm font-medium"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 1.7, duration: 0.5 }}
+            >
+              for Work
+            </motion.span>
+          </motion.div>
         </motion.div>
 
         {/* Location Icon - Bottom Left */}
@@ -340,69 +469,98 @@ export default function HeroSection() {
           variants={fadeIn}
           className={`${madimiOne.className} absolute bottom-15 left-6 text-white flex items-center gap-2`}
         >
-          <i className="bx bx-map text-2xl sm:text-3xl"></i>
-          <span className="text-sm sm:text-base">SNP, HR, IN</span>
+          <motion.i 
+            className="bx bx-map text-2xl sm:text-3xl"
+            variants={rotateIn}
+            whileHover={{ scale: 1.2, rotate: 10 }}
+          ></motion.i>
+          <motion.span 
+            className="text-sm sm:text-base"
+            variants={slideIn(-1)}
+            whileHover={{ x: 5 }}
+          >
+            SNP, HR, IN
+          </motion.span>
         </motion.div>
 
         {/* Quote - Bottom Center */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 2, duration: 0.8 }}
           className="absolute bottom-3 left-1/2 transform -translate-x-1/2 z-30 text-center"
+          whileHover={{ scale: 1.02 }}
         >
-          <p
+          <motion.p
             className={`${madimiOne.className} text-[10px] sm:text-base text-white/50 italic`}
+            animate="animate"
           >
             "The best way to predict the future is to create it."
-          </p>
+          </motion.p>
         </motion.div>
       </div>
 
       {/* Floating Navigation */}
-      <div className="fixed bottom-5 right-5 z-50">
-        <button
+      <motion.div 
+        className="fixed bottom-5 right-5 z-50"
+        initial={{ scale: 0, opacity: 0 }}
+        animate={isScrolled ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
+        transition={{ type: "spring", stiffness: 200, damping: 20 }}
+      >
+        <motion.button
           onClick={() => setIsDrawerOpen(!isDrawerOpen)}
-          className={`flex items-center justify-center bg-[#03141278] backdrop-blur-md rounded-xl shadow-lg transition-all duration-300 border-[0.5px] border-white/50 ${
-            isScrolled ? "opacity-100 visible" : "opacity-0 invisible"
-          }`}
+          className="flex items-center justify-center bg-[#03141278] backdrop-blur-md rounded-xl shadow-lg transition-all duration-300 border-[0.5px] border-white/50"
           style={{ width: "40px", height: "40px" }}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          animate={isDrawerOpen ? { rotate: 45 } : { rotate: 0 }}
         >
-          <i
+          <motion.i
             className={`bx ${
               isDrawerOpen ? "bx-menu-alt-right" : "bx-menu"
             } text-white text-2xl`}
-          ></i>
-        </button>
+            animate={isDrawerOpen ? { rotate: 180 } : { rotate: 0 }}
+          ></motion.i>
+        </motion.button>
 
-       <div
-  className={`absolute bottom-14 right-0 flex flex-col space-y-4 transition-all duration-300 ${
-    isDrawerOpen
-      ? "opacity-100 translate-y-0 pointer-events-auto"
-      : "opacity-0 translate-y-5 pointer-events-none"
-  }`}
->
-          {[
-            { icon: "bx-home", href: "#home" },
-            { icon: "bx-user", href: "#about" },
-            { icon: "bx-book", href: "#quali" },
-            { icon: "bx-briefcase", href: "#projects" },
-            { icon: "bx-envelope", href: "#contact" },
-          ].map((item, index) => (
-            <a
-              key={index}
-              href={item.href}
-              onClick={() => setIsDrawerOpen(false)}
-              className="flex bg-[#03141278] backdrop-blur-md rounded-xl justify-center items-center shadow-lg hover:bg-white/30 transition-all duration-300 border-[0.5px] border-white/50"
-              style={{ width: "40px", height: "40px" }}
+        <AnimatePresence>
+          {isDrawerOpen && (
+            <motion.div
+              className="absolute bottom-14 right-0 flex flex-col space-y-4"
+              initial={{ opacity: 0, y: 20, scale: 0.8 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.8 }}
+              transition={{ type: "spring", stiffness: 200, damping: 20 }}
             >
-              <i
-                className={` bx ${item.icon} text-white text-2xl sm:text-xl`}
-              ></i>
-            </a>
-          ))}
-        </div>
-      </div>
-    </div>
+              {[
+                { icon: "bx-home", href: "#home" },
+                { icon: "bx-user", href: "#about" },
+                { icon: "bx-book", href: "#quali" },
+                { icon: "bx-briefcase", href: "#projects" },
+                { icon: "bx-envelope", href: "#contact" },
+              ].map((item, index) => (
+                <motion.a
+                  key={index}
+                  href={item.href}
+                  onClick={() => setIsDrawerOpen(false)}
+                  className="flex bg-[#03141278] backdrop-blur-md rounded-xl justify-center items-center shadow-lg hover:bg-white/30 transition-all duration-300 border-[0.5px] border-white/50"
+                  style={{ width: "40px", height: "40px" }}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  whileHover={{ scale: 1.1, x: -5 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <motion.i
+                    className={`bx ${item.icon} text-white text-2xl sm:text-xl`}
+                    whileHover={{ rotate: 10 }}
+                  ></motion.i>
+                </motion.a>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </motion.div>
   );
 }
