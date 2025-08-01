@@ -289,19 +289,6 @@ export default function HeroSection() {
                     key={idx}
                     className="absolute"
                     style={icon.style}
-                    variants={{
-                      hidden: { scale: 0, opacity: 0 },
-                      visible: {
-                        scale: 1,
-                        opacity: 1,
-                        transition: {
-                          delay: idx * 0.1,
-                          type: "spring",
-                          stiffness: 200,
-                          damping: 15,
-                        },
-                      },
-                    }}
                     animate={{
                       y: iconFloatVariants[idx].y,
                       rotate: iconFloatVariants[idx].rotate,
@@ -323,7 +310,7 @@ export default function HeroSection() {
                       href={icon.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`text-white text-4xl sm:text-6xl ${icon.hoverColor} transition-all duration-300 ease-in-out block`}
+                      className={`text-white/80 text-4xl sm:text-6xl ${icon.hoverColor} transition-all duration-300 ease-in-out block`}
                       whileHover={{ y: -5 }}
                     >
                       <i className={`bx ${icon.icon}`}></i>
