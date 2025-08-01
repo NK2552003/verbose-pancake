@@ -17,7 +17,7 @@ import { motion } from "framer-motion";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  // const [showBanner, setShowBanner] = useState<boolean>(true);
+  const [showBanner, setShowBanner] = useState<boolean>(true);
   const [isHighTier, setIsHighTier] = useState<boolean>(true);
   const [isFluidActive, setIsFluidActive] = useState<boolean>(true);
   const [hasUserToggled, setHasUserToggled] = useState<boolean>(false);
@@ -36,13 +36,13 @@ export default function Home() {
     };
 
     const loadingTimer = setTimeout(() => setIsLoading(false), 3000);
-    // const bannerTimer = setTimeout(() => setShowBanner(false), 2000);
+    const bannerTimer = setTimeout(() => setShowBanner(false), 2000);
 
     checkDeviceCapability();
 
     return () => {
       clearTimeout(loadingTimer);
-      // clearTimeout(bannerTimer);
+      clearTimeout(bannerTimer);
     };
   }, []);
 
@@ -59,11 +59,11 @@ export default function Home() {
 
   return (
     <>
-      {/* {showBanner && (
+      {showBanner && (
         <div className="fixed top-3 left-1/2 -translate-x-1/2 bg-red-600 text-white text-center py-2 z-50 rounded-xl flex justify-center px-4 text-[12px]">
           <span>🚧 This site is under development. Some features may not work as expected. 🚧</span>
         </div>
-      )} */}
+      )}
 
       {isLoading ? (
         <SplashScreen onLoaded={() => setIsLoading(false)} />
