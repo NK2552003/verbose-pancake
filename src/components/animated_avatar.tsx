@@ -11,8 +11,6 @@ export default function AnimatedAvatar({ isDark }: AnimatedAvatarProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isBlinking, setIsBlinking] = useState(false);
-  const [showHello, setShowHello] = useState(false);
-
   // Refs for GSAP animations
   const meRef = useRef<SVGGElement>(null);
   const faceRef = useRef<SVGGElement>(null);
@@ -30,24 +28,7 @@ export default function AnimatedAvatar({ isDark }: AnimatedAvatarProps) {
   const mouthRef = useRef<SVGPathElement>(null);
   const handRef = useRef<SVGGElement>(null);
   const isMobile = window.innerWidth < 768;
-  // Hello greeting effect
-  useEffect(() => {
-    const hasGreetedBefore = localStorage.getItem("avatar-has-greeted");
 
-    if (!hasGreetedBefore) {
-      const timer = setTimeout(() => {
-        setShowHello(true);
-        localStorage.setItem("avatar-has-greeted", "true");
-
-        // Hide hello after 3 seconds
-        setTimeout(() => {
-          setShowHello(false);
-        }, 3000);
-      }, 1000);
-
-      return () => clearTimeout(timer);
-    }
-  }, []);
 
   useEffect(() => {
     // Initialize GSAP timeline for floating animation
@@ -308,7 +289,7 @@ export default function AnimatedAvatar({ isDark }: AnimatedAvatarProps) {
         viewBox="0 10 211.73 180"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="w-70 h-70 md:w-200 md:h-110 relative z-10"
+        className="w-75 h-70 md:w-200 md:h-110 relative z-10"
         style={{
           filter: isDark
             ? isMobile
@@ -663,9 +644,9 @@ export default function AnimatedAvatar({ isDark }: AnimatedAvatarProps) {
       </svg>
 
       <style jsx>{`
-        .avatar-container {
-          cursor: none;
-        }
+        // .avatar-container {
+        //   cursor: none;
+        // }
         .eye,
         .mouth,
         .hair,
