@@ -237,7 +237,7 @@ export default function HeroSection() {
               ))}
             </motion.div>
           </div>
-          <div className="flex justify-center items-center overflow-hidden w-auto absolute -bottom-17">
+          <div className="flex justify-center items-center overflow-hidden w-auto absolute -bottom-18">
             <svg
               viewBox="0 0 500 200"
               preserveAspectRatio="xMidYMid meet"

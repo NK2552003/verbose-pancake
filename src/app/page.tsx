@@ -18,44 +18,6 @@ import { motion } from "framer-motion";
 export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [showBanner, setShowBanner] = useState<boolean>(true);
-  const [isHighTier, setIsHighTier] = useState<boolean>(true);
-  const [isFluidActive, setIsFluidActive] = useState<boolean>(true);
-  const [hasUserToggled, setHasUserToggled] = useState<boolean>(false);
-
-  useEffect(() => {
-    const checkDeviceCapability = async () => {
-      try {
-        const { getGPUTier } = await import("detect-gpu");
-        const gpuTier = await getGPUTier();
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        setIsHighTier(!isMobile && gpuTier.tier >= 2);
-      } catch (error) {
-        console.error("Device check failed:", error);
-        setIsHighTier(false);
-      }
-    };
-
-    const loadingTimer = setTimeout(() => setIsLoading(false), 3000);
-    const bannerTimer = setTimeout(() => setShowBanner(false), 2000);
-
-    checkDeviceCapability();
-
-    return () => {
-      clearTimeout(loadingTimer);
-      clearTimeout(bannerTimer);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!hasUserToggled) {
-      setIsFluidActive(isHighTier);
-    }
-  }, [isHighTier, hasUserToggled]);
-
-  const toggleFluid = () => {
-    setIsFluidActive((prev) => !prev);
-    setHasUserToggled(true);
-  };
 
   return (
     <>
@@ -69,28 +31,11 @@ export default function Home() {
         <SplashScreen onLoaded={() => setIsLoading(false)} />
       ) : (
         <main className="transition-opacity duration-1000 ease-in-out">
-          <motion.button
-            onClick={toggleFluid}
-            className={`absolute top-5 right-5 z-[60] text-white px-2 py-2 rounded-xl text-sm backdrop-blur-lg shadow-lg flex items-center justify-center border border-white/30
-            ${isFluidActive ? "bg-[#000505] hover:bg-teal-800" : "bg-[#000505] hover:bg-teal-800"}`}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.9 }}
-            transition={{ type: "spring", stiffness: 400, damping: 17 }}
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            key={isFluidActive ? "active" : "inactive"}
-          >
-            {isFluidActive ? <Waves size={20} className="animate-pulse" /> : <Ban size={20} />}
-          </motion.button>
           <div className="fixed inset-0 z-0">
-            {isFluidActive ? (
-              <FluidShader />
-            ) : (
+           
         <div className="relative h-full w-full bg-[#031412] overflow-hidden">
   <div className="absolute inset-0 z-0 grid-bg pointer-events-none"></div>
 </div>
-
-            )}
           </div>
 
           <div className="min-h-screen relative z-10">
