@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
+    "@react-three/fiber": "^9.3.0",
     "@studio-freight/lenis": "^1.0.42",
     "boxicons": "^2.1.4",
     "chart.js": "^4.4.8",
@@ -28,7 +29,8 @@
     "react-dom": "^19.1.0",
     "react-hot-toast": "^2.5.2",
     "scrollreveal": "^4.0.9",
-    "smooth-scrollbar": "^8.8.4"
+    "smooth-scrollbar": "^8.8.4",
+    "three": "^0.179.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

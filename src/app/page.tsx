@@ -11,6 +11,7 @@ import Projects from "@/components/projects";
 import Timeline from "@/components/timeline";
 import HeroSection from "@/components/heroSection";
 import AboutSection from "@/components/AboutSection";
+import PortfolioScroll from "@/components/3d_components/portfolio-scroll";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -42,6 +43,9 @@ console.log(fetchGitHubUser);
 
           <div className="min-h-screen relative z-10">
             <HeroSection />
+            <div className="border border-white">
+              <PortfolioScroll />
+            </div>
             <AboutSection/>
             <GitHubStats />
             <GridLayout />
