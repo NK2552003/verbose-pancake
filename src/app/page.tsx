@@ -60,7 +60,7 @@ const SectionWrapper = ({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -40 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className="fixed top-5 right-8 md:right-18 z-40 shadow-md px-2 md:py-3 w-[200px] md:w-[250px] max-w-md text-teal-500"
+            className="fixed top-5 right-8 md:right-18 z-40 px-2 md:py-3 w-[200px] md:w-[250px] max-w-md text-teal-500"
           >
             {card}
           </motion.div>

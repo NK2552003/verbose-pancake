@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
-import GamingInterface from "./ActivityIcon";
-import PhotoGallery from "./photogallery";
+import MasonryGallery from "./photogallery";
 
 const GridLayout = () => {
   return (
@@ -13,11 +12,18 @@ const GridLayout = () => {
         transition={{ duration: 0.8, ease: "easeOut" }}
         viewport={{ once: true }}
       >
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 mt-20">
-          Beyond the Code
-        </h1>
+           <motion.h1
+              className="text-4xl md:text-5xl lg:text-6xl font-bold text-transparent text-center lg:text-start"
+              style={{
+                WebkitTextStroke: "0.5px white",
+                WebkitTextFillColor: "transparent",
+              }}
+              custom={0.2}
+            >
+              Beyond the Code
+            </motion.h1>
         <p className="text-sm sm:text-base md:text-lg text-white/80">
-          Explore my interest & hobbies beyond the digital realm
+          Explore my photography skills
         </p>
       </motion.div>
 
@@ -29,8 +35,7 @@ const GridLayout = () => {
         transition={{ duration: 0.8, ease: "easeOut" }}
         viewport={{ once: true }}
       >
-        <GamingInterface />
-        <PhotoGallery />
+        <MasonryGallery/>
       </motion.div>
     </div>
   );

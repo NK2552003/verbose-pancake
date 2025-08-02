@@ -37,7 +37,7 @@ export default function AboutSection() {
   }
 
   return (
-    <section>
+    <section className=" pb-6 md:pb-12">
       <motion.div
         className="flex flex-col items-center justify-center h-[120px] sm:h-[140px] md:h-[160px] lg:h-[180px] xl:h-[200px] text-center text-white relative z-10 p-4 mb-12 px-3"
         id="about"
@@ -46,13 +46,17 @@ export default function AboutSection() {
         viewport={{ once: true }}
         variants={fadeInUp}
       >
-        <motion.h1
-          className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 mt-20 text-teal-400"
-          custom={0}
-          variants={fadeInUp}
-        >
-          A Glimpse Into My World
-        </motion.h1>
+           <motion.h1
+              className="text-4xl md:text-5xl lg:text-6xl font-bold text-transparent text-center lg:text-start"
+              style={{
+                WebkitTextStroke: "0.5px white",
+                WebkitTextFillColor: "transparent",
+              }}
+              custom={0.2}
+              variants={fadeInUp}
+            >
+              A Glimpse into my World
+            </motion.h1>
         <motion.p
           className="text-sm sm:text-base md:text-lg text-white/60"
           custom={0.1}
