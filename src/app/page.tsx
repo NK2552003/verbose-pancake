@@ -68,13 +68,13 @@ export default function Home() {
 
   return (
     <>
-      {/* {showBanner && (
+      {showBanner && (
         <div className="fixed top-3 left-1/2 -translate-x-1/2 bg-red-600 text-white text-center py-2 z-50 rounded-xl flex justify-center px-4 text-[12px]">
           <span>
             🚧 This site is under development. Some features may not work as expected. 🚧
           </span>
         </div>
-      )} */}
+      )}
 
       {!isLoading && <ScrollIndicator totalBars={60} scrollContainerId="scroll-container" />}
 

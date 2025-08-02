@@ -88,50 +88,33 @@ export default function GitHubGrid({
 
   return (
     <>
-      {/* GitHub Stats Grid - Bottom Left */}
-      <div className="fixed bottom-4 sm:bottom-6 md:bottom-8 left-4 sm:left-6 md:left-8 z-30 pointer-events-none">
-        <div className="bg-gray-900/95 backdrop-blur-md rounded-xl p-3 sm:p-4 shadow-2xl border border-gray-700/60 max-w-sm">
-          <h3 className="text-sm sm:text-base font-bold text-white mb-3 flex items-center gap-2">
-            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-            GitHub Stats
-          </h3>
-          <div className="grid grid-cols-2 gap-2">
-            {githubStats.map((stat, index) => {
-              const isVisible = animatedStats.includes(index)
-              const partPosition = getPartPosition("hole", index)
 
-              return (
-                <div
-                  key={`${stat.label}-${index}`}
-                  className={`relative transition-all duration-600 ${
-                    isVisible ? "opacity-100 scale-100" : "opacity-0 scale-75"
-                  }`}
-                  style={{ transitionDelay: `${index * 120}ms` }}
-                >
-                  <div className="px-2 py-2 bg-gray-800/80 border border-gray-600/50 rounded-lg hover:border-gray-500/70 transition-all duration-300 hover:scale-105">
-                    <div className="text-xs font-semibold text-white text-center uppercase tracking-wide mb-1">
-                      {stat.label}
-                    </div>
-                    <div className="text-sm font-bold text-white text-center font-mono">
-                      {isVisible ? formatValue(index, stat.value) : stat.value}
-                    </div>
-                  </div>
-
-                  {/* Connection indicator */}
-                  <div
-                    className="absolute -top-1 -left-1 w-2 h-2 rounded-full animate-pulse-glow"
-                    style={{
-                      backgroundColor: stat.color,
-                      boxShadow: `0 0 6px ${stat.color}40`,
-                      opacity: isVisible ? 1 : 0,
-                    }}
-                  />
-                </div>
-              )
-            })}
-          </div>
+  {/* GitHub Stats Grid - Bottom Left */}
+  <div className="fixed bottom-4 sm:bottom-6 md:bottom-8 left-4 sm:left-6 md:left-8 z-30 pointer-events-none">
+         <h3 className="text-sm sm:text-base font-bold text-white mb-3 flex items-center gap-2 absolute top-0 left-6">
+        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+        GitHub Stats
+      </h3>
+    <div className="rounded-xl sm:p-4 shadow-2xl max-w-sm w-[95%] md:w-auto">
+      <div className="grid grid-cols-2 gap-2">
+        
+        {/* GitHub Stats Cards */}
+        <div className="col-span-2 flex flex-col md:flex-row gap-2 mt-2">
+          <img
+            src="https://github-readme-stats.vercel.app/api?username=nk2552003&show_icons=true&locale=en&theme=radical&bg_color=00000000&hide_border=true"
+            alt="nk2552003 GitHub Stats"
+            className="rounded-lg border border-gray-700/50 bg-[#031412]"
+          />
+          <img
+            src="https://github-readme-streak-stats.herokuapp.com/?user=nk2552003&theme=radical&background=00000000&hide_border=true"
+            alt="nk2552003 GitHub Streak"
+            className="rounded-lg border border-gray-700/50 bg-[#031412]"
+          />
         </div>
       </div>
+    </div>
+  </div>
+
 
       {/* Hand-drawn style Connection Lines */}
       <svg className="fixed inset-0 pointer-events-none z-20" style={{ width: "100vw", height: "100vh" }}>
