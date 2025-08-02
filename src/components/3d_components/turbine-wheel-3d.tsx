@@ -658,11 +658,15 @@ export default function TurbineWheel3D({ scrollProgress, rotationSpeed, onPartPo
         position: [5, 3.5, 5],
         fov: 60,
       }}
-      gl={{
-        antialias: true,
-        alpha: true,
-        powerPreference: "high-performance",
-      }}
+   gl={{
+  powerPreference: "high-performance", // Requests GPU acceleration if available
+  antialias: false,                    // Reduces GPU load
+  alpha: true,                        // Saves memory and avoids blending costs
+  depth: true,                         // Needed for 3D (can be false if only 2D)
+  stencil: false,                      // Disabling improves performance
+  failIfMajorPerformanceCaveat: true,  // Prevents fallback to super-low-power modes
+  preserveDrawingBuffer: false,        // Faster rendering (unless you capture frames)
+}}
       style={{ width: "100%", height: "100%" }}
       dpr={[1, 2]}
       resize={{ scroll: false, debounce: { scroll: 50, resize: 0 } }}
