@@ -215,23 +215,6 @@ export default function PortfolioScroll() {
         </div>
       </div>
 
-      {/* Section Indicator - positioned relative to component */}
-      <div className="absolute top-3 sm:top-4 md:top-6 lg:top-8 right-3 sm:right-4 md:right-6 lg:right-8 pointer-events-none z-30">
-        <div className="flex flex-col gap-1 sm:gap-2">
-          {["Hero", "Skills", "Contact"].map((label, index) => (
-            <div
-              key={label}
-              className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm transition-all duration-300 ${
-                currentSection === index ? "bg-white text-black" : "bg-gray-700/50 text-gray-400"
-              }`}
-            >
-              <span className="hidden sm:inline">{label}</span>
-              <span className="sm:hidden">{index + 1}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
       {/* Assembly Status Indicator - positioned relative to component */}
       <div className="absolute top-1/2 left-3 sm:left-4 md:left-6 lg:left-8 transform -translate-y-1/2 pointer-events-none z-30">
         <div className="flex flex-col items-center gap-2">
