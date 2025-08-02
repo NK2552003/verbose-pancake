@@ -655,7 +655,7 @@ export default function TurbineWheel3D({ scrollProgress, rotationSpeed, onPartPo
   return (
     <Canvas
       camera={{
-        position: [5, 3.5, 5],
+        position: [4, 3.5, 4],
         fov: 60,
       }}
    gl={{
