@@ -182,7 +182,12 @@ export default function AboutSection() {
           variants={fadeInUp}
           custom={0.05 * index}
         >
-          <div className="p-4 rounded-xl border border-gray-600 hover:bg-gray-700 transition">
+          <div className="p-4 rounded-xl border border-gray-500 hover:bg-gray-700 transition" style={{
+                  borderTopLeftRadius: "40% 60%",
+                  borderTopRightRadius: "60% 40%",
+                  borderBottomRightRadius: "30% 70%",
+                  borderBottomLeftRadius: "70% 30%",
+                }}>
             <Icon className="w-10 h-10 sm:w-12 sm:h-12" />
           </div>
           <span className="mt-2 text-xs sm:text-sm text-center">{hobby.name}</span>

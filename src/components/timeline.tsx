@@ -41,8 +41,8 @@ const timelineData: TimelineItem[] = [
   },
   {
     id: 5,
-    title: "React Course (In Progress)",
-    date: "Mar 2025",
+    title: "React Course",
+    date: "July 2025",
     description:
       "Currently, I am enrolled in an online React course on Udemy, which focuses on mastering React.js for building modern web applications. The course covers core concepts like JSX, components, props, state, hooks, and routing. I am learning how to create dynamic, single-page applications that are fast and responsive. This course will help me enhance my web development skills, enabling me to build scalable and maintainable projects using the popular React framework.",
   },
@@ -78,7 +78,7 @@ const Timeline: React.FC = () => {
   };
 
   return (
-    <div className="relative z-10 page bg-gradient-to-t from-[#031412] to-transparent">
+    <div className="relative z-10 page">
       <motion.div
         className="flex flex-col items-center justify-center h-[120px] sm:h-[140px] md:h-[160px] lg:h-[180px] xl:h-[200px] text-center text-white relative z-10 p-4 mb-30"
         id="quali"
@@ -87,12 +87,16 @@ const Timeline: React.FC = () => {
         whileInView="visible"
         viewport={{ once: true, margin: "-50px" }}
       >
-        <motion.h1 
-          className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 mt-20"
-          variants={childVariants}
-        >
-          My Professional Journey
-        </motion.h1>
+        <motion.h1
+              className="text-4xl md:text-5xl lg:text-6xl font-bold text-transparent text-center lg:text-start"
+              style={{
+                WebkitTextStroke: "0.5px white",
+                WebkitTextFillColor: "transparent",
+              }}
+              custom={0.2}
+            >
+              My Professional Journey
+            </motion.h1>
         <motion.p 
           className="text-sm sm:text-base md:text-lg text-white/80"
           variants={childVariants}
@@ -134,7 +138,7 @@ const Timeline: React.FC = () => {
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.3 }}
                       >
-                        <p>{item.description}</p>
+                        <p className="text-xs md:text-sm lg:text-base">{item.description}</p>
                       </motion.div>
                     </div>
                   </div>

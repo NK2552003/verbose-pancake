@@ -1,14 +1,5 @@
-
 import { motion } from "framer-motion"
 import { useState, useEffect, useRef, useCallback, useMemo } from "react"
-
-const tabs = [
-  { id: "image", label: "Image", active: true },
-  { id: "illustration", label: "Illustration", active: false },
-  { id: "video", label: "Video", active: false },
-]
-
-const filters = ["All", "Sports", "Architecture", "Fashion", "Interiors", "Animals", "Lifestyle", "Travel", "Nature"]
 
 interface ImageItem {
   id: number
@@ -18,7 +9,6 @@ interface ImageItem {
   orientation: "vertical" | "horizontal"
   zIndex: number
   alt: string
-  category: string
   aspectRatio: string
   width?: number
   height?: number
@@ -30,24 +20,22 @@ const generateRandomZIndex = () => Math.floor(Math.random() * 100) + 1
 const allImages: ImageItem[] = [
   {
     id: 1,
-    src: "/20.jpg",
+    src: "/1.jpeg",
     speed: 2,
     size: "normal",
     orientation: "vertical",
     zIndex: generateRandomZIndex(),
     alt: "Gallery image",
-    category: "Nature",
     aspectRatio: "4/5",
   },
   {
     id: 2,
-    src: "/1.jpg",
+    src: "/2.jpeg",
     speed: 1,
     size: "big",
     orientation: "vertical",
     zIndex: generateRandomZIndex(),
     alt: "Gallery image",
-    category: "Architecture",
     aspectRatio: "3/4",
   },
   {
@@ -58,7 +46,6 @@ const allImages: ImageItem[] = [
     orientation: "horizontal",
     zIndex: generateRandomZIndex(),
     alt: "Gallery image",
-    category: "Lifestyle",
     aspectRatio: "3/2",
   },
   {
@@ -69,7 +56,6 @@ const allImages: ImageItem[] = [
     orientation: "vertical",
     zIndex: generateRandomZIndex(),
     alt: "Gallery image",
-    category: "Fashion",
     aspectRatio: "4/5",
   },
   {
@@ -80,228 +66,337 @@ const allImages: ImageItem[] = [
     orientation: "horizontal",
     zIndex: generateRandomZIndex(),
     alt: "Gallery image",
-    category: "Travel",
     aspectRatio: "3/2",
   },
   {
     id: 6,
-    src: "/6.jpg",
+    src: "/6.jpeg",
     speed: 1,
     size: "big",
     orientation: "horizontal",
     zIndex: generateRandomZIndex(),
     alt: "Gallery image",
-    category: "Nature",
     aspectRatio: "4/3",
   },
   {
     id: 7,
-    src: "/7.jpg",
+    src: "/7.jpeg",
     speed: 2,
     size: "small",
     orientation: "vertical",
     zIndex: generateRandomZIndex(),
     alt: "Gallery image",
-    category: "Animals",
     aspectRatio: "3/4",
   },
   {
     id: 8,
-    src: "/8.jpg",
+    src: "/8.jpeg",
     speed: 4,
     size: "normal",
     orientation: "horizontal",
     zIndex: generateRandomZIndex(),
     alt: "Gallery image",
-    category: "Architecture",
     aspectRatio: "3/2",
   },
   {
     id: 9,
-    src: "/9.jpg",
+    src: "/9.jpeg",
     speed: 3,
     size: "small",
     orientation: "horizontal",
     zIndex: generateRandomZIndex(),
     alt: "Gallery image",
-    category: "Lifestyle",
     aspectRatio: "3/2",
   },
   {
     id: 10,
-    src: "/10.jpg",
+    src: "/10.jpeg",
     speed: 2,
     size: "big",
     orientation: "vertical",
     zIndex: generateRandomZIndex(),
     alt: "Gallery image",
-    category: "Fashion",
     aspectRatio: "3/4",
   },
   {
     id: 11,
-    src: "/11.jpg",
+    src: "/11.jpeg",
     speed: 1,
     size: "normal",
     orientation: "horizontal",
     zIndex: generateRandomZIndex(),
     alt: "Gallery image",
-    category: "Travel",
     aspectRatio: "3/2",
   },
   {
     id: 12,
-    src: "/12.png",
+    src: "/12.jpeg",
     speed: 3,
     size: "normal",
     orientation: "horizontal",
     zIndex: generateRandomZIndex(),
     alt: "Gallery image",
-    category: "Illustration",
     aspectRatio: "3/2",
   },
   {
     id: 13,
-    src: "/13.jpg",
+    src: "/13.jpeg",
     speed: 2,
     size: "small",
     orientation: "horizontal",
     zIndex: generateRandomZIndex(),
     alt: "Gallery image",
-    category: "Nature",
     aspectRatio: "3/2",
   },
   {
     id: 14,
-    src: "/14.jpg",
+    src: "/14.jpeg",
     speed: 1,
     size: "big",
     orientation: "vertical",
     zIndex: generateRandomZIndex(),
     alt: "Gallery image",
-    category: "Architecture",
     aspectRatio: "3/4",
   },
   {
     id: 15,
-    src: "/15.jpg",
+    src: "/15.jpeg",
     speed: 2,
     size: "normal",
     orientation: "horizontal",
     zIndex: generateRandomZIndex(),
     alt: "Gallery image",
-    category: "Lifestyle",
     aspectRatio: "3/2",
   },
   {
     id: 16,
-    src: "/16.jpg",
+    src: "/16.jpeg",
     speed: 4,
     size: "small",
     orientation: "horizontal",
     zIndex: generateRandomZIndex(),
     alt: "Gallery image",
-    category: "Animals",
     aspectRatio: "3/2",
   },
   {
     id: 17,
-    src: "/17.jpg",
+    src: "/17.jpeg",
     speed: 2,
     size: "big",
     orientation: "vertical",
     zIndex: generateRandomZIndex(),
     alt: "Gallery image",
-    category: "Fashion",
     aspectRatio: "3/4",
   },
   {
     id: 18,
-    src: "/18.jpg",
+    src: "/18.jpeg",
     speed: 3,
     size: "normal",
     orientation: "horizontal",
     zIndex: generateRandomZIndex(),
     alt: "Gallery image",
-    category: "Travel",
     aspectRatio: "3/2",
   },
   {
     id: 19,
-    src: "/19.jpg",
+    src: "/19.jpeg",
     speed: 1,
     size: "small",
     orientation: "horizontal",
     zIndex: generateRandomZIndex(),
     alt: "Gallery image",
-    category: "Nature",
     aspectRatio: "3/2",
   },
   {
     id: 20,
-    src: "/20.jpg",
+    src: "/20.jpeg",
     speed: 2,
     size: "normal",
     orientation: "vertical",
     zIndex: generateRandomZIndex(),
     alt: "Gallery image",
-    category: "Architecture",
     aspectRatio: "4/5",
   },
   {
     id: 21,
-    src: "/21.jpg",
+    src: "/21.jpeg",
     speed: 3,
     size: "normal",
     orientation: "horizontal",
     zIndex: generateRandomZIndex(),
     alt: "Gallery image",
-    category: "Lifestyle",
     aspectRatio: "3/2",
   },
   {
     id: 22,
-    src: "/22.jpg",
+    src: "/22.jpeg",
     speed: 2,
     size: "big",
     orientation: "horizontal",
     zIndex: generateRandomZIndex(),
     alt: "Gallery image",
-    category: "Fashion",
     aspectRatio: "4/3",
   },
   {
     id: 23,
-    src: "/23.jpg",
+    src: "/23.jpeg",
     speed: 4,
     size: "small",
     orientation: "vertical",
     zIndex: generateRandomZIndex(),
     alt: "Gallery image",
-    category: "Animals",
     aspectRatio: "3/4",
   },
   {
     id: 24,
-    src: "/24.jpg",
+    src: "/24.jpeg",
     speed: 3,
     size: "normal",
     orientation: "vertical",
     zIndex: generateRandomZIndex(),
     alt: "Gallery image",
-    category: "Travel",
     aspectRatio: "4/5",
   },
   {
     id: 25,
-    src: "/26.jpg",
+    src: "/25.jpeg",
     speed: 1,
     size: "big",
     orientation: "vertical",
     zIndex: generateRandomZIndex(),
     alt: "Gallery image",
-    category: "Nature",
     aspectRatio: "3/4",
+  },
+  {
+    id: 26,
+    src: "/26.jpeg",
+    speed: 2,
+    size: "normal",
+    orientation: "horizontal",
+    zIndex: generateRandomZIndex(),
+    alt: "Gallery image",
+    aspectRatio: "3/2",
+  },
+  {
+    id: 27,
+    src: "/27.jpeg",
+    speed: 3,
+    size: "small",
+    orientation: "vertical",
+    zIndex: generateRandomZIndex(),
+    alt: "Gallery image",
+    aspectRatio: "3/4",
+  },
+  {
+    id: 28,
+    src: "/28.jpeg",
+    speed: 1,
+    size: "big",
+    orientation: "horizontal",
+    zIndex: generateRandomZIndex(),
+    alt: "Gallery image",
+    aspectRatio: "4/3",
+  },
+  {
+    id: 29,
+    src: "/29.jpeg",
+    speed: 4,
+    size: "normal",
+    orientation: "vertical",
+    zIndex: generateRandomZIndex(),
+    alt: "Gallery image",
+    aspectRatio: "4/5",
+  },
+  {
+    id: 30,
+    src: "/30.jpeg",
+    speed: 2,
+    size: "small",
+    orientation: "horizontal",
+    zIndex: generateRandomZIndex(),
+    alt: "Gallery image",
+    aspectRatio: "3/2",
+  },
+  {
+    id: 31,
+    src: "/31.jpeg",
+    speed: 3,
+    size: "normal",
+    orientation: "vertical",
+    zIndex: generateRandomZIndex(),
+    alt: "Gallery image",
+    aspectRatio: "4/5",
+  },
+  {
+    id: 32,
+    src: "/32.jpeg",
+    speed: 1,
+    size: "big",
+    orientation: "vertical",
+    zIndex: generateRandomZIndex(),
+    alt: "Gallery image",
+    aspectRatio: "3/4",
+  },
+  {
+    id: 33,
+    src: "/33.jpeg",
+    speed: 2,
+    size: "small",
+    orientation: "horizontal",
+    zIndex: generateRandomZIndex(),
+    alt: "Gallery image",
+    aspectRatio: "3/2",
+  },
+  {
+    id: 34,
+    src: "/34.jpeg",
+    speed: 4,
+    size: "normal",
+    orientation: "horizontal",
+    zIndex: generateRandomZIndex(),
+    alt: "Gallery image",
+    aspectRatio: "3/2",
+  },
+  {
+    id: 35,
+    src: "/35.jpeg",
+    speed: 3,
+    size: "big",
+    orientation: "vertical",
+    zIndex: generateRandomZIndex(),
+    alt: "Gallery image",
+    aspectRatio: "3/4",
+  },
+  {
+    id: 36,
+    src: "/36.jpeg",
+    speed: 1,
+    size: "normal",
+    orientation: "horizontal",
+    zIndex: generateRandomZIndex(),
+    alt: "Gallery image",
+    aspectRatio: "3/2",
+  },
+  {
+    id: 37,
+    src: "/37.jpeg",
+    speed: 2,
+    size: "small",
+    orientation: "vertical",
+    zIndex: generateRandomZIndex(),
+    alt: "Gallery image",
+    aspectRatio: "3/4",
+  },
+  {
+    id: 38,
+    src: "/38.jpeg",
+    speed: 3,
+    size: "normal",
+    orientation: "horizontal",
+    zIndex: generateRandomZIndex(),
+    alt: "Gallery image",
+    aspectRatio: "3/2",
   },
 ]
 
@@ -339,6 +434,7 @@ const useMasonryLayout = (items: ImageItem[], columns: number) => {
 
   return columnItems
 }
+
 const useIntersectionObserver = (options = {}) => {
   const [isIntersecting, setIsIntersecting] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
@@ -388,80 +484,76 @@ const LazyImage = ({ image, onLoad }: { image: ImageItem; onLoad: (img: ImageIte
   return (
     <div ref={ref} className="group cursor-pointer w-full">
       <motion.div
-  ref={ref}
-  className="group cursor-pointer w-full"
-  initial={{ opacity: 0, scale: 0.95 }}
-  animate={loaded ? { opacity: 1, scale: 1 } : {}}
-  transition={{ duration: 0.4, ease: "easeOut" }}
->
-       <div className="relative overflow-hidden rounded-lg sm:rounded-xl transition-transform duration-300 hover:scale-[1.02] shadow-lg hover:shadow-xl w-full">
-        {isIntersecting ? (
-          <>
-            {!loaded && !error && (
-              <div 
-                className="w-full bg-gray-800 animate-pulse rounded-lg sm:rounded-xl flex items-center justify-center"
-                style={{ 
-                  aspectRatio: image.aspectRatio, 
-                  minHeight: '120px'
-                }}
-              >
-                <div className="text-gray-400 text-xs sm:text-sm">Loading...</div>
-              </div>
-            )}
-            {error ? (
-              <div 
-                className="w-full bg-gray-800 rounded-lg sm:rounded-xl flex items-center justify-center"
-                style={{ 
-                  aspectRatio: image.aspectRatio, 
-                  minHeight: '120px'
-                }}
-              >
-                <div className="text-gray-400 text-xs sm:text-sm">Failed to load</div>
-              </div>
-            ) : (
-              <img
-                src={image.src}
-                alt={image.alt}
-                onLoad={handleImageLoad}
-                onError={handleImageError}
-                className={`w-full h-auto object-cover transition-all duration-300 group-hover:opacity-90 ${
-                  loaded ? 'opacity-100' : 'opacity-0'
-                }`}
-                style={{ 
-                  aspectRatio: image.aspectRatio,
-                  display: 'block',
-                  maxWidth: '100%'
-                }}
-                loading="lazy"
-              />
-            )}
-            <div className="absolute inset-0 bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300" />
-            {loaded && (
-              <div className="absolute top-1 right-1 sm:top-2 sm:right-2 bg-opacity-60 text-white text-xs px-1.5 py-0.5 sm:px-2 sm:py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                {image.width && image.height ? `${image.width}×${image.height}` : 'Loading...'}
-              </div>
-            )}
-          </>
-        ) : (
-          <div 
-            className="w-full animate-pulse rounded-lg sm:rounded-xl"
-            style={{ 
-              aspectRatio: image.aspectRatio, 
-              minHeight: '120px'
-            }}
-          />
-        )}
-      </div>
-</motion.div>
-
-
+        ref={ref}
+        className="group cursor-pointer w-full"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={loaded ? { opacity: 1, scale: 1 } : {}}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+      >
+        <div className="relative overflow-hidden rounded-lg sm:rounded-xl transition-transform duration-300 hover:scale-[1.02] shadow-lg hover:shadow-xl w-full">
+          {isIntersecting ? (
+            <>
+              {!loaded && !error && (
+                <div 
+                  className="w-full bg-gray-800 animate-pulse rounded-lg sm:rounded-xl flex items-center justify-center"
+                  style={{ 
+                    aspectRatio: image.aspectRatio, 
+                    minHeight: '120px'
+                  }}
+                >
+                  <div className="text-gray-400 text-xs sm:text-sm">Loading...</div>
+                </div>
+              )}
+              {error ? (
+                <div 
+                  className="w-full bg-gray-800 rounded-lg sm:rounded-xl flex items-center justify-center"
+                  style={{ 
+                    aspectRatio: image.aspectRatio, 
+                    minHeight: '120px'
+                  }}
+                >
+                  <div className="text-gray-400 text-xs sm:text-sm">Failed to load</div>
+                </div>
+              ) : (
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  onLoad={handleImageLoad}
+                  onError={handleImageError}
+                  className={`w-full h-auto object-cover transition-all duration-300 group-hover:opacity-90 ${
+                    loaded ? 'opacity-100' : 'opacity-0'
+                  }`}
+                  style={{ 
+                    aspectRatio: image.aspectRatio,
+                    display: 'block',
+                    maxWidth: '100%'
+                  }}
+                  loading="lazy"
+                />
+              )}
+              <div className="absolute inset-0 bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300" />
+              {loaded && (
+                <div className="absolute top-1 right-1 sm:top-2 sm:right-2 bg-opacity-60 text-white text-xs px-1.5 py-0.5 sm:px-2 sm:py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                  {image.width && image.height ? `${image.width}×${image.height}` : 'Loading...'}
+                </div>
+              )}
+            </>
+          ) : (
+            <div 
+              className="w-full animate-pulse rounded-lg sm:rounded-xl"
+              style={{ 
+                aspectRatio: image.aspectRatio, 
+                minHeight: '120px'
+              }}
+            />
+          )}
+        </div>
+      </motion.div>
     </div>
   )
 }
 
 export default function MasonryGallery() {
-  const [activeTab, setActiveTab] = useState("image")
-  const [activeFilter, setActiveFilter] = useState("All")
   const [images, setImages] = useState<ImageItem[]>([])
   const [displayCount, setDisplayCount] = useState(9) // Show 3 rows initially (approximately 9 images)
   const [loading, setLoading] = useState(false)
@@ -496,10 +588,8 @@ export default function MasonryGallery() {
     ))
   }, [])
 
-  const filteredImages = activeFilter === "All" ? images : images.filter((img) => img.category === activeFilter)
-  
   // Use custom masonry layout
-  const columnItems = useMasonryLayout(filteredImages, columns)
+  const columnItems = useMasonryLayout(images, columns)
 
   const loadMore = () => {
     setLoading(true)
@@ -514,11 +604,11 @@ export default function MasonryGallery() {
 
   return (
     <div className="text-white p-2 sm:p-4 md:p-6">
-           {/* Stats */}
-        <div className=" text-center md:text-end mb-4  text-gray-400 text-sm md:px-10">
-          Showing {filteredImages.length} of {activeFilter === "All" ? allImages.length : allImages.filter(img => img.category === activeFilter).length} images
-        </div>
-      <div className=" md:px-10 w-full overflow-hidden">
+      {/* Stats */}
+      <div className="text-center md:text-end mb-4 text-gray-400 text-sm md:px-10">
+        Showing {images.length} of {allImages.length} images
+      </div>
+      <div className="md:px-10 w-full overflow-hidden">
         {/* Stable Masonry Layout */}
         <div className="flex gap-2 sm:gap-3 md:gap-4 items-start w-full">
           {columnItems.map((column, columnIndex) => (
