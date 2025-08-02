@@ -186,11 +186,10 @@ const pulseVariants = {
 };
 
 export default function HeroSection() {
-  const [menuOpen, setMenuOpen] = useState<boolean>(false);
+
   const [displayName, setDisplayName] = useState<string>("Nitish Kumar");
   const [showNotification, setShowNotification] = useState(false);
-  const [isScrolled, setIsScrolled] = useState<boolean>(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+
 
   const today = new Date();
   const day = today.getDate().toString().padStart(2, "0");
@@ -198,15 +197,7 @@ export default function HeroSection() {
   const textLg = "- An Undergraduate Passionate Engineering Student -";
   const textSm = "- Passionate Undergraduate Engineer -";
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0);
-      setIsDrawerOpen(false);
-    };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   useEffect(() => {
     const updateName = () => {
@@ -487,67 +478,7 @@ export default function HeroSection() {
         </motion.div>
       </div>
 
-      {/* Floating Navigation */}
-      <motion.div 
-        className="fixed bottom-5 right-5 z-50"
-        initial={{ scale: 0, opacity: 0 }}
-        animate={isScrolled ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
-        transition={{ type: "spring", stiffness: 200, damping: 20 }}
-      >
-        <motion.button
-          onClick={() => setIsDrawerOpen(!isDrawerOpen)}
-          className="flex items-center justify-center bg-[#03141278] backdrop-blur-md rounded-xl shadow-lg transition-all duration-300 border-[0.5px] border-white/50"
-          style={{ width: "40px", height: "40px" }}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          animate={isDrawerOpen ? { rotate: 45 } : { rotate: 0 }}
-        >
-          <motion.i
-            className={`bx ${
-              isDrawerOpen ? "bx-menu-alt-right" : "bx-menu"
-            } text-white text-2xl`}
-            animate={isDrawerOpen ? { rotate: 180 } : { rotate: 0 }}
-          ></motion.i>
-        </motion.button>
-
-        <AnimatePresence>
-          {isDrawerOpen && (
-            <motion.div
-              className="absolute bottom-14 right-0 flex flex-col space-y-4"
-              initial={{ opacity: 0, y: 20, scale: 0.8 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 20, scale: 0.8 }}
-              transition={{ type: "spring", stiffness: 200, damping: 20 }}
-            >
-              {[
-                { icon: "bx-home", href: "#home" },
-                { icon: "bx-user", href: "#about" },
-                { icon: "bx-book", href: "#quali" },
-                { icon: "bx-briefcase", href: "#projects" },
-                { icon: "bx-envelope", href: "#contact" },
-              ].map((item, index) => (
-                <motion.a
-                  key={index}
-                  href={item.href}
-                  onClick={() => setIsDrawerOpen(false)}
-                  className="flex bg-[#03141278] backdrop-blur-md rounded-xl justify-center items-center shadow-lg hover:bg-white/30 transition-all duration-300 border-[0.5px] border-white/50"
-                  style={{ width: "40px", height: "40px" }}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  whileHover={{ scale: 1.1, x: -5 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <motion.i
-                    className={`bx ${item.icon} text-white text-2xl sm:text-xl`}
-                    whileHover={{ rotate: 10 }}
-                  ></motion.i>
-                </motion.a>
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.div>
+  
     </motion.div>
   );
 }
