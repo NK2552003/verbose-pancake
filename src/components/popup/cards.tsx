@@ -1,64 +1,64 @@
 // components/popup/cards.tsx
 
 export const HeroCard = () => (
-  <div>
-    <h2 className="font-bold text-lg">Welcome to My Portfolio</h2>
-    <p className="text-sm text-gray-200">Explore projects, experience, and more below!</p>
+  <div className="text-end">
+    <h2 className="font-bold text-md">Welcome to My Portfolio</h2>
+    <p className="text-xs text-gray-200/80">Explore projects, experience, and more below!</p>
   </div>
 )
 
 export const PortfolioCard = () => (
-  <div>
-    <h2 className="font-bold text-lg">3D Skills Showcase</h2>
-    <p className="text-sm text-gray-200">Interact with my turbine disassembly scroll project here.</p>
+  <div className="text-end">
+    <h2 className="font-bold text-md">3D Skills Showcase</h2>
+    <p className="text-xs text-gray-200/80">Interact with my turbine disassembly scroll project here.</p>
   </div>
 )
 
 export const AboutCard = () => (
-  <div>
+  <div className="text-end">
     <h2 className="font-bold text-lg">Who Am I?</h2>
-    <p className="text-sm text-gray-200">A passionate developer specializing in full-stack and AI.</p>
+    <p className="text-xs text-gray-200/80">A passionate developer specializing in full-stack and AI.</p>
   </div>
 )
 
 export const GitHubCard = () => (
-  <div>
+  <div className="text-end">
     <h2 className="font-bold text-lg">GitHub Stats</h2>
-    <p className="text-sm text-gray-200">Check out my open-source contributions and activity.</p>
+    <p className="text-xs text-gray-200/80">Check out my open-source contributions and activity.</p>
   </div>
 )
 
 export const GridCard = () => (
-  <div>
+  <div className="text-end">
     <h2 className="font-bold text-lg">Skills & Tools</h2>
-    <p className="text-sm text-gray-200">Technologies and tools I work with regularly.</p>
+    <p className="text-xs text-gray-200/80">Technologies and tools I work with regularly.</p>
   </div>
 )
 
 export const TimelineCard = () => (
-  <div>
+  <div className="text-end">
     <h2 className="font-bold text-lg">Timeline</h2>
-    <p className="text-sm text-gray-200">My journey from student to developer.</p>
+    <p className="text-xs text-gray-200/80">My journey from student to developer.</p>
   </div>
 )
 
 export const ProjectsCard = () => (
-  <div>
+  <div className="text-end">
     <h2 className="font-bold text-lg">Featured Projects</h2>
-    <p className="text-sm text-gray-200">A selection of my best work with live demos.</p>
+    <p className="text-xs text-gray-200/80">A selection of my best work with live demos.</p>
   </div>
 )
 
 export const CodepenCard = () => (
-  <div>
+  <div className="text-end">
     <h2 className="font-bold text-lg">Codepen Experiments</h2>
-    <p className="text-sm text-gray-200">Creative code snippets and fun animations.</p>
+    <p className="text-xs text-gray-200/80">Creative code snippets and fun animations.</p>
   </div>
 )
 
 export const ContactCard = () => (
-  <div>
+  <div className="text-end">
     <h2 className="font-bold text-lg">Get in Touch</h2>
-    <p className="text-sm text-gray-200">Feel free to reach out for collaboration or inquiries.</p>
+    <p className="text-xs text-gray-200/80">Feel free to reach out for collaboration or inquiries.</p>
   </div>
 )

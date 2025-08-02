@@ -55,29 +55,16 @@ export default function PortfolioScroll() {
       // Determine current section
       if (progress < 0.33) {
         setCurrentSection(0) // Hero section
+        setVisibleSkills([])
+        setVisibleGitHubStats([])
       } else if (progress < 0.66) {
         setCurrentSection(1) // Skills section
+        setVisibleSkills(Array.from({ length: skills.length }, (_, i) => i))
+        setVisibleGitHubStats([])
       } else {
         setCurrentSection(2) // Contact section
-      }
-
-      // Show skills progressively only in section 1 (when disassembled)
-      if (progress >= 0.33 && progress < 0.66) {
-        const sectionProgress = (progress - 0.33) / 0.33
-        const skillsToShow = Math.min(Math.floor(sectionProgress * skills.length * 1.5), skills.length)
-        setVisibleSkills(Array.from({ length: skillsToShow }, (_, i) => i))
-      } else {
         setVisibleSkills([])
-      }
-
-      // Show GitHub stats only in section 2 (when disassembled, but not reassembling)
-      if (progress >= 0.66 && progress < 0.9) {
-        const sectionProgress = (progress - 0.66) / 0.24
-        const githubStatsToShow = Math.min(Math.floor(sectionProgress * githubStats.length * 2), githubStats.length)
-        setVisibleGitHubStats(Array.from({ length: githubStatsToShow }, (_, i) => i))
-      } else {
-        // Hide during reassembly (progress >= 0.9) and other sections
-        setVisibleGitHubStats([])
+        setVisibleGitHubStats(Array.from({ length: githubStats.length }, (_, i) => i))
       }
     }
 
@@ -100,7 +87,7 @@ export default function PortfolioScroll() {
         style={{ scrollBehavior: "smooth" }}
       >
         {/* Content that creates scroll height */}
-        <div className="h-[300vh] relative">
+        <div className="h-[200vh] relative">
           {/* Fixed 3D Scene - positioned relative to the component container */}
           <div className="sticky top-0 w-full h-screen pointer-events-none">
             <div className="w-full h-full relative">
@@ -110,77 +97,6 @@ export default function PortfolioScroll() {
                 onPartPositionsUpdate={handlePartPositionsUpdate}
               />
             </div>
-          </div>
-
-          {/* Content Sections */}
-          <div className="pointer-events-none">
-            {/* Hero Section */}
-            <section className="h-screen flex items-center justify-center px-4 sm:px-6 md:px-8 lg:px-16 xl:px-20 py-8 sm:py-12 transition-all duration-1000 ease-out">
-              <div
-                className={`w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl pointer-events-auto text-center transform transition-all duration-700 ease-out ${
-                  currentSection === 0 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-                }`}
-              >
-                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-3 sm:mb-4 md:mb-6 leading-tight">
-                  Full Stack
-                  <br />
-                  Developer
-                </h1>
-                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 mb-4 sm:mb-6 md:mb-8 leading-relaxed">
-                  Building modern web applications with cutting-edge technologies and clean, efficient code.
-                </p>
-                <div className="text-xs sm:text-sm md:text-base text-gray-400 mb-4 sm:mb-6 md:mb-8">
-                  Scroll to see the turbine disassemble and explore my skills
-                </div>
-
-                {/* Hero-specific indicators */}
-                <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
-                  <span className="px-2 sm:px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full text-xs sm:text-sm border border-blue-500/30">
-                    React Expert
-                  </span>
-                  <span className="px-2 sm:px-3 py-1 bg-green-500/20 text-green-300 rounded-full text-xs sm:text-sm border border-green-500/30">
-                    Full Stack
-                  </span>
-                  <span className="px-2 sm:px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-xs sm:text-sm border border-purple-500/30">
-                    3D Graphics
-                  </span>
-                </div>
-              </div>
-            </section>
-
-            {/* Skills Section */}
-            <section className="h-screen flex items-center justify-center px-4 sm:px-6 md:px-8 lg:px-16 xl:px-20 py-8 sm:py-12 transition-all duration-1000 ease-out">
-              <div
-                className={`w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl pointer-events-auto text-center transform transition-all duration-700 ease-out ${
-                  currentSection === 1 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-                }`}
-              >
-                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-3 sm:mb-4 md:mb-6 leading-tight">
-                  Technical
-                  <br />
-                  Expertise
-                </h2>
-                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 mb-4 sm:mb-6 md:mb-8 leading-relaxed">
-                  Watch as each turbine blade reveals a specialized skill. Each component represents mastery in modern web
-                  technologies.
-                </p>
-                <div className="space-y-2 sm:space-y-3 text-xs sm:text-sm md:text-base lg:text-lg text-gray-400">
-                  <div className="flex items-center justify-center gap-2 sm:gap-3">
-                    <div className="w-2 h-2 sm:w-3 sm:h-3 bg-blue-400 rounded-full flex-shrink-0"></div>
-                    <span>Frontend: React, TypeScript, Three.js</span>
-                  </div>
-                  <div className="flex items-center justify-center gap-2 sm:gap-3">
-                    <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-400 rounded-full flex-shrink-0"></div>
-                    <span>Backend: Node.js, Python, Docker</span>
-                  </div>
-                  <div className="flex items-center justify-center gap-2 sm:gap-3">
-                    <div className="w-2 h-2 sm:w-3 sm:h-3 bg-orange-400 rounded-full flex-shrink-0"></div>
-                    <span>Cloud: AWS, Vercel, Serverless</span>
-                  </div>
-                </div>
-              </div>
-            </section>
-      
           </div>
         </div>
       </div>
@@ -207,17 +123,17 @@ export default function PortfolioScroll() {
 
       {/* Progress Indicator - positioned relative to component */}
       <div className="absolute bottom-3 sm:bottom-4 md:bottom-6 lg:bottom-8 right-3 sm:right-4 md:right-6 lg:right-8 pointer-events-none z-30">
-        <div className="w-1 sm:w-2 h-16 sm:h-20 md:h-24 lg:h-32 bg-gray-700/50 rounded-full overflow-hidden backdrop-blur-sm">
+        <div className="w-1 sm:w-2 h-16 sm:h-20 md:h-24 lg:h-32 bg-gray-700/50 rounded overflow-hidden backdrop-blur-sm">
           <div
-            className="w-full bg-white transition-all duration-500 ease-out"
+            className="w-full bg-teal-500 transition-all duration-500 ease-out"
             style={{ height: `${scrollProgress * 100}%` }}
           />
         </div>
       </div>
 
       {/* Assembly Status Indicator - positioned relative to component */}
-      <div className="absolute top-1/2 left-3 sm:left-4 md:left-6 lg:left-8 transform -translate-y-1/2 pointer-events-none z-30">
-        <div className="flex flex-col items-center gap-2">
+      <div className="absolute top-12 left-3 sm:left-4 md:left-6 lg:left-8 transform -translate-y-1/2 pointer-events-none z-30">
+        <div className="flex flex-row items-center gap-2">
           <div
             className={`w-3 h-3 rounded-full transition-all duration-500 ${
               scrollProgress < 0.33 ? "bg-green-400" : scrollProgress < 0.9 ? "bg-yellow-400" : "bg-green-400"

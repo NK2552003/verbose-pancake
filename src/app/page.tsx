@@ -52,7 +52,7 @@ const SectionWrapper = ({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -40 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className="fixed top-5 right-18 z-40 backdrop-blur-md shadow-md border border-white/20 rounded-xl px-4 md:px-6 py-3 w-[90%] max-w-md text-teal-500"
+            className="fixed top-5 right-8 md:right-18 z-40 shadow-md px-2 md:py-3 w-[200px] md:w-[250px] max-w-md text-teal-500"
           >
             {card}
           </motion.div>
@@ -68,13 +68,13 @@ export default function Home() {
 
   return (
     <>
-      {showBanner && (
+      {/* {showBanner && (
         <div className="fixed top-3 left-1/2 -translate-x-1/2 bg-red-600 text-white text-center py-2 z-50 rounded-xl flex justify-center px-4 text-[12px]">
           <span>
             🚧 This site is under development. Some features may not work as expected. 🚧
           </span>
         </div>
-      )}
+      )} */}
 
       {!isLoading && <ScrollIndicator totalBars={60} scrollContainerId="scroll-container" />}
 

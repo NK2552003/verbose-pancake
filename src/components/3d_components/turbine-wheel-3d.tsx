@@ -92,38 +92,38 @@ function TurbineWheel({ scrollProgress, rotationSpeed, onPartPositionsUpdate }: 
   })
 
   // Calculate responsive scale and disassembly bounds
-  const { responsiveScale, disassemblyBounds } = useMemo(() => {
-    const baseScale = 1
-    const minScale = 0.6
-    const maxScale = 1.4
+const { responsiveScale, disassemblyBounds } = useMemo(() => {
+  const baseScale = 0.9         // ↓ reduced from 1
+  const minScale = 0.5          // ↓ reduced from 0.6
+  const maxScale = 1.2          // ↓ reduced from 1.4
 
-    const widthFactor = Math.min(viewport.width / 8, 1)
-    const heightFactor = Math.min(viewport.height / 6, 1)
-    const scaleFactor = Math.min(widthFactor, heightFactor)
+  const widthFactor = Math.min(viewport.width / 8, 1)
+  const heightFactor = Math.min(viewport.height / 6, 1)
+  const scaleFactor = Math.min(widthFactor, heightFactor)
 
-    const scale = Math.max(minScale, Math.min(maxScale, baseScale * scaleFactor))
+  const scale = Math.max(minScale, Math.min(maxScale, baseScale * scaleFactor))
 
-    // Calculate safe disassembly bounds based on viewport and camera
-    const isMobile = viewport.width < 4
-    const isTablet = viewport.width >= 4 && viewport.width < 8
+  // Calculate safe disassembly bounds based on viewport and camera
+  const isMobile = viewport.width < 4
+  const isTablet = viewport.width >= 4 && viewport.width < 8
 
-    let maxRadius, maxHeight
-    if (isMobile) {
-      maxRadius = 1.8 // Tighter for mobile
-      maxHeight = 1.2
-    } else if (isTablet) {
-      maxRadius = 2.2 // Medium for tablet
-      maxHeight = 1.5
-    } else {
-      maxRadius = 2.8 // Larger for desktop
-      maxHeight = 1.8
-    }
+  let maxRadius, maxHeight
+  if (isMobile) {
+    maxRadius = 1.8
+    maxHeight = 1.2
+  } else if (isTablet) {
+    maxRadius = 2.2
+    maxHeight = 1.5
+  } else {
+    maxRadius = 2.8
+    maxHeight = 1.8
+  }
 
-    return {
-      responsiveScale: scale,
-      disassemblyBounds: { maxRadius, maxHeight },
-    }
-  }, [viewport.width, viewport.height])
+  return {
+    responsiveScale: scale,
+    disassemblyBounds: { maxRadius, maxHeight },
+  }
+}, [viewport.width, viewport.height])
 
   // Create the central hub
   const hubGeometry = useMemo(() => {
