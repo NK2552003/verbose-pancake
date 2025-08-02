@@ -1,12 +1,31 @@
-import Image from "next/image";
-import { motion } from "framer-motion";
+"use client"
+
+import Image from "next/image"
+import { motion } from "framer-motion"
+import {
+  Music,
+  Paintbrush,
+  Dumbbell,
+  Leaf,
+  Gamepad2,
+  Camera,
+  Film,
+  BookOpenCheck,
+  Piano,
+} from "lucide-react"
 
 export default function AboutSection() {
-  const skills = [
-    "NEXT.JS", "REACT", "TYPESCRIPT", "FLUTTER", "DART", "JAVASCRIPT",
-    "PYTHON", "SUPABASE", "FIREBASE", "INNGEST", "FROG FRAMEWORK",
-    "SQL DATABASE", "MOBILE DEVELOPMENT", "WEB DEVELOPMENT", "FULL STACK", "RESPONSIVE DESIGN"
-  ];
+  const hobbies = [
+    { name: "Music", icon: Music },
+    { name: "Drawing", icon: Paintbrush },
+    { name: "Gym", icon: Dumbbell },
+    { name: "Nature Care", icon: Leaf },
+    { name: "Gaming", icon: Gamepad2 },
+    { name: "Photography", icon: Camera },
+    { name: "Movies", icon: Film },
+    { name: "Mangas", icon: BookOpenCheck },
+    { name: "Piano", icon: Piano },
+  ]
 
   const fadeInUp = {
     hidden: { opacity: 0, y: 50 },
@@ -15,12 +34,12 @@ export default function AboutSection() {
       y: 0,
       transition: { delay, duration: 0.6, ease: "easeOut" },
     }),
-  };
+  }
 
   return (
     <section>
-       <motion.div
-        className="flex flex-col items-center justify-center text-center text-white relative z-10 p-4 mb-6 md:mb-12 px-3"
+      <motion.div
+        className="flex flex-col items-center justify-center h-[120px] sm:h-[140px] md:h-[160px] lg:h-[180px] xl:h-[200px] text-center text-white relative z-10 p-4 mb-12 px-3"
         id="about"
         initial="hidden"
         whileInView="visible"
@@ -28,47 +47,26 @@ export default function AboutSection() {
         variants={fadeInUp}
       >
         <motion.h1
-          className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 mt-20"
+          className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 mt-20 text-teal-400"
           custom={0}
           variants={fadeInUp}
         >
           A Glimpse Into My World
         </motion.h1>
         <motion.p
-          className="text-sm sm:text-base md:text-lg text-white/80"
+          className="text-sm sm:text-base md:text-lg text-white/60"
           custom={0.1}
           variants={fadeInUp}
         >
           Learn more about who I am, what I do, and what inspires me.
         </motion.p>
       </motion.div>
-       <motion.div
-            className="flex flex-col items-center justify-center"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-          >
-            <motion.p
-              className="text-sm md:text-base lg:text-xl text-gray-300/80 leading-relaxed font-extralight lg:pr-20 text-center px-8 lg:px-10"
-              custom={0.3}
-              variants={fadeInUp}
-            >
-              Fuelled by a passion for developing innovative mobile and web
-              applications, I have a deep desire to excel and continuously
-              improve in my development skills.
-              <span className="hidden lg:inline">
-                Specializing in modern frameworks and databases, learn more
-                about my technical journey below.
-              </span>
-            </motion.p>
-          </motion.div>
-      <div className="flex items-center w-full flex-col">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center w-[90%] my-10 md:my-30">
-          
-          {/* Left side - Profile Image */} 
+
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+          {/* Left side - Profile Image */}
           <motion.div
-            className="flex justify-center lg:justify-start lg:pl-10 order-1 lg:order-1"
+            className="flex justify-center lg:justify-end lg:pr-10 order-1 lg:order-1"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -93,7 +91,51 @@ export default function AboutSection() {
           </motion.div>
 
           {/* Right side - Content */}
-                  <motion.div variants={fadeInUp} custom={0.4}>
+          <motion.div
+            className="order-2 lg:order-2 space-y-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+          >
+            <motion.h1
+              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-transparent text-center lg:text-start"
+              style={{
+                WebkitTextStroke: "0.5px white",
+                WebkitTextFillColor: "transparent",
+              }}
+              custom={0.2}
+              variants={fadeInUp}
+            >
+              Hi there!
+            </motion.h1>
+
+            <motion.p
+              className="text-sm md:text-base lg:text-xl text-gray-300/80 leading-relaxed font-extralight lg:pr-20 text-center lg:text-start px-4 lg:px-0"
+              custom={0.3}
+              variants={fadeInUp}
+            >
+              Fuelled by a passion for developing innovative mobile and web
+              applications, I have a deep desire to excel and continuously
+              improve in my development skills.
+              <span className="hidden lg:block">
+                Specializing in modern frameworks and databases, learn more
+                about my technical journey below.
+              </span>
+            </motion.p>
+          </motion.div>
+        </div>
+
+        {/* Career Section */}
+        <motion.div
+          className="mt-16 lg:mt-24"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeInUp}
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
+            <motion.div variants={fadeInUp} custom={0.4}>
               <h2
                 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-transparent text-center lg:text-end"
                 style={{
@@ -114,8 +156,42 @@ export default function AboutSection() {
                 automation.
               </p>
             </motion.div>
-        </div>
+
+           {/* Hobbies Section */}
+<motion.div
+  className="flex flex-col items-center justify-center lg:pr-30"
+  variants={fadeInUp}
+  custom={0.5}
+>
+  <motion.div
+    className="flex flex-wrap justify-center gap-2 md:gap-4 lg:gap-6 w-full"
+    initial="hidden"
+    whileInView="visible"
+    viewport={{ once: true }}
+  >
+    {hobbies.map((hobby, index) => {
+      const Icon = hobby.icon
+      return (
+        <motion.div
+          key={index}
+          className="flex flex-col items-center text-gray-200 hover:text-white transition-colors duration-300"
+          variants={fadeInUp}
+          custom={0.05 * index}
+        >
+          <div className="p-4 rounded-xl border border-gray-600 hover:bg-gray-700 transition">
+            <Icon className="w-10 h-10 sm:w-12 sm:h-12" />
+          </div>
+          <span className="mt-2 text-xs sm:text-sm text-center">{hobby.name}</span>
+        </motion.div>
+      )
+    })}
+  </motion.div>
+</motion.div>
+
+
+          </div>
+        </motion.div>
       </div>
     </section>
-  );
+  )
 }
