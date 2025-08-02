@@ -20,7 +20,7 @@ export default function AboutSection() {
   return (
     <section>
        <motion.div
-        className="flex flex-col items-center justify-center text-center text-white relative z-10 p-4 mb-12 px-3"
+        className="flex flex-col items-center justify-center text-center text-white relative z-10 p-4 mb-6 md:mb-12 px-3"
         id="about"
         initial="hidden"
         whileInView="visible"
@@ -43,7 +43,7 @@ export default function AboutSection() {
         </motion.p>
       </motion.div>
        <motion.div
-            className="md:space-y-8 flex flex-col items-center justify-center"
+            className="flex flex-col items-center justify-center"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -64,7 +64,7 @@ export default function AboutSection() {
             </motion.p>
           </motion.div>
       <div className="flex items-center w-full flex-col">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center w-[90%] my-30">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center w-[90%] my-10 md:my-30">
           
           {/* Left side - Profile Image */} 
           <motion.div
