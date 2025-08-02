@@ -44,7 +44,7 @@ const ScrollIndicator = ({
           : "w-1.5 md:w-2"
 
         const colorClass = isActive
-          ? "bg-red-500"
+          ? "bg-teal-500"
           : "bg-gray-500/40"
 
         const heightClass = "h-[1px] md:h-[2px]"

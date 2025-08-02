@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import SplashScreen from "../components/SplashScreen"
 import GridLayout from "@/components/AdditionalActivity"
 import ProjectsCP from "@/components/codepen"
@@ -13,7 +13,54 @@ import HeroSection from "@/components/heroSection"
 import AboutSection from "@/components/AboutSection"
 import PortfolioScroll from "@/components/3d_components/portfolio-scroll"
 import ScrollIndicator from "@/components/scrollindicator"
+import { AnimatePresence, motion } from "framer-motion"
+import { HeroCard, PortfolioCard, AboutCard, GitHubCard, GridCard, TimelineCard, ProjectsCard, CodepenCard, ContactCard } from "@/components/popup/cards"
 
+
+const SectionWrapper = ({
+  id,
+  children,
+  card,
+}: {
+  id: string
+  children: React.ReactNode
+  card?: React.ReactNode
+}) => {
+  const [inView, setInView] = useState(false)
+
+  useEffect(() => {
+    const section = document.getElementById(id)
+    if (!section) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold: 0.5 }
+    )
+
+    observer.observe(section)
+    return () => observer.disconnect()
+  }, [id])
+
+  return (
+    <section id={id} className="snap-start snap-always relative">
+      {children}
+
+      <AnimatePresence>
+        {inView && card && (
+          <motion.div
+            initial={{ opacity: 0, y: -40 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -40 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className="fixed top-5 right-18 z-40 backdrop-blur-md shadow-md border border-white/20 rounded-xl px-4 md:px-6 py-3 w-[90%] max-w-md text-teal-500"
+          >
+            {card}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </section>
+  )
+}
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -23,11 +70,13 @@ export default function Home() {
     <>
       {showBanner && (
         <div className="fixed top-3 left-1/2 -translate-x-1/2 bg-red-600 text-white text-center py-2 z-50 rounded-xl flex justify-center px-4 text-[12px]">
-          <span>🚧 This site is under development. Some features may not work as expected. 🚧</span>
+          <span>
+            🚧 This site is under development. Some features may not work as expected. 🚧
+          </span>
         </div>
       )}
 
-      {!isLoading &&<ScrollIndicator totalBars={60} scrollContainerId="scroll-container" />}
+      {!isLoading && <ScrollIndicator totalBars={60} scrollContainerId="scroll-container" />}
 
       {isLoading ? (
         <SplashScreen onLoaded={() => setIsLoading(false)} />
@@ -39,49 +88,49 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Scrollable container */}
           <div
             id="scroll-container"
             className="relative z-10 h-screen overflow-y-scroll scroll-smooth snap-y snap-mandatory"
           >
-            <section className="snap-start snap-always">
+            <SectionWrapper id="hero" card={<HeroCard />}>
               <HeroSection />
-            </section>
+            </SectionWrapper>
 
-            <section className="snap-start snap-always border border-white">
+            <SectionWrapper id="portfolio" card={<PortfolioCard />}>
               <PortfolioScroll />
-            </section>
+            </SectionWrapper>
 
-            <section className="snap-start snap-always">
+            <SectionWrapper id="about" card={<AboutCard />}>
               <AboutSection />
-            </section>
+            </SectionWrapper>
 
-            <section className="snap-start snap-always">
+            <SectionWrapper id="github-stats" card={<GitHubCard />}>
               <GitHubStats />
-            </section>
+            </SectionWrapper>
 
-            <section className="snap-start snap-always">
+            <SectionWrapper id="grid" card={<GridCard />}>
               <GridLayout />
-            </section>
+            </SectionWrapper>
 
-            <section className="snap-start snap-always">
+            <SectionWrapper id="timeline" card={<TimelineCard />}>
               <Timeline />
-            </section>
+            </SectionWrapper>
 
-            <section className="snap-start snap-always">
+            <SectionWrapper id="projects" card={<ProjectsCard />}>
               <Projects />
-            </section>
+            </SectionWrapper>
 
-            <section className="snap-start snap-always">
+            <SectionWrapper id="projectscp" card={<CodepenCard />}>
               <ProjectsCP />
-            </section>
+            </SectionWrapper>
 
-            <section className="snap-start snap-always">
+            <SectionWrapper id="contact" card={<ContactCard />}>
               <ContactSection />
-            </section>
-            <section className="snap-start snap-always">
-                    <Footer />
-            </section>
+            </SectionWrapper>
+
+             <section id="footer" className="snap-start snap-always relative">
+              <Footer/>
+    </section>
           </div>
         </main>
       )}
