@@ -57,7 +57,7 @@ export default function AboutSection() {
               Fuelled by a passion for developing innovative mobile and web
               applications, I have a deep desire to excel and continuously
               improve in my development skills.
-              <span className="hidden lg:block">
+              <span className="hidden lg:inline">
                 Specializing in modern frameworks and databases, learn more
                 about my technical journey below.
               </span>
