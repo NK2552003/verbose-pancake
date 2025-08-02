@@ -43,7 +43,11 @@ const packageSizes = {
 }
 
 const enrichedSegments = segments.map((seg) => {
-  const size = seg.packages.reduce((total, pkg) => total + (packageSizes[pkg] || 0), 0)
+  const size = seg.packages.reduce(
+  (total, pkg) => total + (packageSizes[pkg as keyof typeof packageSizes] || 0), 
+  352.56
+);
+
   return { ...seg, size: parseFloat(size.toFixed(2)) }
 })
 
