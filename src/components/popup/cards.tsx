@@ -30,8 +30,8 @@ export const GitHubCard = () => (
 
 export const GridCard = () => (
   <div className="text-end">
-    <h2 className="font-bold text-lg">Skills & Tools</h2>
-    <p className="text-xs text-gray-200/80">Technologies and tools I work with regularly.</p>
+    <h2 className="font-bold text-lg">Beyond the code</h2>
+    <p className="text-xs text-gray-200/80">what's my hobbie & what I like</p>
   </div>
 )
 
