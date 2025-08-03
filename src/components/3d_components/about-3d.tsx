@@ -160,7 +160,6 @@ export default function About3DScroll() {
       <div className="absolute inset-0 pointer-events-none">
         <HobbyIndicator
           hobbies={hobbies}
-          partPositions={partPositions}
           visibleHobbies={visibleHobbies}
           currentSection={currentSection}
         />
