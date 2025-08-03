@@ -9,21 +9,20 @@ import Footer from "@/components/footer";
 import Projects from "@/components/projects";
 import Timeline from "@/components/timeline";
 import HeroSection from "@/components/heroSection";
-import AboutSection from "@/components/AboutSection";
-import PortfolioScroll from "@/components/3d_components/portfolio-scroll";
 import ScrollIndicator from "@/components/scrollindicator";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   HeroCard,
   PortfolioCard,
   AboutCard,
-  GitHubCard,
   GridCard,
   TimelineCard,
   ProjectsCard,
   CodepenCard,
   ContactCard,
 } from "@/components/popup/cards";
+import Skill3dScroll from "@/components/3d_components/skill-3d";
+import About3DScroll from "@/components/3d_components/about-3d";
 
 const SectionWrapper = ({
   id,
@@ -107,10 +106,10 @@ export default function Home() {
               <HeroSection />
             </SectionWrapper>
             <SectionWrapper id="about" card={<AboutCard />}>
-              <AboutSection />
+              <About3DScroll />
             </SectionWrapper>
             <SectionWrapper id="portfolio" card={<PortfolioCard />}>
-              <PortfolioScroll />
+              <Skill3dScroll />
             </SectionWrapper>
             <SectionWrapper id="grid" card={<GridCard />}>
               <GridLayout />
