@@ -70,20 +70,13 @@ export default function SkillGrid({ skills, partPositions, visibleSkills, curren
         {/* Segment line */}
         <div className="flex h-2 w-full rounded-full overflow-hidden mb-3 bg-gray-700">
           {animatedSkills.map((i) => (
-            <motion.div
+            <div
               key={i}
               className=""
               style={{
                 backgroundColor: skills[i].color,
                 flex: '1 0 auto',
                 width: '10%',
-              }}
-              initial={{ scaleX: 0, opacity: 0 }}
-              animate={{ scaleX: 1, opacity: 1 }}
-              transition={{
-                duration: 0.6,
-                ease: [0.25, 0.46, 0.45, 0.94],
-                delay: i * 0.05,
               }}
             />
           ))}
@@ -106,14 +99,10 @@ export default function SkillGrid({ skills, partPositions, visibleSkills, curren
           {animatedSkills.map((index) => {
             const skill = skills[index]
             return (
-              <motion.div
+              <div
                 key={`${skill.name}-${index}`}
                 className="relative px-2 py-1.5 border border-white/20 rounded-lg hover:scale-105 transition-transform duration-200"
                 style={{ backgroundColor: "#041f1c" }}
-                variants={{
-                  hidden: { opacity: 0, scale: 0.8, y: 10 },
-                  visible: { opacity: 1, scale: 1, y: 0 },
-                }}
               >
                 <div className="text-xs font-semibold text-white text-center uppercase tracking-wide">
                   {skill.name}
@@ -127,7 +116,7 @@ export default function SkillGrid({ skills, partPositions, visibleSkills, curren
                     boxShadow: `0 0 6px ${skill.color}88`,
                   }}
                 />
-              </motion.div>
+              </div>
             )
           })}
         </motion.div>

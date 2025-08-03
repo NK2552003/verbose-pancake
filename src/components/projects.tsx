@@ -260,7 +260,7 @@ const Projects = () => {
   return (
     <div 
       ref={sectionRef}
-      className="min-h-screen relative z-10 bg-[#031412] p-8"
+      className="min-h-screen relative z-10 p-8"
     >
       <div className="flex flex-col items-center justify-center h-[120px] sm:h-[140px] md:h-[160px] lg:h-[180px] xl:h-[200px] text-center text-white relative z-10 p-4 mb-30" id='projects'>
         <motion.h1 

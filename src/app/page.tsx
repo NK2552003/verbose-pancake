@@ -24,6 +24,7 @@ import {
   CodepenCard,
   ContactCard,
 } from "@/components/popup/cards";
+import AboutMeWithRocketEngine from "@/components/3d_components/aboutme-ed";
 
 const SectionWrapper = ({
   id,
