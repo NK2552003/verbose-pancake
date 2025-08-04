@@ -202,7 +202,7 @@ export default function BundleSizeCard() {
       exit="exit"
     >
       <motion.div 
-        className="flex justify-between items-center mb-2 text-teal-400"
+        className="flex justify-between items-center mb-2 text-[#C4925F]"
         variants={labelVariants}
       >
         <span className="text-sm font-medium">Packages size</span>

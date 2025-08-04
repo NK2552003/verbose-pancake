@@ -51,13 +51,13 @@ const SectionWrapper = ({
           setInView(true);
           setHasBeenInView(true);
           setVisibleSections((prev) => new Set([...prev, index, index + 1]));
-          setCurrentSection(index); // Update current section for background color
+          setCurrentSection(index);
         } else {
           setInView(false);
         }
       },
       {
-        threshold: 0.25,
+        threshold: 0.5,
       }
     );
 
@@ -71,19 +71,21 @@ const SectionWrapper = ({
     <section id={id} ref={ref} className="snap-start snap-always relative">
       {hasBeenInView && children}
 
-      <AnimatePresence>
-        {inView && card && (
-          <motion.div
-            initial={{ opacity: 0, y: -40 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -40 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="fixed top-5 right-8 md:right-18 z-40 px-2 md:py-3 w-[200px] md:w-[250px] max-w-md text-teal-500"
-          >
-            {card}
-          </motion.div>
-        )}
-      </AnimatePresence>
+<AnimatePresence mode="wait">
+  {inView && card && (
+    <motion.div
+      key={index}
+      initial={{ opacity: 0, x: 40 }}   // Start a bit to the right
+      animate={{ opacity: 1, x: 0 }}    // Settle into the fixed spot
+      exit={{ opacity: 0, x: 40 }}      // Leave slightly to the right
+      transition={{ duration: 0.4, ease: "easeInOut" }}
+      className="fixed top-5 right-8 md:right-18 z-40 px-2 md:py-3 w-[200px] md:w-[250px] max-w-md text-teal-500"
+    >
+      {card}
+    </motion.div>
+  )}
+</AnimatePresence>
+
     </section>
   );
 };
@@ -140,12 +142,10 @@ export default function Home() {
             <div 
               className="relative h-full w-full overflow-hidden transition-colors duration-1000 ease-in-out"
               style={{ 
-                backgroundColor: sectionBackgrounds[currentSection] || "#031412" 
+                backgroundColor: sectionBackgrounds[currentSection]
               }}
             >
               <div className="absolute inset-0 z-0 grid-bg pointer-events-none"></div>
-              
-              {/* Optional: Add a subtle gradient overlay for smoother transitions */}
               <div 
                 className="absolute inset-0 z-10 pointer-events-none transition-opacity duration-1000"
                 style={{

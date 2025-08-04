@@ -1,10 +1,10 @@
 "use client"
 
 import { motion, AnimatePresence } from "framer-motion"
-import { GitBranch, Star, Users, GitCommit } from "lucide-react"
+import { Target, Hammer, GraduationCap, Zap, Puzzle } from "lucide-react"
 import { useEffect, useState, useRef } from "react"
 
-interface GitHubStat {
+interface PersonalInfo {
   label: string
   value: string
   color: string
@@ -17,21 +17,22 @@ interface PartPosition {
   screenPosition: { x: number; y: number }
 }
 
-interface GitHubListProps {
-  githubStats: GitHubStat[]
+interface PersonalInfoListProps {
+  personalInfo: PersonalInfo[]
   partPositions: PartPosition[]
-  visibleGitHubStats: number[]
+  visiblePersonalInfo: number[]
   currentSection: number
 }
 
-const statIcons = {
-  "Repositories": GitBranch,
-  "Total Commits": GitCommit,
-  "Stars Earned": Star,
-  "Followers": Users,
+const infoIcons = {
+  "Mission": Target,
+  "Currently Building": Hammer,
+  "Learning": GraduationCap,
+  "Core Values": Zap,
+  "Fun Facts": Puzzle,
 }
 
-const getPartPositionForStat = (
+const getPartPositionForInfo = (
   index: number,
   partPositions: PartPosition[],
   containerWidth: number,
@@ -49,12 +50,12 @@ const getPartPositionForStat = (
   return { x: 50, y: 50 }
 }
 
-export default function KnowAboutIndicator({
-  githubStats,
+export default function PersonalInfoIndicator({
+  personalInfo,
   partPositions,
-  visibleGitHubStats,
+  visiblePersonalInfo,
   currentSection,
-}: GitHubListProps) {
+}: PersonalInfoListProps) {
   const [containerDimensions, setContainerDimensions] = useState({ width: 0, height: 0 })
   const [isMobile, setIsMobile] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -96,8 +97,8 @@ export default function KnowAboutIndicator({
   }
 
   const getCardCenterPosition = (cardPos: any) => {
-    const cardWidth = isMobile ? 40 : 180
-    const cardHeight = isMobile ? 40 : 80
+    const cardWidth = isMobile ? 50 : 220
+    const cardHeight = isMobile ? 50 : 100
 
     let cardCenterX = containerDimensions.width / 2
     let cardCenterY = containerDimensions.height / 2
@@ -145,10 +146,10 @@ export default function KnowAboutIndicator({
         viewBox={`0 0 ${containerDimensions.width} ${containerDimensions.height}`}
       >
         <defs>
-          <marker id="arrowhead-github" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+          <marker id="arrowhead-personal" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
             <polygon points="0 0, 10 3.5, 0 7" fill="rgba(255, 255, 255, 0.6)" />
           </marker>
-          <filter id="lineGlowGithub">
+          <filter id="lineGlowPersonal">
             <feGaussianBlur stdDeviation="2" result="coloredBlur" />
             <feMerge>
               <feMergeNode in="coloredBlur" />
@@ -158,12 +159,12 @@ export default function KnowAboutIndicator({
         </defs>
 
         <AnimatePresence>
-          {visibleGitHubStats.map((statIndex) => {
-            const stat = githubStats[statIndex]
-            if (!stat) return null
+          {visiblePersonalInfo.map((infoIndex) => {
+            const info = personalInfo[infoIndex]
+            if (!info) return null
 
-            const cardPos = getCardPosition(statIndex)
-            const partPos = getPartPositionForStat(statIndex, partPositions, containerDimensions.width, containerDimensions.height)
+            const cardPos = getCardPosition(infoIndex)
+            const partPos = getPartPositionForInfo(infoIndex, partPositions, containerDimensions.width, containerDimensions.height)
             const cardCenter = getCardCenterPosition(cardPos)
 
             const dx = partPos.x - cardCenter.x
@@ -179,32 +180,32 @@ export default function KnowAboutIndicator({
             const controlY = midY + perpY
 
             return (
-              <g key={`github-line-${statIndex}`}>
+              <g key={`personal-line-${infoIndex}`}>
                 <motion.path
                   d={`M ${cardCenter.x} ${cardCenter.y} Q ${controlX} ${controlY} ${partPos.x} ${partPos.y}`}
-                  stroke="rgba(255, 255, 255, 0.6)"
+                  stroke="rgba(255, 255, 255, 0.2)"
                   strokeWidth="1"
                   fill="none"
                   strokeDasharray="4 4"
-                  markerEnd="url(#arrowhead-github)"
-                  filter="url(#lineGlowGithub)"
+                  markerEnd="url(#arrowhead-personal)"
+                  filter="url(#lineGlowPersonal)"
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={{ pathLength: 1, opacity: 1 }}
                   exit={{ pathLength: 0, opacity: 0 }}
-                  transition={{ duration: 0.8, delay: statIndex * 0.1 }}
+                  transition={{ duration: 0.8, delay: infoIndex * 0.1 }}
                 />
 
                 <motion.circle
                   cx={partPos.x}
                   cy={partPos.y}
                   r="3"
-                  fill={stat.color}
+                  fill={info.color}
                   initial={{ opacity: 0, scale: 0 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0 }}
-                  transition={{ duration: 0.4, delay: statIndex * 0.1 + 0.6 }}
+                  transition={{ duration: 0.4, delay: infoIndex * 0.1 + 0.6 }}
                   style={{
-                    filter: `drop-shadow(0 0 6px ${stat.color})`,
+                    filter: `drop-shadow(0 0 6px ${info.color})`,
                   }}
                 />
 
@@ -213,14 +214,14 @@ export default function KnowAboutIndicator({
                   cy={partPos.y}
                   r="6"
                   fill="none"
-                  stroke={stat.color}
+                  stroke={info.color}
                   strokeWidth="1"
                   opacity="0.5"
                   initial={{ scale: 0 }}
                   animate={{ scale: [1, 1.5, 1] }}
                   transition={{
                     duration: 2,
-                    delay: statIndex * 0.1 + 0.8,
+                    delay: infoIndex * 0.1 + 0.8,
                     repeat: Infinity,
                     ease: "easeInOut",
                   }}
@@ -232,80 +233,57 @@ export default function KnowAboutIndicator({
       </svg>
 
       <AnimatePresence>
-        {visibleGitHubStats.map((statIndex) => {
-          const stat = githubStats[statIndex]
-          if (!stat) return null
+        {visiblePersonalInfo.map((infoIndex) => {
+          const info = personalInfo[infoIndex]
+          if (!info) return null
 
-          const position = getCardPosition(statIndex)
-          const IconComponent = statIcons[stat.label as keyof typeof statIcons] || GitBranch
+          const position = getCardPosition(infoIndex)
+          const IconComponent = infoIcons[info.label as keyof typeof infoIcons] || Target
 
           return (
             <motion.div
-              key={`github-${statIndex}`}
+              key={`personal-${infoIndex}`}
               className="absolute pointer-events-auto"
               style={position}
               initial={{ opacity: 0, scale: 0.8, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.8, y: 20 }}
-              transition={{ duration: 0.6, delay: statIndex * 0.15 }}
+              transition={{ duration: 0.6, delay: infoIndex * 0.15 }}
             >
               <motion.div
-                className="bg-black/90 backdrop-blur-lg border border-gray-600/50 rounded-lg shadow-lg w-[40px] h-[40px] md:w-[180px] md:h-auto md:p-4 p-2 flex md:block items-center justify-center"
-                style={{
-                  borderLeft: `3px solid ${stat.color}`,
-                  boxShadow: `0 0 20px ${stat.color}20`,
-                }}
-                whileHover={{ scale: 1.05, y: isMobile ? -1 : -3 }}
+                className="bg-[#111111] border border-gray-600/50 rounded-lg shadow-lg w-[100px] h-auto md:w-[220px] md:h-auto md:p-4 p-2 flex md:block items-center justify-center"
+                whileHover={{ scale: 1.05, y: isMobile ? -2 : -5 }}
                 transition={{ duration: 0.2 }}
               >
                 <div className="md:hidden">
                   <div
-                    className="w-6 h-6 rounded-lg flex items-center justify-center"
-                    style={{
-                      backgroundColor: stat.color + "20",
-                      border: `1px solid ${stat.color}`,
-                    }}
+                    className="w-7 h-7 rounded-lg flex items-center justify-center"
                   >
-                    <IconComponent size={14} style={{ color: stat.color }} />
+                    <IconComponent size={16} style={{ color: info.color }} />
+                  </div>
+                      <div className="text-gray-200 text-xs font-medium leading-relaxed min-h-[40px]">
+                    {info.value}
                   </div>
                 </div>
 
                 <div className="hidden md:block">
-                  <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center justify-between mb-3">
                     <div
-                      className="w-8 h-8 rounded-lg flex items-center justify-center"
+                      className="w-9 h-9 rounded-lg flex items-center justify-center"
                       style={{
-                        backgroundColor: stat.color + "20",
-                        border: `1px solid ${stat.color}`,
+                        backgroundColor: info.color + "20",
+                        border: `1px solid ${info.color}`,
                       }}
                     >
-                      <IconComponent size={18} style={{ color: stat.color }} />
+                      <IconComponent size={20} style={{ color: info.color }} />
                     </div>
-                    <div className="text-right">
-                      <div className="text-xl font-bold" style={{ color: stat.color }}>
-                        {stat.value}
-                      </div>
+                    <div className="text-xs font-mono uppercase tracking-wider text-gray-400">
+                      {info.label}
                     </div>
                   </div>
 
-                  <div className="text-gray-300 text-sm font-medium mb-2">
-                    {stat.label}
-                  </div>
-
-                  <div className="w-full h-1 bg-gray-700 rounded overflow-hidden">
-                    <motion.div
-                      className="h-full rounded"
-                      style={{ backgroundColor: stat.color }}
-                      initial={{ width: 0 }}
-                      animate={{ width: "100%" }}
-                      transition={{ duration: 1, delay: statIndex * 0.15 + 0.5 }}
-                    />
-                  </div>
-
-                  <div className="mt-2 flex items-center gap-1">
-                    <div className="w-1 h-1 rounded-full bg-green-400" />
-                    <div className="flex-1 h-px bg-gradient-to-r from-green-400/40 to-transparent" />
-                    <span className="text-xs text-green-400 font-mono">ACTIVE</span>
+                  <div className="text-gray-200 text-xs font-medium leading-relaxed min-h-[40px]">
+                    {info.value}
                   </div>
                 </div>
               </motion.div>

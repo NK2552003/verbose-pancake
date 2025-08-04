@@ -89,7 +89,7 @@ export default function SkillGrid({
                   initial={{ opacity: 0, y: 10, scale: 0.9 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   transition={{ delay: i * 0.05 }}
-                  className={`relative bg-[#041f1c] border border-white/20 rounded-lg px-2 py-1.5`}
+                  className={`relative bg-[#100C08] border border-white/20 rounded-lg px-2 py-1.5`}
                 >
                   <div className="text-xs text-white uppercase font-medium tracking-wide text-center">
                     {skill.name}
@@ -122,8 +122,8 @@ export default function SkillGrid({
             x2="100%"
             y2="0%"
           >
-            <stop offset="0%" stopColor="rgba(156, 163, 175, 0.8)" />
-            <stop offset="100%" stopColor="rgba(156, 163, 175, 0.4)" />
+            <stop offset="0%" stopColor="rgba(156, 163, 175, 0.2)" />
+            <stop offset="100%" stopColor="rgba(156, 163, 175, 0.2)" />
           </linearGradient>
           <filter id="skillGridGlow">
             <feGaussianBlur stdDeviation="1" result="coloredBlur" />
@@ -170,7 +170,7 @@ export default function SkillGrid({
               <polyline
                 points={`${partX},${partY} ${bendX},${bendY} ${skillX},${skillY}`}
                 stroke="url(#skillGridGradient)"
-                strokeWidth="1.5"
+                strokeWidth="1"
                 fill="none"
                 filter="url(#skillGridGlow)"
               />

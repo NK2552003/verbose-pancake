@@ -174,14 +174,14 @@ export default function Skill3dScroll() {
       <div className="absolute bottom-3 sm:bottom-4 md:bottom-6 lg:bottom-8 right-3 sm:right-4 md:right-6 lg:right-8 pointer-events-none z-30">
         <div className="w-1 sm:w-2 h-16 sm:h-20 md:h-24 lg:h-32 bg-gray-700/50 rounded overflow-hidden backdrop-blur-sm">
           <div
-            className="w-full bg-teal-500 transition-all duration-500 ease-out"
+            className="w-full bg-[#C4925F] transition-all duration-500 ease-out"
             style={{ height: `${scrollProgress * 100}%` }}
           />
         </div>
       </div>
 
       {/* Assembly Status Indicator */}
-      <div className="absolute top-10 left-3 sm:left-4 md:left-6 pointer-events-none z-30 items-center justify-center">
+      <div className="absolute top-6 md:top-10 left-3 sm:left-4 md:left-6 pointer-events-none z-30 items-center justify-center">
         <div className="flex flex-row items-center gap-2 justify-center">
           <div
             className={`w-3 h-3 rounded-full transition-all duration-500 ${

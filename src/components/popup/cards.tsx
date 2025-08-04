@@ -9,14 +9,14 @@ export const HeroCard = () => (
 
 export const PortfolioCard = () => (
   <div className="text-end">
-    <h2 className="font-bold text-md">3D Skills Showcase</h2>
+    <h2 className="font-bold text-md text-[#C4925F]">3D Skills Showcase</h2>
     <p className="text-xs text-gray-200/80">Interact with my turbine disassembly scroll project here.</p>
   </div>
 )
 
 export const AboutCard = () => (
   <div className="text-end">
-    <h2 className="font-bold text-lg">Who Am I?</h2>
+    <h2 className="font-bold text-lg text-[#8c8b8b]">Who Am I?</h2>
     <p className="text-xs text-gray-200/80">A passionate developer specializing in full-stack and AI.</p>
   </div>
 )

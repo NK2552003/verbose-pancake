@@ -103,12 +103,12 @@ export default function GitHubGrid({
           <img
             src="https://github-readme-stats.vercel.app/api?username=nk2552003&show_icons=true&locale=en&theme=radical&bg_color=00000000&hide_border=true"
             alt="nk2552003 GitHub Stats"
-            className="rounded-lg border border-gray-700/50 bg-[#031412]"
+            className="rounded-lg border border-gray-700/50 bg-[#100C08]"
           />
           <img
             src="https://github-readme-streak-stats.herokuapp.com/?user=nk2552003&theme=radical&background=00000000&hide_border=true"
             alt="nk2552003 GitHub Streak"
-            className="rounded-lg border border-gray-700/50 bg-[#031412]"
+            className="rounded-lg border border-gray-700/50 bg-[#100C08]"
           />
         </div>
       </div>
@@ -120,8 +120,8 @@ export default function GitHubGrid({
       <svg className="fixed inset-0 pointer-events-none z-20" style={{ width: "100vw", height: "100vh" }}>
         <defs>
           <linearGradient id="githubGridGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="rgba(156, 163, 175, 0.8)" />
-            <stop offset="100%" stopColor="rgba(156, 163, 175, 0.4)" />
+            <stop offset="0%" stopColor="rgba(156, 163, 175, 0.2)" />
+            <stop offset="100%" stopColor="rgba(156, 163, 175, 0.2)" />
           </linearGradient>
           <filter id="githubGridGlow">
             <feGaussianBlur stdDeviation="1" result="coloredBlur" />
@@ -155,7 +155,7 @@ export default function GitHubGrid({
               {/* Main hand-drawn connection line */}
               <path
                 d={`M ${partX} ${partY} L ${midX1} ${midY1} L ${midX2} ${midY2} L ${gridX} ${gridY}`}
-                stroke="rgba(156, 163, 175, 0.6)"
+                stroke="rgba(156, 163, 175, 0.2)"
                 strokeWidth="1"
                 fill="none"
                 filter="url(#githubGridGlow)"

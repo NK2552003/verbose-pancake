@@ -1,16 +1,13 @@
 "use client"
 
 import { useEffect, useState, useCallback, useRef } from "react"
-import SkillList from "./skill_components/skill-indicator"
-import GitHubList from "./skill_components/github-stats"
-import BundleSizeCard from "../popup/bundlesizecard"
 import { ChevronDown } from "lucide-react"
 import { motion } from "framer-motion"
 import FinalAssemblyCard from "./skill_components/finalassembly"
 import RocketEngineComponent from "./threejs-models/rocket-engine"
 import ProfileCard from "./about_components/profile_card"
 import HobbyIndicator from "./about_components/hobbies_indicator"
-import GitHubList3D from "./about_components/github-indicator"
+import PersonalInfoIndicator from "./about_components/personal-info-indicator"
 
 interface PartPosition {
   id: string
@@ -22,52 +19,71 @@ const hobbies = [
   {
     name: "Photography",
     icon: "Camera",
-    color: "#f59e0b",
-    description: "Capturing moments and landscapes through my lens",
-    partType: "tank"
+    color: "#f59e0b", // amber-500
+    description: "Capturing moments, portraits, and stunning landscapes through the lens",
+    partType: "tank",
   },
   {
-    name: "Music Production",
+    name: "Gym & Fitness",
+    icon: "Dumbbell",
+    color: "#ef4444", // red-500
+    description: "Staying fit, lifting weights, and building a disciplined lifestyle",
+    partType: "chassis",
+  },
+  {
+    name: "Manga Reading",
+    icon: "Book",
+    color: "#6366f1", // indigo-500
+    description: "Reading captivating manga series across genres like action and fantasy",
+    partType: "exhaust",
+  },
+  {
+    name: "Music Listening",
     icon: "Music",
-    color: "#8b5cf6",
-    description: "Creating electronic music and beats in my studio",
-    partType: "bell"
+    color: "#8b5cf6", // violet-500
+    description: "Enjoying lo-fi, ambient, and energetic tracks throughout the day",
+    partType: "bell",
   },
   {
-    name: "Gaming",
-    icon: "Gamepad2",
-    color: "#10b981",
-    description: "Exploring virtual worlds and competitive gaming",
-    partType: "nozzles"
-  },
-  { 
-    name: "Reading", 
-    icon: "Book", 
-    color: "#3b82f6", 
-    description: "Diving into sci-fi novels and tech literature",
-    partType: "exhaust" 
-  },
-  {
-    name: "Coffee",
-    icon: "Coffee",
-    color: "#92400e",
-    description: "Brewing the perfect cup and exploring coffee culture",
-    partType: "internals"
+    name: "Tea",
+    icon: "Coffee", // used as a stand-in for tea
+    color: "#16a34a", // green-600
+    description: "Enjoying calming tea rituals and discovering new herbal blends",
+    partType: "internals",
   },
 ]
 
-const githubStats = [
-  { label: "Repositories", value: "42", color: "#3b82f6", partType: "hole" },
-  { label: "Total Commits", value: "1.2K", color: "#10b981", partType: "hole" },
-  { label: "Stars Earned", value: "156", color: "#f59e0b", partType: "hole" },
-  { label: "Followers", value: "89", color: "#8b5cf6", partType: "hole" },
+const personalInfo = [
+  {
+    label: "Mission",
+    value: "Code is poetry, building experiences not just websites",
+    color: "#ff6b6b",
+    partType: "hole"
+  },
+  {
+    label: "Currently Building", 
+    value: "AI-powered roadmap generator using Supabase, Inngest, and GPT",
+    color: "#4ecdc4",
+    partType: "hole"
+  },
+  {
+    label: "Learning",
+    value: "WebGL and interactive 3D storytelling using Three.js",
+    color: "#45b7d1", 
+    partType: "hole"
+  },
+  {
+    label: "Core Values",
+    value: "Fast loading, accessibility, pixel-perfection, performance-first",
+    color: "#96ceb4",
+    partType: "hole"
+  }
 ]
-
 export default function About3DScroll() {
   const [scrollProgress, setScrollProgress] = useState(0)
   const [currentSection, setCurrentSection] = useState(0)
   const [visibleHobbies, setVisibleHobbies] = useState<number[]>([])
-  const [visibleGitHubStats, setVisibleGitHubStats] = useState<number[]>([])
+  const [visiblePersonalInfo, setVisiblePersonalInfo] = useState<number[]>([])
   const [partPositions, setPartPositions] = useState<PartPosition[]>([])
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -90,19 +106,19 @@ export default function About3DScroll() {
       if (progress < 0.4) {
         setCurrentSection(0) // Hero section
         setVisibleHobbies([])
-        setVisibleGitHubStats([])
+        setVisiblePersonalInfo([])
       } else if (progress < 0.66) {
-        setCurrentSection(1) // Skills section
+        setCurrentSection(1) // Hobbies section
         setVisibleHobbies(Array.from({ length: hobbies.length }, (_, i) => i))
-        setVisibleGitHubStats([])
+        setVisiblePersonalInfo([])
       } else if (progress < 0.9) {
-        setCurrentSection(2) // GitHub section
+        setCurrentSection(2) // Personal Info Section
         setVisibleHobbies([])
-        setVisibleGitHubStats(Array.from({ length: githubStats.length }, (_, i) => i))
+        setVisiblePersonalInfo(Array.from({ length: personalInfo.length }, (_, i) => i))
       } else {
         setCurrentSection(3) // Reassembling section
         setVisibleHobbies([])
-        setVisibleGitHubStats([]) // ✅ Ensure GitHub cards disappear
+        setVisiblePersonalInfo([])
       }
     }
 
@@ -175,10 +191,10 @@ export default function About3DScroll() {
 
       {/* GitHub List */}
       <div className="absolute inset-0 pointer-events-none">
-        <GitHubList3D
-          githubStats={githubStats}
+        <PersonalInfoIndicator
+          personalInfo={personalInfo}
           partPositions={partPositions}
-          visibleGitHubStats={visibleGitHubStats}
+          visiblePersonalInfo={visiblePersonalInfo}
           currentSection={currentSection}
         />
       </div>
@@ -197,14 +213,14 @@ export default function About3DScroll() {
       <div className="absolute bottom-3 sm:bottom-4 md:bottom-6 lg:bottom-8 right-3 sm:right-4 md:right-6 lg:right-8 pointer-events-none z-30">
         <div className="w-1 sm:w-2 h-16 sm:h-20 md:h-24 lg:h-32 bg-gray-700/50 rounded overflow-hidden backdrop-blur-sm">
           <div
-            className="w-full bg-teal-500 transition-all duration-500 ease-out"
+            className="w-full bg-[#8c8b8b] transition-all duration-500 ease-out"
             style={{ height: `${scrollProgress * 100}%` }}
           />
         </div>
       </div>
 
       {/* Assembly Status Indicator */}
-      <div className="absolute top-10 left-3 sm:left-4 md:left-6 pointer-events-none z-30 items-center justify-center">
+      <div className="absolute top-6 md:top-10 left-3 sm:left-4 md:left-6 pointer-events-none z-30 items-center justify-center">
         <div className="flex flex-row items-center gap-2 justify-center">
           <div
             className={`w-3 h-3 rounded-full transition-all duration-500 ${
