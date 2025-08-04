@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import SplashScreen from "../components/SplashScreen";
 import GridLayout from "@/components/AdditionalActivity";
 import ProjectsCP from "@/components/codepen";
@@ -28,29 +28,45 @@ const SectionWrapper = ({
   id,
   children,
   card,
+  index,
+  setVisibleSections,
 }: {
   id: string;
   children: React.ReactNode;
   card?: React.ReactNode;
+  index: number;
+  setVisibleSections: React.Dispatch<React.SetStateAction<Set<number>>>;
 }) => {
   const [inView, setInView] = useState(false);
+  const [hasBeenInView, setHasBeenInView] = useState(false);
+  const ref = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
-    const section = document.getElementById(id);
-    if (!section) return;
-
     const observer = new IntersectionObserver(
-      ([entry]) => setInView(entry.isIntersecting),
-      { threshold: 0.5 }
+      ([entry]) => {
+        const visible = entry.isIntersecting;
+        if (visible) {
+          setInView(true);
+          setHasBeenInView(true);
+          setVisibleSections((prev) => new Set([...prev, index, index + 1])); // load current and next
+        } else {
+          setInView(false);
+        }
+      },
+      {
+        threshold: 0.25,
+      }
     );
 
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, [id]);
+    if (ref.current) observer.observe(ref.current);
+    return () => {
+      if (ref.current) observer.unobserve(ref.current);
+    };
+  }, [index]);
 
   return (
-    <section id={id} className="snap-start snap-always relative">
-      {children}
+    <section id={id} ref={ref} className="snap-start snap-always relative">
+      {hasBeenInView && children}
 
       <AnimatePresence>
         {inView && card && (
@@ -70,8 +86,20 @@ const SectionWrapper = ({
 };
 
 export default function Home() {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [showBanner, setShowBanner] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [showBanner, setShowBanner] = useState(true);
+  const [visibleSections, setVisibleSections] = useState<Set<number>>(new Set());
+
+  const sections = [
+    { id: "hero", content: <HeroSection />, card: <HeroCard /> },
+    { id: "about", content: <About3DScroll />, card: <AboutCard /> },
+    { id: "portfolio", content: <Skill3dScroll />, card: <PortfolioCard /> },
+    { id: "grid", content: <GridLayout />, card: <GridCard /> },
+    { id: "timeline", content: <Timeline />, card: <TimelineCard /> },
+    { id: "projects", content: <Projects />, card: <ProjectsCard /> },
+    { id: "projectscp", content: <ProjectsCP />, card: <CodepenCard /> },
+    { id: "contact", content: <ContactSection />, card: <ContactCard /> },
+  ];
 
   return (
     <>
@@ -102,34 +130,17 @@ export default function Home() {
             id="scroll-container"
             className="relative z-10 h-screen overflow-y-scroll scroll-smooth snap-y snap-mandatory"
           >
-            <SectionWrapper id="hero" card={<HeroCard />}>
-              <HeroSection />
-            </SectionWrapper>
-            <SectionWrapper id="about" card={<AboutCard />}>
-              <About3DScroll />
-            </SectionWrapper>
-            <SectionWrapper id="portfolio" card={<PortfolioCard />}>
-              <Skill3dScroll />
-            </SectionWrapper>
-            <SectionWrapper id="grid" card={<GridCard />}>
-              <GridLayout />
-            </SectionWrapper>
-
-            <SectionWrapper id="timeline" card={<TimelineCard />}>
-              <Timeline />
-            </SectionWrapper>
-
-            <SectionWrapper id="projects" card={<ProjectsCard />}>
-              <Projects />
-            </SectionWrapper>
-
-            <SectionWrapper id="projectscp" card={<CodepenCard />}>
-              <ProjectsCP />
-            </SectionWrapper>
-
-            <SectionWrapper id="contact" card={<ContactCard />}>
-              <ContactSection />
-            </SectionWrapper>
+            {sections.map((section, index) => (
+              <SectionWrapper
+                key={section.id}
+                id={section.id}
+                card={section.card}
+                index={index}
+                setVisibleSections={setVisibleSections}
+              >
+                {visibleSections.has(index) && section.content}
+              </SectionWrapper>
+            ))}
 
             <section id="footer" className="snap-start snap-always relative">
               <Footer />
