@@ -421,28 +421,21 @@ export default function HeroSection() {
             className="bottom-4 right-4 text-white py-3.5 flex flex-col items-end"
             animate="animate"
           >
-            <motion.span 
+            <span 
               className="text-md sm:text-2xl font-semibold mt-1 mr-1 sm:mr-3"
-              whileHover={{ scale: 1.05 }}
             >
               {month}
-            </motion.span>
-            <motion.span 
+            </span>
+            <span 
               className="text-[8px] sm:text-sm font-medium"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 1.5, duration: 0.5 }}
             >
               Available
-            </motion.span>
-            <motion.span 
+            </span>
+            <span 
               className="text-[8px] sm:text-sm font-medium"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 1.7, duration: 0.5 }}
             >
               for Work
-            </motion.span>
+            </span>
           </motion.div>
         </motion.div>
 
@@ -458,22 +451,19 @@ export default function HeroSection() {
             variants={rotateIn}
             whileHover={{ scale: 1.2, rotate: 10 }}
           ></motion.i>
-          <motion.span 
+          <span 
             className="text-sm sm:text-base"
-            variants={slideIn(-1)}
-            whileHover={{ x: 5 }}
           >
             SNP, HR, IN
-          </motion.span>
+          </span>
         </motion.div>
 
         {/* Quote - Bottom Center */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 2, duration: 0.8 }}
+          transition={{ duration: 0.8 }}
           className="absolute bottom-3 left-1/2 transform -translate-x-1/2 z-30 text-center"
-          whileHover={{ scale: 1.02 }}
         >
           <motion.p
             className={`${madimiOne.className} text-[10px] sm:text-base text-white/50 italic`}

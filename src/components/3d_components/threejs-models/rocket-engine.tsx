@@ -138,12 +138,12 @@ function FuelTank({ scrollProgress, viewport }: { scrollProgress: number; viewpo
       </mesh>
 
       {/* Horizontal bands */}
-      {Array.from({ length: 4 }, (_, i) => (
+      {/* {Array.from({ length: 4 }, (_, i) => (
         <mesh key={i} position={[0, 1 - i * 0.7, 0]}>
           <torusGeometry args={[1.25, 0.05, 8, 16]} />
           <meshBasicMaterial color="#cccccc" wireframe transparent opacity={0.6} />
         </mesh>
-      ))}
+      ))} */}
 
       {/* Top dome */}
       <mesh position={[0, 1.7, 0]}>

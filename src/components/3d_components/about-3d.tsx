@@ -23,29 +23,35 @@ const hobbies = [
     icon: "Camera",
     color: "#f59e0b",
     description: "Capturing moments and landscapes through my lens",
-    partType:"tank"
+    partType: "tank"
   },
   {
     name: "Music Production",
     icon: "Music",
     color: "#8b5cf6",
     description: "Creating electronic music and beats in my studio",
-    partType:"bell"
+    partType: "bell"
   },
   {
     name: "Gaming",
     icon: "Gamepad2",
     color: "#10b981",
     description: "Exploring virtual worlds and competitive gaming",
-    partType:"nozzles"
+    partType: "nozzles"
   },
-  { name: "Reading", icon: "Book", color: "#3b82f6", description: "Diving into sci-fi novels and tech literature",partType:"exhaust" },
+  { 
+    name: "Reading", 
+    icon: "Book", 
+    color: "#3b82f6", 
+    description: "Diving into sci-fi novels and tech literature",
+    partType: "exhaust" 
+  },
   {
     name: "Coffee",
     icon: "Coffee",
     color: "#92400e",
     description: "Brewing the perfect cup and exploring coffee culture",
-    partType:"internals"
+    partType: "internals"
   },
 ]
 
@@ -162,6 +168,7 @@ export default function About3DScroll() {
           hobbies={hobbies}
           visibleHobbies={visibleHobbies}
           currentSection={currentSection}
+          partPositions={partPositions} // Add this line
         />
       </div>
 
