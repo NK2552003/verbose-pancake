@@ -96,14 +96,14 @@ export default function Home() {
 
   // Define background colors for each section
   const sectionBackgrounds = [
-    "#031412", // hero - original dark teal (unchanged)
-    "#111111", // about - slightly darker teal
-    "#100C08", // portfolio - deeper dark teal
-    "#131313", // grid - warmer dark teal
-    "#03171a", // timeline - cooler dark teal
-    "#04191c", // projects - blue-teal
-    "#011610", // codepen - green-teal
-    "#031412", // contact - balanced dark teal
+    "#031412",
+    "#111111",
+    "#100C08",
+    "#131313",
+    "#03171a",
+    "#04191c",
+    "#011610",
+    "#031412", 
   ];
   const sections = [
     { id: "hero", content: <HeroSection />, card: <HeroCard /> },
