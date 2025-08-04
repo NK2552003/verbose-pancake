@@ -44,7 +44,7 @@ const SectionWrapper = ({
   const [inView, setInView] = useState(index === 0); // Hero section starts as visible
   const [hasBeenInView, setHasBeenInView] = useState(index === 0); // Hero section starts as viewed
   const ref = useRef<HTMLElement | null>(null);
-
+  const isMobile = window.innerWidth <= 768;
   useEffect(() => {
     // Don't set up observer until app is ready
     if (!isAppReady) return;
@@ -64,7 +64,7 @@ const SectionWrapper = ({
       {
         threshold: 0.25,
         // Add rootMargin to prevent immediate firing
-        rootMargin: "-10px 0px -10px 0px"
+      rootMargin: isMobile ? "-1px 0px -1px 0px" : "-2px 0px -2px 0px",
       }
     );
 
