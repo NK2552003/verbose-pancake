@@ -30,12 +30,14 @@ const SectionWrapper = ({
   card,
   index,
   setVisibleSections,
+  setCurrentSection,
 }: {
   id: string;
   children: React.ReactNode;
   card?: React.ReactNode;
   index: number;
   setVisibleSections: React.Dispatch<React.SetStateAction<Set<number>>>;
+  setCurrentSection: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   const [inView, setInView] = useState(false);
   const [hasBeenInView, setHasBeenInView] = useState(false);
@@ -48,7 +50,8 @@ const SectionWrapper = ({
         if (visible) {
           setInView(true);
           setHasBeenInView(true);
-          setVisibleSections((prev) => new Set([...prev, index, index + 1])); // load current and next
+          setVisibleSections((prev) => new Set([...prev, index, index + 1]));
+          setCurrentSection(index); // Update current section for background color
         } else {
           setInView(false);
         }
@@ -62,7 +65,7 @@ const SectionWrapper = ({
     return () => {
       if (ref.current) observer.unobserve(ref.current);
     };
-  }, [index]);
+  }, [index, setVisibleSections, setCurrentSection]);
 
   return (
     <section id={id} ref={ref} className="snap-start snap-always relative">
@@ -89,7 +92,19 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [showBanner, setShowBanner] = useState(true);
   const [visibleSections, setVisibleSections] = useState<Set<number>>(new Set());
+  const [currentSection, setCurrentSection] = useState(0);
 
+  // Define background colors for each section
+  const sectionBackgrounds = [
+    "#031412", // hero - original dark teal (unchanged)
+    "#111111", // about - slightly darker teal
+    "#100C08", // portfolio - deeper dark teal
+    "#131313", // grid - warmer dark teal
+    "#03171a", // timeline - cooler dark teal
+    "#04191c", // projects - blue-teal
+    "#011610", // codepen - green-teal
+    "#031412", // contact - balanced dark teal
+  ];
   const sections = [
     { id: "hero", content: <HeroSection />, card: <HeroCard /> },
     { id: "about", content: <About3DScroll />, card: <AboutCard /> },
@@ -120,9 +135,23 @@ export default function Home() {
         <SplashScreen onLoaded={() => setIsLoading(false)} />
       ) : (
         <main className="transition-opacity duration-1000 ease-in-out">
+          {/* Dynamic Background */}
           <div className="fixed inset-0 z-0">
-            <div className="relative h-full w-full bg-[#031412] overflow-hidden">
+            <div 
+              className="relative h-full w-full overflow-hidden transition-colors duration-1000 ease-in-out"
+              style={{ 
+                backgroundColor: sectionBackgrounds[currentSection] || "#031412" 
+              }}
+            >
               <div className="absolute inset-0 z-0 grid-bg pointer-events-none"></div>
+              
+              {/* Optional: Add a subtle gradient overlay for smoother transitions */}
+              <div 
+                className="absolute inset-0 z-10 pointer-events-none transition-opacity duration-1000"
+                style={{
+                  background: `linear-gradient(45deg, ${sectionBackgrounds[currentSection]}00, ${sectionBackgrounds[currentSection]}20)`,
+                }}
+              />
             </div>
           </div>
 
@@ -137,6 +166,7 @@ export default function Home() {
                 card={section.card}
                 index={index}
                 setVisibleSections={setVisibleSections}
+                setCurrentSection={setCurrentSection}
               >
                 {visibleSections.has(index) && section.content}
               </SectionWrapper>

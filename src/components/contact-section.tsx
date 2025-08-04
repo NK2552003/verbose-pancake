@@ -40,7 +40,7 @@ export default function ContactSection() {
     <section 
       ref={sectionRef}
       id="contact" 
-      className="relative py-16 sm:py-20 bg-[#031412] z-10"
+      className="relative py-16 sm:py-20 z-10"
     >
       <div className="mb-10 text-center">
         <motion.h2 

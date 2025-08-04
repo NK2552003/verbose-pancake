@@ -100,7 +100,7 @@ export default function ContactForm() {
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
         variants={containerVariants}
-        className="bg-[#031412] rounded-xl shadow-md overflow-hidden"
+        className="rounded-xl shadow-md overflow-hidden"
       >
         <div className="p-6 sm:p-8 md:p-10">
           <form onSubmit={sendEmail} className="space-y-5">
@@ -114,7 +114,7 @@ export default function ContactForm() {
                   name="name"
                   type="text"
                   placeholder="Your name"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-white bg-[#031412]"
+                  className="w-full px-3 py-2 border border-gray-300/50 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500/60 text-white"
                   required
                 />
               </motion.div>
@@ -128,7 +128,7 @@ export default function ContactForm() {
                   name="email"
                   type="email"
                   placeholder="your.email@example.com"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-white bg-[#031412]"
+                  className="w-full px-3 py-2 border border-gray-300/50 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500/60 text-white"
                   required
                 />
               </motion.div>
@@ -142,7 +142,7 @@ export default function ContactForm() {
                 id="message"
                 name="message"
                 placeholder="Your message"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 min-h-[150px] resize-y text-white bg-[#031412]"
+                className="w-full px-3 py-2 border border-gray-300/60 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500/60 min-h-[150px] resize-y text-white"
                 required
               />
             </motion.div>

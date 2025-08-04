@@ -9,7 +9,7 @@ interface Hobby {
   icon: string
   color: string
   description: string
-  partType: string // Added to match parts with hobbies
+  partType: string
 }
 
 interface PartPosition {
@@ -22,10 +22,9 @@ interface HobbyIndicatorProps {
   hobbies: Hobby[]
   currentSection: number
   visibleHobbies: number[]
-  partPositions?: PartPosition[] // Add this prop to receive part positions
+  partPositions?: PartPosition[]
 }
 
-// Define a proper type for card positions
 interface CardPosition {
   left?: string
   right?: string
@@ -43,13 +42,12 @@ const iconMap = {
   Coffee,
 }
 
-// Map part types to likely part indices based on your rocket engine structure
 const partTypeToIndex = {
-  tank: 0,     // FuelTank
-  bell: 1,     // BellNozzle  
-  nozzles: 2,  // SmallNozzles
-  internals: 3, // InternalMechanics
-  exhaust: 4,  // FireExhaust
+  tank: 0,
+  bell: 1,
+  nozzles: 2,
+  internals: 3,
+  exhaust: 4,
 }
 
 export default function HobbyIndicator({
@@ -58,47 +56,43 @@ export default function HobbyIndicator({
   visibleHobbies,
   partPositions = [],
 }: HobbyIndicatorProps) {
-  const [containerDimensions, setContainerDimensions] = useState({ width: 0, height: 0 })
+  const [windowDimensions, setWindowDimensions] = useState({ width: 0, height: 0 })
   const [isMobile, setIsMobile] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const updateDimensions = () => {
-      if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect()
-        setContainerDimensions({ width: rect.width, height: rect.height })
-        setIsMobile(rect.width < 768)
-      }
+      const width = window.innerWidth
+      const height = window.innerHeight
+      setWindowDimensions({ width, height })
+      setIsMobile(width < 768)
     }
 
     updateDimensions()
-    window.addEventListener('resize', updateDimensions)
-    return () => window.removeEventListener('resize', updateDimensions)
+    window.addEventListener("resize", updateDimensions)
+    return () => window.removeEventListener("resize", updateDimensions)
   }, [])
 
-  if (currentSection !== 1) return null
+  if (currentSection !== 1 || windowDimensions.width === 0) return null
 
-  // Calculate card positions around the viewport
   const getCardPosition = (index: number, total: number): CardPosition => {
     const isEven = index % 2 === 0
     const pairIndex = Math.floor(index / 2)
-    
+
     if (isMobile) {
-      // Mobile: stack cards vertically on left and right
       return {
-        left: isEven ? '4%' : undefined,
-        right: isEven ? undefined : '4%',
+        left: isEven ? "4%" : undefined,
+        right: isEven ? undefined : "4%",
         top: `${20 + pairIndex * 25}%`,
-        transform: 'translateY(-50%)'
+        transform: "translateY(-50%)",
       }
     } else {
-      // Desktop: distribute around the edges
       const positions: CardPosition[] = [
-        { left: '5%', top: '20%' },      // top-left
-        { right: '5%', top: '20%' },     // top-right
-        { left: '5%', bottom: '20%' },   // bottom-left
-        { right: '5%', bottom: '20%' },  // bottom-right
-        { left: '5%', top: '50%', transform: 'translateY(-50%)' }, // middle-left
+        { left: "5%", top: "20%" },
+        { right: "5%", top: "20%" },
+        { left: "5%", bottom: "20%" },
+        { right: "5%", bottom: "20%" },
+        { left: "5%", top: "50%", transform: "translateY(-50%)" },
       ]
       return positions[index] || positions[0]
     }
@@ -109,56 +103,66 @@ export default function HobbyIndicator({
     if (partIndex !== undefined && partPositions[partIndex]) {
       const pos = partPositions[partIndex].screenPosition
       return {
-        x: (pos.x / 100) * containerDimensions.width,
-        y: (pos.y / 100) * containerDimensions.height
+        x: (pos.x / 100) * windowDimensions.width,
+        y: (pos.y / 100) * windowDimensions.height,
       }
     }
-    return { x: containerDimensions.width / 2, y: containerDimensions.height / 2 }
+    return {
+      x: windowDimensions.width / 2,
+      y: windowDimensions.height / 2,
+    }
   }
 
-  // Helper function to calculate card center position
   const getCardCenterPosition = (cardPos: CardPosition) => {
-    const cardWidth = isMobile ? 40 : 200  // Icon-only width for mobile
-    const cardHeight = isMobile ? 40 : 100  // Icon-only height for mobile
-    
-    let cardCenterX: number
-    let cardCenterY: number
-    
-    // Calculate X position
-    if (cardPos.left !== undefined) {
-      cardCenterX = (parseFloat(cardPos.left) / 100) * containerDimensions.width + cardWidth / 2
-    } else if (cardPos.right !== undefined) {
-      cardCenterX = containerDimensions.width - (parseFloat(cardPos.right) / 100) * containerDimensions.width - cardWidth / 2
-    } else {
-      cardCenterX = containerDimensions.width / 2
-    }
-    
-    // Calculate Y position
-    if (cardPos.top !== undefined) {
-      let topPercent = parseFloat(cardPos.top)
-      cardCenterY = (topPercent / 100) * containerDimensions.height
-      
-      // Apply transform if specified
-      if (cardPos.transform?.includes('translateY(-50%)')) {
-        cardCenterY = cardCenterY // Keep as is since translateY(-50%) centers the card
-      } else {
-        cardCenterY = cardCenterY + cardHeight / 2 // Add half card height for top positioning
+    const cardWidth = isMobile ? 40 : 200
+    const cardHeight = isMobile ? 40 : 100
+
+    const getValue = (value: string | undefined, axis: "x" | "y") => {
+      if (!value) return undefined
+      if (value.includes("%")) {
+        const percent = parseFloat(value) / 100
+        return axis === "x"
+          ? percent * windowDimensions.width
+          : percent * windowDimensions.height
       }
-    } else if (cardPos.bottom !== undefined) {
-      cardCenterY = containerDimensions.height - (parseFloat(cardPos.bottom) / 100) * containerDimensions.height - cardHeight / 2
-    } else {
-      cardCenterY = containerDimensions.height / 2
+      return parseFloat(value)
+    }
+
+    let cardCenterX = windowDimensions.width / 2
+    let cardCenterY = windowDimensions.height / 2
+
+    const left = getValue(cardPos.left, "x")
+    const right = getValue(cardPos.right, "x")
+    const top = getValue(cardPos.top, "y")
+    const bottom = getValue(cardPos.bottom, "y")
+
+    if (left !== undefined) {
+      cardCenterX = left + cardWidth / 2
+    } else if (right !== undefined) {
+      cardCenterX = windowDimensions.width - right - cardWidth / 2
+    }
+
+    if (top !== undefined) {
+      cardCenterY = top
+      if (!cardPos.transform?.includes("translateY(-50%)")) {
+        cardCenterY += cardHeight / 2
+      }
+    } else if (bottom !== undefined) {
+      cardCenterY = windowDimensions.height - bottom - cardHeight / 2
     }
 
     return { x: cardCenterX, y: cardCenterY }
   }
 
   return (
-    <div ref={containerRef} className="absolute inset-0 w-full h-full z-20 pointer-events-none">
-      {/* SVG for connection lines */}
+    <div ref={containerRef} className="fixed inset-0 w-full h-full z-20 pointer-events-none">
+      {/* SVG with full viewport dimensions */}
       <svg 
-        className="absolute inset-0 w-full h-full pointer-events-none" 
+        className="absolute inset-0 pointer-events-none" 
+        width={windowDimensions.width}
+        height={windowDimensions.height}
         style={{ zIndex: 15 }}
+        viewBox={`0 0 ${windowDimensions.width} ${windowDimensions.height}`}
       >
         <defs>
           <marker
@@ -169,13 +173,17 @@ export default function HobbyIndicator({
             refY="3.5"
             orient="auto"
           >
-            <polygon
-              points="0 0, 10 3.5, 0 7"
-              fill="rgba(255, 255, 255, 0.6)"
-            />
+            <polygon points="0 0, 10 3.5, 0 7" fill="rgba(255, 255, 255, 0.6)" />
           </marker>
+          <filter id="lineGlow">
+            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+            <feMerge> 
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
         </defs>
-        
+
         <AnimatePresence>
           {visibleHobbies.map((hobbyIndex) => {
             const hobby = hobbies[hobbyIndex]
@@ -183,33 +191,87 @@ export default function HobbyIndicator({
 
             const cardPos = getCardPosition(hobbyIndex, visibleHobbies.length)
             const partPos = getPartScreenPosition(hobby.partType)
-            
-            // Calculate card center position using the helper function
             const cardCenter = getCardCenterPosition(cardPos)
 
-            // Create path with a nice curve
+            if (
+              isNaN(cardCenter.x) ||
+              isNaN(cardCenter.y) ||
+              isNaN(partPos.x) ||
+              isNaN(partPos.y)
+            ) {
+              return null
+            }
+
+            // Create curved path with better control points
+            const dx = partPos.x - cardCenter.x
+            const dy = partPos.y - cardCenter.y
+            const distance = Math.sqrt(dx * dx + dy * dy)
+            
+            // Adjust control point based on distance and screen size
+            const controlOffset = isMobile ? 0.15 : 0.25
+            const controlDistance = distance * controlOffset
+            
+            // Create perpendicular offset for curve
+            const perpX = -dy / distance * controlDistance
+            const perpY = dx / distance * controlDistance
+            
             const midX = (cardCenter.x + partPos.x) / 2
             const midY = (cardCenter.y + partPos.y) / 2
             
-            // Adjust control points for better curve appearance
-            const controlOffset = isMobile ? 0.2 : 0.3
-            const controlX = midX + (partPos.y - cardCenter.y) * controlOffset
-            const controlY = midY - (partPos.x - cardCenter.x) * controlOffset
+            const controlX = midX + perpX
+            const controlY = midY + perpY
 
             return (
-              <motion.path
-                key={`line-${hobbyIndex}`}
-                d={`M ${cardCenter.x} ${cardCenter.y} Q ${controlX} ${controlY} ${partPos.x} ${partPos.y}`}
-                stroke="rgba(255, 255, 255, 0.4)"
-                strokeWidth="1"
-                fill="none"
-                strokeDasharray="4 4"
-                markerEnd="url(#arrowhead)"
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={{ pathLength: 1, opacity: 1 }}
-                exit={{ pathLength: 0, opacity: 0 }}
-                transition={{ duration: 0.8, delay: hobbyIndex * 0.1 }}
-              />
+              <g key={`line-group-${hobbyIndex}`}>
+                {/* Main connecting line */}
+                <motion.path
+                  d={`M ${cardCenter.x} ${cardCenter.y} Q ${controlX} ${controlY} ${partPos.x} ${partPos.y}`}
+                  stroke="rgba(255, 255, 255, 0.6)"
+                  strokeWidth="1"
+                  fill="none"
+                  strokeDasharray="4 4"
+                  markerEnd="url(#arrowhead)"
+                  filter="url(#lineGlow)"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{ pathLength: 1, opacity: 1 }}
+                  exit={{ pathLength: 0, opacity: 0 }}
+                  transition={{ duration: 0.8, delay: hobbyIndex * 0.1 }}
+                />
+                
+                {/* Glowing dot at part position */}
+                <motion.circle
+                  cx={partPos.x}
+                  cy={partPos.y}
+                  r="3"
+                  fill={hobby.color}
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0 }}
+                  transition={{ duration: 0.4, delay: hobbyIndex * 0.1 + 0.6 }}
+                  style={{
+                    filter: `drop-shadow(0 0 6px ${hobby.color})`,
+                  }}
+                />
+                
+                {/* Pulsing ring around part */}
+                <motion.circle
+                  cx={partPos.x}
+                  cy={partPos.y}
+                  r="6"
+                  fill="none"
+                  stroke={hobby.color}
+                  strokeWidth="1"
+                  opacity="0.5"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: [1, 1.5, 1] }}
+                  transition={{ 
+                    duration: 2, 
+                    delay: hobbyIndex * 0.1 + 0.8,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                />
+              </g>
             )
           })}
         </AnimatePresence>
@@ -250,45 +312,44 @@ function HobbyCard({ hobby }: { hobby: Hobby }) {
       className="bg-black/90 backdrop-blur-lg border border-gray-600/50 rounded-lg shadow-lg
                  w-[40px] h-[40px] md:w-[200px] md:h-auto md:p-3 p-2
                  flex md:block items-center justify-center"
-      style={{ 
+      style={{
         borderLeft: `3px solid ${hobby.color}`,
-        boxShadow: `0 0 20px ${hobby.color}20`
+        boxShadow: `0 0 20px ${hobby.color}20`,
       }}
       whileHover={{ scale: 1.05, y: -2 }}
       transition={{ duration: 0.2 }}
     >
-      {/* Mobile: Icon only */}
       <div className="md:hidden">
         <div
           className="w-6 h-6 rounded-full flex items-center justify-center"
-          style={{ 
-            backgroundColor: hobby.color + "20", 
+          style={{
+            backgroundColor: hobby.color + "20",
             border: `1px solid ${hobby.color}`,
-            boxShadow: `0 0 10px ${hobby.color}30`
+            boxShadow: `0 0 10px ${hobby.color}30`,
           }}
         >
           <IconComponent size={14} style={{ color: hobby.color }} />
         </div>
       </div>
-      
-      {/* Desktop: Full card content */}
+
       <div className="hidden md:block">
         <div className="flex items-center gap-2 mb-2">
           <div
             className="w-7 h-7 rounded-full flex items-center justify-center"
-            style={{ 
-              backgroundColor: hobby.color + "20", 
+            style={{
+              backgroundColor: hobby.color + "20",
               border: `1px solid ${hobby.color}`,
-              boxShadow: `0 0 10px ${hobby.color}30`
+              boxShadow: `0 0 10px ${hobby.color}30`,
             }}
           >
             <IconComponent size={16} style={{ color: hobby.color }} />
           </div>
           <span className="text-white text-sm font-semibold truncate">{hobby.name}</span>
         </div>
-        <p className="text-gray-300 text-xs leading-relaxed line-clamp-2">{hobby.description}</p>
-        
-        {/* Technical-style decorative elements */}
+        <p className="text-gray-300 text-xs leading-relaxed line-clamp-2">
+          {hobby.description}
+        </p>
+
         <div className="mt-2 flex items-center gap-1">
           <div className="w-2 h-2 rounded-full" style={{ backgroundColor: hobby.color + "60" }} />
           <div className="flex-1 h-px bg-gradient-to-r from-gray-600 to-transparent" />

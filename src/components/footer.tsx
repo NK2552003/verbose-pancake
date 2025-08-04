@@ -67,7 +67,7 @@ const Footer: React.FC = () => {
   return (
     <footer 
       ref={footerRef}
-      className="bg-[#02100e] bg-opacity-50 text-white py-5 px-2.5 relative z-10"
+      className="bg-opacity-50 text-white py-5 px-2.5 relative z-10"
     >
       <motion.div 
         initial="hidden"

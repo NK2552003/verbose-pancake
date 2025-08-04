@@ -10,6 +10,7 @@ import FinalAssemblyCard from "./skill_components/finalassembly"
 import RocketEngineComponent from "./threejs-models/rocket-engine"
 import ProfileCard from "./about_components/profile_card"
 import HobbyIndicator from "./about_components/hobbies_indicator"
+import GitHubList3D from "./about_components/github-indicator"
 
 interface PartPosition {
   id: string
@@ -174,7 +175,7 @@ export default function About3DScroll() {
 
       {/* GitHub List */}
       <div className="absolute inset-0 pointer-events-none">
-        <GitHubList
+        <GitHubList3D
           githubStats={githubStats}
           partPositions={partPositions}
           visibleGitHubStats={visibleGitHubStats}

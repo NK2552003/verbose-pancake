@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { User, MapPin, Calendar, Mail } from "lucide-react"
-import Image from "next/image"
+import { motion } from "framer-motion";
+import { User, MapPin, Calendar, Mail } from "lucide-react";
+import Image from "next/image";
 export default function ProfileCard() {
   return (
     <motion.div
@@ -15,19 +15,19 @@ export default function ProfileCard() {
         <div className="flex items-center gap-3 mb-3">
           <div className="w-12 h-12 flex items-center justify-center">
             <Image
-                            src="/pro.png"
-                            alt="Profile"
-                            width={100}
-                            height={100}
-                            className="object-cover"
-                            style={{
-                              borderTopLeftRadius: "40% 60%",
-                              borderTopRightRadius: "60% 40%",
-                              borderBottomRightRadius: "30% 70%",
-                              borderBottomLeftRadius: "70% 30%",
-                            }}
-                            priority
-                          />
+              src="/pro.png"
+              alt="Profile"
+              width={100}
+              height={100}
+              className="object-cover"
+              style={{
+                borderTopLeftRadius: "40% 60%",
+                borderTopRightRadius: "60% 40%",
+                borderBottomRightRadius: "30% 70%",
+                borderBottomLeftRadius: "70% 30%",
+              }}
+              priority
+            />
           </div>
           <div>
             <h3 className="text-white font-semibold text-sm">Nitish</h3>
@@ -52,10 +52,11 @@ export default function ProfileCard() {
 
         <div className="mt-3 pt-3 border-t border-gray-700/50">
           <p className="text-gray-400 text-xs leading-relaxed">
-            Passionate about creating innovative solutions with modern technologies.
+            Passionate about creating innovative solutions with modern
+            technologies.
           </p>
         </div>
       </div>
     </motion.div>
-  )
+  );
 }
