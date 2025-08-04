@@ -189,6 +189,7 @@ export default function HeroSection() {
 
   const [displayName, setDisplayName] = useState<string>("Nitish Kumar");
   const [showNotification, setShowNotification] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
 
   const today = new Date();
@@ -203,6 +204,7 @@ export default function HeroSection() {
     const updateName = () => {
       const width = window.innerWidth;
       setDisplayName(width < 1024 ? "Nitish K." : "Nitish Kumar");
+      setIsMobile(width < 768); // Consider mobile as screens smaller than 768px
     };
 
     updateName();
@@ -256,15 +258,11 @@ export default function HeroSection() {
           initial="hidden"
           animate="visible"
         >
-          <motion.div 
+          <div 
             className="flex flex-col items-center relative"
-            variants={staggerContainer}
-            initial="hidden"
-            animate="visible"
           >
-            <motion.div 
+            <div 
               className="flex justify-center items-center"
-              variants={bounceIn}
             >
                 <AnimatedAvatar isDark={true} />
               
@@ -280,16 +278,24 @@ export default function HeroSection() {
                     key={idx}
                     className="absolute"
                     style={icon.style}
-                    animate={{
-                      y: iconFloatVariants[idx].y,
-                      rotate: iconFloatVariants[idx].rotate,
-                    }}
-                    transition={{
-                      duration: 3 + Math.random() * 2,
-                      repeat: Infinity,
-                      repeatType: "mirror",
-                      ease: "easeInOut",
-                    }}
+                    animate={
+                      isMobile
+                        ? {}
+                        : {
+                            y: iconFloatVariants[idx].y,
+                            rotate: iconFloatVariants[idx].rotate,
+                          }
+                    }
+                    transition={
+                      isMobile
+                        ? {}
+                        : {
+                            duration: 3 + Math.random() * 2,
+                            repeat: Infinity,
+                            repeatType: "mirror",
+                            ease: "easeInOut",
+                          }
+                    }
                     whileHover={{
                       scale: 1.2,
                       rotate: 15,
@@ -309,7 +315,7 @@ export default function HeroSection() {
                   </motion.div>
                 ))}
               </motion.div>
-            </motion.div>
+            </div>
             
             <motion.div 
               className="flex justify-center items-center overflow-hidden w-auto absolute -bottom-18"
@@ -338,7 +344,7 @@ export default function HeroSection() {
                 </motion.text>
               </svg>
             </motion.div>
-          </motion.div>
+          </div>
 
           {/* Buttons */}
           <motion.div
