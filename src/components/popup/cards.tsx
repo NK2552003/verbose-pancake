@@ -37,7 +37,7 @@ export const GridCard = () => (
 
 export const TimelineCard = () => (
   <div className="text-end">
-    <h2 className="font-bold text-lg">Timeline</h2>
+    <h2 className="font-bold text-lg text-[#17acc3]">Timeline</h2>
     <p className="text-xs text-gray-200/80">My journey from student to developer.</p>
   </div>
 )

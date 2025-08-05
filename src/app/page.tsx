@@ -23,6 +23,7 @@ import {
 } from "@/components/popup/cards";
 import Skill3dScroll from "@/components/3d_components/skill-3d";
 import About3DScroll from "@/components/3d_components/about-3d";
+import Qualification3dScroll from "@/components/3d_components/qualification-3d";
 
 const SectionWrapper = ({
   id,
@@ -116,8 +117,8 @@ export default function Home() {
     "#031412", // Hero
     "#111111", // About
     "#100C08", // Portfolio
-    "#131313", // Grid
     "#03171a", // Timeline
+    "#131313", // Grid
     "#04191c", // Projects
     "#011610", // ProjectsCP
     "#031412", // Contact
@@ -127,8 +128,8 @@ export default function Home() {
     { id: "hero", content: <HeroSection />, card: <HeroCard /> },
     { id: "about", content: <About3DScroll />, card: <AboutCard /> },
     { id: "portfolio", content: <Skill3dScroll />, card: <PortfolioCard /> },
+    { id: "timeline", content: <Qualification3dScroll />, card: <TimelineCard /> },
     { id: "grid", content: <GridLayout />, card: <GridCard /> },
-    { id: "timeline", content: <Timeline />, card: <TimelineCard /> },
     { id: "projects", content: <Projects />, card: <ProjectsCard /> },
     { id: "projectscp", content: <ProjectsCP />, card: <CodepenCard /> },
     { id: "contact", content: <ContactSection />, card: <ContactCard /> },
