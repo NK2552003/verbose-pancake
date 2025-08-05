@@ -79,12 +79,22 @@ const personalInfo = [
     partType: "hole"
   }
 ]
+
+// Section names configuration
+const sectionNames = [
+  "Introduction",
+  "Hobbies & Interests", 
+  "Professional Journey",
+  "Complete Picture"
+]
+
 export default function About3DScroll() {
   const [scrollProgress, setScrollProgress] = useState(0)
   const [currentSection, setCurrentSection] = useState(0)
   const [visibleHobbies, setVisibleHobbies] = useState<number[]>([])
   const [visiblePersonalInfo, setVisiblePersonalInfo] = useState<number[]>([])
   const [partPositions, setPartPositions] = useState<PartPosition[]>([])
+
   const containerRef = useRef<HTMLDivElement>(null)
 
   const handlePartPositionsUpdate = useCallback((positions: PartPosition[]) => {
@@ -103,23 +113,26 @@ export default function About3DScroll() {
       setScrollProgress(progress)
 
       // Determine current section and visibility
+      let newSection = 0
       if (progress < 0.4) {
-        setCurrentSection(0) // Hero section
+        newSection = 0 // Hero section
         setVisibleHobbies([])
         setVisiblePersonalInfo([])
       } else if (progress < 0.66) {
-        setCurrentSection(1) // Hobbies section
+        newSection = 1 // Hobbies section
         setVisibleHobbies(Array.from({ length: hobbies.length }, (_, i) => i))
         setVisiblePersonalInfo([])
       } else if (progress < 0.9) {
-        setCurrentSection(2) // Personal Info Section
+        newSection = 2 // Personal Info Section
         setVisibleHobbies([])
         setVisiblePersonalInfo(Array.from({ length: personalInfo.length }, (_, i) => i))
       } else {
-        setCurrentSection(3) // Reassembling section
+        newSection = 3 // Reassembling section
         setVisibleHobbies([])
         setVisiblePersonalInfo([])
       }
+
+      setCurrentSection(newSection)
     }
 
     const smoothScroll = () => {
@@ -154,28 +167,41 @@ export default function About3DScroll() {
           </div>
         </div>
       </div>
-          {/* Introductory Cards (top-left and bottom-left) */}
+
+      {/* Section Indicator */}
+      <div className="absolute top-14 md:top-26 right-auto left-4 md:left-auto md:right-21 pointer-events-none z-30">
+        <div className="text-start md:text-right">
+          <div className="text-xs text-gray-400">
+            {currentSection + 1} of 4
+          </div>
+          <div className="text-sm text-white font-medium">
+            {sectionNames[currentSection]}
+          </div>
+        </div>
+      </div>
+
+      {/* Introductory Cards (top-left and bottom-left) */}
       {scrollProgress < 0.33 && (
         <>
           {/* Top-left card */}
-        <ProfileCard/>
+          <ProfileCard/>
 
-       <motion.div 
-  className="absolute bottom-2 md:bottom-6 left-1/2 transform -translate-x-1/2 z-30 px-4 py-3 text-xs sm:text-sm pointer-events-none w-auto"
-  initial={{ opacity: 0, y: 20 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.6, delay: 0.5 }}
->
-  <div className="text-white/60 flex items-center gap-2">
-    <span>Scroll down <span className="hidden md:inline">to see who i am</span></span>
-    <motion.div
-      animate={{ y: [0, 4, 0] }}
-      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-    >
-      <ChevronDown className="text-white/60" size={16} />
-    </motion.div>
-  </div>
-</motion.div>
+          <motion.div 
+            className="absolute bottom-2 md:bottom-6 left-1/2 transform -translate-x-1/2 z-30 px-4 py-3 text-xs sm:text-sm pointer-events-none w-auto"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+          >
+            <div className="text-white/60 flex items-center gap-2">
+              <span>Scroll down <span className="hidden md:inline">to see who i am</span></span>
+              <motion.div
+                animate={{ y: [0, 4, 0] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <ChevronDown className="text-white/60" size={16} />
+              </motion.div>
+            </div>
+          </motion.div>
         </>
       )}
 
@@ -185,11 +211,11 @@ export default function About3DScroll() {
           hobbies={hobbies}
           visibleHobbies={visibleHobbies}
           currentSection={currentSection}
-          partPositions={partPositions} // Add this line
+          partPositions={partPositions}
         />
       </div>
 
-      {/* GitHub List */}
+      {/* Personal Info List */}
       <div className="absolute inset-0 pointer-events-none">
         <PersonalInfoIndicator
           personalInfo={personalInfo}
@@ -198,17 +224,19 @@ export default function About3DScroll() {
           currentSection={currentSection}
         />
       </div>
+
       {/* Final Assembly Card */}
-{scrollProgress >= 0.9 && (
-  <motion.div
-    className="absolute bottom-10 left-8 z-30"
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.6 }}
-  >
-    <FinalAssemblyCard />
-  </motion.div>
-)}
+      {scrollProgress >= 0.9 && (
+        <motion.div
+          className="absolute bottom-10 left-8 z-30"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <FinalAssemblyCard />
+        </motion.div>
+      )}
+
       {/* Scroll Progress Indicator */}
       <div className="absolute bottom-3 sm:bottom-4 md:bottom-6 lg:bottom-8 right-3 sm:right-4 md:right-6 lg:right-8 pointer-events-none z-30">
         <div className="w-1 sm:w-2 h-16 sm:h-20 md:h-24 lg:h-32 bg-gray-700/50 rounded overflow-hidden backdrop-blur-sm">

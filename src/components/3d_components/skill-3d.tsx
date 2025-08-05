@@ -15,6 +15,14 @@ interface PartPosition {
   screenPosition: { x: number; y: number }
 }
 
+// Section names configuration
+const sectionNames = [
+  "Introduction",
+  "Technical Skills", 
+  "GitHub Statistics",
+  "Complete Profile"
+]
+
 const skills = [
   // Existing skills
   { name: "React", size: "4.2 KB", color: "#61dafb", partType: "blade" },
@@ -64,23 +72,26 @@ export default function Skill3dScroll() {
       setScrollProgress(progress)
 
       // Determine current section and visibility
+      let newSection = 0
       if (progress < 0.4) {
-        setCurrentSection(0) // Hero section
+        newSection = 0 // Hero section
         setVisibleSkills([])
         setVisibleGitHubStats([])
       } else if (progress < 0.66) {
-        setCurrentSection(1) // Skills section
+        newSection = 1 // Skills section
         setVisibleSkills(Array.from({ length: skills.length }, (_, i) => i))
         setVisibleGitHubStats([])
       } else if (progress < 0.9) {
-        setCurrentSection(2) // GitHub section
+        newSection = 2 // GitHub section
         setVisibleSkills([])
         setVisibleGitHubStats(Array.from({ length: githubStats.length }, (_, i) => i))
       } else {
-        setCurrentSection(3) // Reassembling section
+        newSection = 3 // Reassembling section
         setVisibleSkills([])
         setVisibleGitHubStats([]) // ✅ Ensure GitHub cards disappear
       }
+
+      setCurrentSection(newSection)
     }
 
     const smoothScroll = () => {
@@ -115,28 +126,41 @@ export default function Skill3dScroll() {
           </div>
         </div>
       </div>
-          {/* Introductory Cards (top-left and bottom-left) */}
+
+      {/* Section Indicator */}
+      <div className="absolute top-14 md:top-26 right-auto left-4 md:left-auto md:right-21 pointer-events-none z-30">
+        <div className="text-start md:text-right">
+          <div className="text-xs text-gray-400">
+            {currentSection + 1} of 4
+          </div>
+          <div className="text-sm text-white font-medium">
+            {sectionNames[currentSection]}
+          </div>
+        </div>
+      </div>
+
+      {/* Introductory Cards (top-left and bottom-left) */}
       {scrollProgress < 0.33 && (
         <>
           {/* Top-left card */}
           <BundleSizeCard/>
 
-       <motion.div 
-  className="absolute bottom-2 md:bottom-6 left-1/2 transform -translate-x-1/2 z-30 px-4 py-3 text-xs sm:text-sm pointer-events-none w-auto"
-  initial={{ opacity: 0, y: 20 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.6, delay: 0.5 }}
->
-  <div className="text-white/60 flex items-center gap-2">
-    <span>Scroll down <span className="hidden md:inline">to see what i know</span></span>
-    <motion.div
-      animate={{ y: [0, 4, 0] }}
-      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-    >
-      <ChevronDown className="text-white/60" size={16} />
-    </motion.div>
-  </div>
-</motion.div>
+          <motion.div 
+            className="absolute bottom-2 md:bottom-6 left-1/2 transform -translate-x-1/2 z-30 px-4 py-3 text-xs sm:text-sm pointer-events-none w-auto"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+          >
+            <div className="text-white/60 flex items-center gap-2">
+              <span>Scroll down <span className="hidden md:inline">to see what i know</span></span>
+              <motion.div
+                animate={{ y: [0, 4, 0] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <ChevronDown className="text-white/60" size={16} />
+              </motion.div>
+            </div>
+          </motion.div>
         </>
       )}
 
@@ -159,17 +183,19 @@ export default function Skill3dScroll() {
           currentSection={currentSection}
         />
       </div>
+
       {/* Final Assembly Card */}
-{scrollProgress >= 0.9 && (
-  <motion.div
-    className="absolute bottom-10 left-8 z-30"
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.6 }}
-  >
-    <FinalAssemblyCard />
-  </motion.div>
-)}
+      {scrollProgress >= 0.9 && (
+        <motion.div
+          className="absolute bottom-10 left-8 z-30"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <FinalAssemblyCard />
+        </motion.div>
+      )}
+
       {/* Scroll Progress Indicator */}
       <div className="absolute bottom-3 sm:bottom-4 md:bottom-6 lg:bottom-8 right-3 sm:right-4 md:right-6 lg:right-8 pointer-events-none z-30">
         <div className="w-1 sm:w-2 h-16 sm:h-20 md:h-24 lg:h-32 bg-gray-700/50 rounded overflow-hidden backdrop-blur-sm">
